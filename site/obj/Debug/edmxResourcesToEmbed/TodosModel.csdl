@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuickToDosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Break">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Start" Type="DateTime" Precision="3" />
+    <Property Name="End" Type="DateTime" Precision="3" />
+    <Property Name="ToDoId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="toDo" Relationship="Self.FK__Breaks__ToDoId__1273C1CD" FromRole="Breaks" ToRole="toDos" />
+  </EntityType>
+  <EntityType Name="toDo">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Description" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="Begin" Type="DateTime" Precision="3" />
+    <Property Name="End" Type="DateTime" Precision="3" />
+    <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Duration" Type="Int32" />
+    <Property Name="Done" Type="Boolean" />
+    <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Breaks" Relationship="Self.FK__Breaks__ToDoId__1273C1CD" FromRole="toDos" ToRole="Breaks" />
+    <Property Name="DontShow" Type="Boolean" />
+    <Property Name="Planned" Type="Int32" />
+    <Property Name="Branch" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="Status" Type="Byte" />
+    <Property Name="Status_Note" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <Association Name="FK__Breaks__ToDoId__1273C1CD">
+    <End Role="toDos" Type="Self.toDo" Multiplicity="1" />
+    <End Role="Breaks" Type="Self.Break" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="toDos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Breaks">
+        <PropertyRef Name="ToDoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuickToDosEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Breaks" EntityType="Self.Break" />
+    <EntitySet Name="toDos" EntityType="Self.toDo" />
+    <AssociationSet Name="FK__Breaks__ToDoId__1273C1CD" Association="Self.FK__Breaks__ToDoId__1273C1CD">
+      <End Role="toDos" EntitySet="toDos" />
+      <End Role="Breaks" EntitySet="Breaks" />
+    </AssociationSet>
+    <EntitySet Name="Knowledges" EntityType="QuickToDosModel.Knowledge" />
+    <EntitySet Name="Files" EntityType="QuickToDosModel.File" />
+  </EntityContainer>
+  <EntityType Name="Knowledge">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Creation" Type="DateTime" Precision="3" />
+    <Property Name="Modification" Type="DateTime" Precision="3" />
+    <Property Name="Subject" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+    <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="File">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Filename" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Concern" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="ExtId" Type="Int32" Nullable="false" />
+  </EntityType>
+</Schema>

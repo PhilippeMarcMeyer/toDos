@@ -1,0 +1,50 @@
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\csc.exe
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\vbc.exe
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\VBCSCompiler.exe
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\site.dll.config
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\site.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\site.pdb
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\EntityFramework.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\EntityFramework.SqlServer.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\EntityFramework.xml
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\EntityFramework.SqlServer.xml
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\bin\fr\EntityFramework.resources.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\obj\Debug\site.dll
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\obj\Debug\site.pdb
+C:\Users\PhilippeMEYERMAPPING\documents\visual studio 2015\Projects\site\site\obj\Debug\site.csprojResolveAssemblyReference.cache
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\csc.exe
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\vbc.exe
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\VBCSCompiler.exe
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\site.dll.config
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\site.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\site.pdb
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\EntityFramework.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\EntityFramework.SqlServer.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\EntityFramework.xml
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\EntityFramework.SqlServer.xml
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\bin\fr\EntityFramework.resources.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\obj\Debug\site.csprojResolveAssemblyReference.cache
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\obj\Debug\site.dll
+C:\Users\PhilippeMEYERMAPPING\Documents\PROJETS\ToDos\site\obj\Debug\site.pdb

@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="QuickToDosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Breaks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Start" Type="datetime" />
+          <Property Name="End" Type="datetime" />
+          <Property Name="ToDoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Files">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Filename" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Concern" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="ExtId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Knowledge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Creation" Type="datetime" />
+          <Property Name="Modification" Type="datetime" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="80" />
+          <Property Name="Body" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="toDos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="80" />
+          <Property Name="Begin" Type="datetime" />
+          <Property Name="End" Type="datetime" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="50" />
+          <Property Name="Duration" Type="int" />
+          <Property Name="Done" Type="bit" />
+          <Property Name="Notes" Type="varchar(max)" />
+          <Property Name="DontShow" Type="bit" />
+          <Property Name="Planned" Type="int" />
+          <Property Name="Branch" Type="nchar" MaxLength="30" />
+          <Property Name="Status" Type="tinyint" />
+          <Property Name="Status_Note" Type="nvarchar" MaxLength="80" />
+        </EntityType>
+        <Association Name="FK__Breaks__ToDoId__1273C1CD">
+          <End Role="toDos" Type="Self.toDos" Multiplicity="1" />
+          <End Role="Breaks" Type="Self.Breaks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="toDos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Breaks">
+              <PropertyRef Name="ToDoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuickToDosModelStoreContainer">
+          <EntitySet Name="Breaks" EntityType="Self.Breaks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Knowledge" EntityType="Self.Knowledge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="toDos" EntityType="Self.toDos" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Breaks__ToDoId__1273C1CD" Association="Self.FK__Breaks__ToDoId__1273C1CD">
+            <End Role="toDos" EntitySet="toDos" />
+            <End Role="Breaks" EntitySet="Breaks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="QuickToDosModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Break">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Start" Type="DateTime" Precision="3" />
+          <Property Name="End" Type="DateTime" Precision="3" />
+          <Property Name="ToDoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="toDo" Relationship="Self.FK__Breaks__ToDoId__1273C1CD" FromRole="Breaks" ToRole="toDos" />
+        </EntityType>
+        <EntityType Name="toDo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Begin" Type="DateTime" Precision="3" />
+          <Property Name="End" Type="DateTime" Precision="3" />
+          <Property Name="Reference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="Int32" />
+          <Property Name="Done" Type="Boolean" />
+          <Property Name="Notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Breaks" Relationship="Self.FK__Breaks__ToDoId__1273C1CD" FromRole="toDos" ToRole="Breaks" />
+          <Property Name="DontShow" Type="Boolean" />
+          <Property Name="Planned" Type="Int32" />
+          <Property Name="Branch" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="Status" Type="Byte" />
+          <Property Name="Status_Note" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK__Breaks__ToDoId__1273C1CD">
+          <End Role="toDos" Type="Self.toDo" Multiplicity="1" />
+          <End Role="Breaks" Type="Self.Break" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="toDos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Breaks">
+              <PropertyRef Name="ToDoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuickToDosEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Breaks" EntityType="Self.Break" />
+          <EntitySet Name="toDos" EntityType="Self.toDo" />
+          <AssociationSet Name="FK__Breaks__ToDoId__1273C1CD" Association="Self.FK__Breaks__ToDoId__1273C1CD">
+            <End Role="toDos" EntitySet="toDos" />
+            <End Role="Breaks" EntitySet="Breaks" />
+          </AssociationSet>
+          <EntitySet Name="Knowledges" EntityType="QuickToDosModel.Knowledge" />
+          <EntitySet Name="Files" EntityType="QuickToDosModel.File" />
+        </EntityContainer>
+        <EntityType Name="Knowledge">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Creation" Type="DateTime" Precision="3" />
+          <Property Name="Modification" Type="DateTime" Precision="3" />
+          <Property Name="Subject" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="File">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Filename" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Concern" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="ExtId" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QuickToDosModelStoreContainer" CdmEntityContainer="QuickToDosEntities">
+    <EntitySetMapping Name="Breaks">
+      <EntityTypeMapping TypeName="IsTypeOf(QuickToDosModel.Break)">
+        <MappingFragment StoreEntitySet="Breaks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="End" ColumnName="End" />
+          <ScalarProperty Name="ToDoId" ColumnName="ToDoId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="toDos">
+      <EntityTypeMapping TypeName="IsTypeOf(QuickToDosModel.toDo)">
+        <MappingFragment StoreEntitySet="toDos">
+          <ScalarProperty Name="Status_Note" ColumnName="Status_Note" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Begin" ColumnName="Begin" />
+          <ScalarProperty Name="End" ColumnName="End" />
+          <ScalarProperty Name="Reference" ColumnName="Reference" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="Done" ColumnName="Done" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="DontShow" ColumnName="DontShow" />
+          <ScalarProperty Name="Planned" ColumnName="Planned" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+          <EntitySetMapping Name="Knowledges">
+            <EntityTypeMapping TypeName="QuickToDosModel.Knowledge">
+              <MappingFragment StoreEntitySet="Knowledge">
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Modification" ColumnName="Modification" />
+                <ScalarProperty Name="Creation" ColumnName="Creation" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Files">
+            <EntityTypeMapping TypeName="QuickToDosModel.File">
+              <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="ExtId" ColumnName="ExtId" />
+                <ScalarProperty Name="Concern" ColumnName="Concern" />
+                <ScalarProperty Name="Filename" ColumnName="Filename" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

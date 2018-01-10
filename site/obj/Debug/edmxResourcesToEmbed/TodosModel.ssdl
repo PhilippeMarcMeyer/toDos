@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuickToDosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Breaks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Start" Type="datetime" />
+    <Property Name="End" Type="datetime" />
+    <Property Name="ToDoId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Files">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Filename" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Concern" Type="nvarchar" MaxLength="30" Nullable="false" />
+    <Property Name="ExtId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Knowledge">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Creation" Type="datetime" />
+    <Property Name="Modification" Type="datetime" />
+    <Property Name="Subject" Type="nvarchar" MaxLength="80" />
+    <Property Name="Body" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="toDos">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="80" />
+    <Property Name="Begin" Type="datetime" />
+    <Property Name="End" Type="datetime" />
+    <Property Name="Reference" Type="nvarchar" MaxLength="50" />
+    <Property Name="Duration" Type="int" />
+    <Property Name="Done" Type="bit" />
+    <Property Name="Notes" Type="varchar(max)" />
+    <Property Name="DontShow" Type="bit" />
+    <Property Name="Planned" Type="int" />
+    <Property Name="Branch" Type="nchar" MaxLength="30" />
+    <Property Name="Status" Type="tinyint" />
+    <Property Name="Status_Note" Type="nvarchar" MaxLength="80" />
+  </EntityType>
+  <Association Name="FK__Breaks__ToDoId__1273C1CD">
+    <End Role="toDos" Type="Self.toDos" Multiplicity="1" />
+    <End Role="Breaks" Type="Self.Breaks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="toDos">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Breaks">
+        <PropertyRef Name="ToDoId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuickToDosModelStoreContainer">
+    <EntitySet Name="Breaks" EntityType="Self.Breaks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Knowledge" EntityType="Self.Knowledge" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="toDos" EntityType="Self.toDos" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Breaks__ToDoId__1273C1CD" Association="Self.FK__Breaks__ToDoId__1273C1CD">
+      <End Role="toDos" EntitySet="toDos" />
+      <End Role="Breaks" EntitySet="Breaks" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
