@@ -120,6 +120,22 @@ namespace site
             return nrMinutes;
 
         }
+        [WebMethod]
+        
+
+       public static void DeleteImg(InfoId toDel)
+        {
+            using (var dbContext = new QuickToDosEntities())
+            {
+                File anImage = dbContext.Files.Find(toDel.Id);
+                if (anImage == null)
+                {
+                    throw new Exception("Echec mise a jour");
+                }
+                dbContext.Files.Remove(anImage);
+                dbContext.SaveChanges();
+            }
+        }
 
         [WebMethod]
         public static void DeleteKnowledge(InfoId toDel)

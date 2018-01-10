@@ -71,3 +71,20 @@ h5{
 	transition: .25s ease-out;
 }
 
+.confirm{
+    position:absolute;
+    top :5px;
+    left:200px;
+    border-radius: 5px;
+	width: 400px;
+	height: 110px;
+    border : 1px solid black;
+    background-color: white;
+    padding:10px;
+}
+
+.confirm h5{
+    padding-bottom:10px;
+        color: black;
+
+}

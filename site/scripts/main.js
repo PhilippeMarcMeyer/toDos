@@ -259,12 +259,14 @@
                                 $("#AppraisalNote").val(aRow[i].AppraisalNote.trim());
                                
                                 var html = "";
+
                                 if (aRow[i].Files.length != 0) {
                                     for (var j = 0; j < aRow[i].Files.length; j++) {
                                         if (aRow[i].Files[j].Description)
                                             html += "<h5>" + aRow[i].Files[j].Description + "</h5>";
-                                        html += "<img src='" + aRow[i].Files[j].Filename + "'/><br />";
+                                        html += "<img onmousedown='imgClickHandler(event,this);'' class='uploadedPicture' id='img_" + aRow[i].Files[j].Id + "' src='" + aRow[i].Files[j].Filename + "'/><br />";
                                     }
+
                                     $("#showFiles").html(html);
                                 }
 
@@ -399,4 +401,78 @@ function SplitTime(numberOfMinutes) {
     var remainder = numberOfMinutes % 60;
     var minutes = remainder;
     return ({ "d": 0, "h": hours, "m": minutes })
+}
+
+function imgClickHandler(e,that) {
+ 
+        var test = document.getElementById("hiddenIdentity");
+        if (test) {
+            test.value = that.id;
+            $(".confirm").show();
+        } else {
+            var aDiv = document.createElement("div");
+            aDiv.setAttribute("class", "confirm");
+            var hiddenIdentity = document.createElement("input");
+            hiddenIdentity.setAttribute("type", "hidden");
+            hiddenIdentity.setAttribute('id', 'hiddenIdentity');
+            hiddenIdentity.setAttribute('value', that.id);
+            aDiv.appendChild(hiddenIdentity);
+            var aTitle = document.createElement("h5");
+            var txt = document.createTextNode("Supprimer cette image ?");
+            aTitle.appendChild(txt);
+            aDiv.appendChild(aTitle);
+
+            var elem = document.createElement("button");
+            elem.setAttribute('onclick', 'supprImg();');
+            elem.setAttribute('class', 'btn btn-danger appliquer-button pull-right');
+            var txt2 = document.createTextNode("Supprimer");
+            elem.appendChild(txt2);
+            aDiv.appendChild(elem);
+
+            var elem2 = document.createElement("button");
+            elem2.setAttribute('onclick', 'cancelSupprImg();');
+            elem2.setAttribute('class', 'btn btn-primary appliquer-button pull-left');
+            var txt3 = document.createTextNode("Annuler");
+            elem2.appendChild(txt3);
+            aDiv.appendChild(elem2);
+
+            //showFiles
+            document.getElementById("showFiles").appendChild(aDiv);
+        }
+
+        return false;
+
+
+}
+function supprImg() {
+    var ajax_default_settings = {
+        type: "POST",
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+    };
+    $(".confirm").hide();
+    var inputId = $("#hiddenIdentity").val();
+    
+    var id = parseInt(inputId.replace("img_", ""));
+    
+    var obj = {};
+    obj.Id = id;
+
+    var json = JSON.stringify({ "toDel": obj });
+    var params = ajax_default_settings;
+    params.data = json;
+    var xhr = $.ajax("Main.aspx/DeleteImg", params)
+       .done(function (response) {
+           $(".confirm").hide();
+
+           $("#" + inputId).remove();
+       })
+       .fail(function () {
+           $(".confirm").hide();
+
+
+       });
+
+}
+function cancelSupprImg() {
 }

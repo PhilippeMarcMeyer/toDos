@@ -30,7 +30,7 @@
     <div id="jobsZone">
         <div class="ui main container" id="app">
             <div class="caption">
-                <span id="caption"></span>&nbsp;
+                <span id="caption"></span>&nbsp;<div class="uploadedPicture" id="none" style="display:none;"></div>
             <span style="font-weight: 100; color: darkgrey;">Chercher :
                 <input type="text" id="search" placeholder="Expression" /></span>
             &nbsp;<span style="font-weight: 100; color: darkgreen;" id="forecastInfo"></span>
@@ -93,7 +93,7 @@
                                 <input type="datetime-local" class="form-control" id="End" value="" />
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="Appraisal">Bilan</label>
+                                <label for="Appraisal">Priorité</label>
                                 <select class="form-control" id="Appraisal">
                                 </select>
                             </div>
@@ -522,6 +522,8 @@
             },
         });
 
+
+
         $("label[for = 'Images']").on("click", function () {
             $("#row_notes").show();
             $("#row_images").hide();
@@ -531,6 +533,13 @@
             $("#row_notes").hide();
             $("#row_images").show();
         });
+
+        //$(document).on("click", function (event) {
+        //    var test = document.getElementById("hiddenIdentity");
+        //    if (test) {
+        //        $(".confirm").hide();
+        //    }
+        //});
 
     </script>
 </body>
