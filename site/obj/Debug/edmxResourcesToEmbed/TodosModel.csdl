@@ -69,5 +69,6 @@
     <Property Name="Filename" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
     <Property Name="Concern" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="ExtId" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

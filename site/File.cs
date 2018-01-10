@@ -18,5 +18,6 @@ namespace site
         public string Filename { get; set; }
         public string Concern { get; set; }
         public int ExtId { get; set; }
+        public string Description { get; set; }
     }
 }

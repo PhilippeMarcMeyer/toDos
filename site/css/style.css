@@ -48,3 +48,26 @@ textArea {
     margin-left: 4px; 
     width: 120px;
 }
+
+h5{
+    color: #2e44b9;
+    font-weight: 900;
+    font-size:larger;
+}
+
+
+
+#uploads .block .progressBar {
+	background-color: #3E6FAD;
+	width: 0px;
+	height: 5px;
+	margin-top: 47px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	-moz-transition: .25s ease-out;
+	-webkit-transition: .25s ease-out;
+	-o-transition: .25s ease-out;
+	transition: .25s ease-out;
+}
+

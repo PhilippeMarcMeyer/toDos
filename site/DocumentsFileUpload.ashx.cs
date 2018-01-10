@@ -27,6 +27,8 @@ namespace site
                         string Idstr = context.Request.Params["id"];
                         int Id = int.Parse(Idstr);
                         string Concern = context.Request.Params["concern"];
+                        string Description = context.Request.Params["description"];
+                        if (Description == null) Description = "";
                         int fileId = 0;
                         using (var dbContext = new QuickToDosEntities())
                         {
@@ -34,7 +36,8 @@ namespace site
                             {
                                 Filename = "temp",
                                 Concern= Concern,
-                                ExtId = Id
+                                ExtId = Id,
+                                Description= Description
                             };
                             dbContext.Files.Add(aFile);
                             dbContext.SaveChanges();

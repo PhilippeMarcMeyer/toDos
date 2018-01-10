@@ -232,6 +232,8 @@
                     }
                     $("#Appraisal").html(html);
                     $("#AppraisalNote").val("");
+                    $("#showFiles").html("");
+                    $("#fileDescription").val("");
                     if (id != -1) {
                         var aRow = model.data;
                         for (var i = 0; i < aRow.length; i++) {
@@ -255,10 +257,12 @@
                                 $("#Notes").val(ReplaceNewline(aRow[i].Notes.trim()));
                                 $("#Branch").val(aRow[i].Branch.trim());
                                 $("#AppraisalNote").val(aRow[i].AppraisalNote.trim());
-                                $("#showFiles").html("");
+                               
                                 var html = "";
                                 if (aRow[i].Files.length != 0) {
                                     for (var j = 0; j < aRow[i].Files.length; j++) {
+                                        if (aRow[i].Files[j].Description)
+                                            html += "<h5>" + aRow[i].Files[j].Description + "</h5>";
                                         html += "<img src='" + aRow[i].Files[j].Filename + "'/><br />";
                                     }
                                     $("#showFiles").html(html);

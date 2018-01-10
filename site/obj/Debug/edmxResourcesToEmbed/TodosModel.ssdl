@@ -17,6 +17,7 @@
     <Property Name="Filename" Type="nvarchar" MaxLength="255" Nullable="false" />
     <Property Name="Concern" Type="nvarchar" MaxLength="30" Nullable="false" />
     <Property Name="ExtId" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar" MaxLength="80" />
   </EntityType>
   <EntityType Name="Knowledge">
     <Key>

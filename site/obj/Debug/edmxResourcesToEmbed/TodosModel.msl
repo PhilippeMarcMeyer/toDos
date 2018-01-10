@@ -44,6 +44,7 @@
     <EntitySetMapping Name="Files">
       <EntityTypeMapping TypeName="QuickToDosModel.File">
         <MappingFragment StoreEntitySet="Files">
+          <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="ExtId" ColumnName="ExtId" />
           <ScalarProperty Name="Concern" ColumnName="Concern" />
           <ScalarProperty Name="Filename" ColumnName="Filename" />

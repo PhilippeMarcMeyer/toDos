@@ -22,6 +22,7 @@
           <Property Name="Filename" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="Concern" Type="nvarchar" MaxLength="30" Nullable="false" />
           <Property Name="ExtId" Type="int" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="80" />
         </EntityType>
         <EntityType Name="Knowledge">
           <Key>
@@ -146,6 +147,7 @@
           <Property Name="Filename" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Concern" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="ExtId" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -196,6 +198,7 @@
           <EntitySetMapping Name="Files">
             <EntityTypeMapping TypeName="QuickToDosModel.File">
               <MappingFragment StoreEntitySet="Files">
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="ExtId" ColumnName="ExtId" />
                 <ScalarProperty Name="Concern" ColumnName="Concern" />
                 <ScalarProperty Name="Filename" ColumnName="Filename" />

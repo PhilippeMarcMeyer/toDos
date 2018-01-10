@@ -7,9 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="css/bootstrap.min.css" />
-            <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"-->
-
-    <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/style.css">
     <style>
      
     </style>
@@ -69,7 +67,7 @@
                 <div class="modal-content animated bounceInRight">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">Saisie d'un job <span id="modalMessage"></span></h4>
+                        <h4 class="modal-title">Saisie d'un job <span id="myModalMessage"></span></h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -135,11 +133,17 @@
                             </div>
                         </div>
                         <div class="row" style="display:block;">
-                            <div class="form-group col-md-10 col-md-offset-1">
+                            <div class="form-group col-md-5 col-md-offset-1">
                                 <div id="uploads"></div>
                                 <label for="files">Image</label>
                                 <input name="files" id="files" type="file" class="form-control">
+
                             </div>
+                             <div class="form-group col-md-5">
+                                <label for="fileDescription">Description de l'image</label>
+                                <input name="fileDescription" id="fileDescription" type="text" class="form-control">
+                            </div>
+                            
                         </div>
                              </div>
                         <div class="form-group" role="group" style="margin-left: 20px; margin-right: 20px;">
@@ -314,6 +318,7 @@
         $("#saveAndClose,#saveAndStay").on('click', function (event) {
             var doCloseModal = (this.id === "saveAndClose")
             var image = $("#files").val();
+            var description = $("#fileDescription").val();
             $(this).prop('disabled', true);
             var obj = {};
             obj.Description = $("#Description").val().trim();
@@ -341,23 +346,24 @@
 
                     $(self).prop('disabled', false);
                     if (image != "") {
-                        upload("#files",image, toDoId,"work");
-                    }
-                    if (doCloseModal) {
-                        $('#myModal').find('.close').trigger("click"); // closing the modal
-                        var toastMsg = new toast("toastMessage", "messageId", false);
-                        toastMsg.text("Mise à jour réussie !");
-                        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                        toastMsg.moveAt(w / 2 - 100, 90);
-                        toastMsg.showFor(3000);
+                        upload("#files", image, toDoId, "work",description, doCloseModal);
                     } else {
-                        var toastMsg = new toast("modalMessage", "messageId2", false);
-                        toastMsg.text("Mise à jour réussie !");
-                        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                        toastMsg.moveAt(350, 10);
-                        toastMsg.showFor(3000);
-
+                        if (doCloseModal) {
+                            $('#myModal').find('.close').trigger("click"); // closing the modal
+                            var toastMsg = new toast("toastMessage", "messageId", false);
+                            toastMsg.text("Mise à jour réussie !");
+                            var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                            toastMsg.moveAt(w / 2 - 100, 90);
+                            toastMsg.showFor(3000);
+                        } else {
+                            var toastMsg = new toast("myModalMessage", "modalWorkMsgId", false);
+                            toastMsg.text("Mise à jour réussie !");
+                            var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                            toastMsg.moveAt(350, 10);
+                            toastMsg.showFor(3000);
+                        }
                     }
+
 
 
 
@@ -407,10 +413,31 @@
             }); // end ajax
         }
 
-        var upload = function (jqId, filename, id, concern) {
+        var uploadMessage = function (msg, doCloseModal, modalId) {
+            if (doCloseModal) {
+                $('#' + modalId).find('.close').trigger("click"); // closing the modal
+                var toastMsg = new toast("toastMessage", "messageId", false);
+                toastMsg.text(msg);
+                var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                toastMsg.moveAt(w / 2 - 100, 90);
+                toastMsg.showFor(3000);
+
+            } else {
+                var toastMsg = new toast(modalId + "Message", modalId + "Message_id", false);
+                toastMsg.text(msg);
+                var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                toastMsg.moveAt(350, 10);
+                toastMsg.showFor(3000);
+            }
+
+
+        }
+
+        var upload = function (jqId, filename, id, concern, descript, doCloseModal) {
             var filename = $(jqId).val();
+            var description = descript ? descript : "";
             if (id > 0 && filename != "" && concern != "" && jqId != "") {
-                var data = { "Id": id, "concern": concern };
+                var data = { "Id": id, "concern": concern, "description" : description };
                 var toastMsg = new toast("toastMessage", "messageId", false);
                
                 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
@@ -435,14 +462,14 @@
 
                     success: function (data) {
                         this.progressBar.remove();
-                        toastMsg.text("Upload réussi !");
-                        toastMsg.showFor(3000);
+                        uploadMessage("Mise à jour et upload réussi !", doCloseModal,'myModal');
+
+                       
                     },
 
                     error: function (error) {
                         this.progressBar.remove();
-                        toastMsg.text("Echec de l'upload ...");
-                        toastMsg.showFor(3000);
+                        uploadMessage("Mise à jour réussie mais upload en échec...", doCloseModal, 'myModal');
                     }
 
                 });
