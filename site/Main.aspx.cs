@@ -6,15 +6,12 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Services;
-
 namespace site
 {
     public partial class Main : System.Web.UI.Page
     {
-
         protected void Page_Load(object sender, EventArgs e)
         {
-
         }
 
 
@@ -130,10 +127,27 @@ namespace site
                 File anImage = dbContext.Files.Find(toDel.Id);
                 if (anImage == null)
                 {
-                    throw new Exception("Echec mise a jour");
+               
+                string filename = anImage.Filename;
+                string[] items = filename.Split('/');
+                filename = items[items.Length - 1];
+
+                string concern = anImage.Concern;
+                string uploadPath = ConfigurationManager.AppSettings["RootFolder"]+@"\documents\"+ concern + @"\";
+                string UploadPathOldies = uploadPath + @"oldies\";
+
+                string sourceFile = System.IO.Path.Combine(uploadPath, filename);
+                string destFile = System.IO.Path.Combine(UploadPathOldies, filename);
+
+                if (!System.IO.Directory.Exists(UploadPathOldies))
+                {
+                    System.IO.Directory.CreateDirectory(UploadPathOldies);
                 }
+                System.IO.File.Move(sourceFile, destFile);
+
                 dbContext.Files.Remove(anImage);
                 dbContext.SaveChanges();
+                }
             }
         }
 

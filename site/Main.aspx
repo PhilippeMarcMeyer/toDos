@@ -224,7 +224,7 @@
     </div>
     <script src="scripts/jquery-3.2.1.js"></script>
     <script src="scripts/bootstrap.js"></script>
-    <script src="scripts/bootstrap-confirmation.js"></script>    
+    <script src="scripts/bootstrap-confirmation.js"></script>  
     <script src="scripts/moment.js"></script>
     <script src="scripts/moment-timezone.js"></script>
     <script src="scripts/simpleUpload.js"></script>
@@ -534,12 +534,6 @@
             $("#row_images").show();
         });
 
-        //$(document).on("click", function (event) {
-        //    var test = document.getElementById("hiddenIdentity");
-        //    if (test) {
-        //        $(".confirm").hide();
-        //    }
-        //});
 
     </script>
 </body>

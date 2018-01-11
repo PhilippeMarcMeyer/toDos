@@ -141,6 +141,8 @@
 
                     html += " </tbody></table>";
                     $(tableInner).html(html);
+
+                    setTimeout(function () { $('#mainTable').DataTable(); }, 150);
                     self.do('forecastInfo');
 
 
@@ -263,7 +265,7 @@
                                 if (aRow[i].Files.length != 0) {
                                     for (var j = 0; j < aRow[i].Files.length; j++) {
                                         if (aRow[i].Files[j].Description)
-                                            html += "<h5>" + aRow[i].Files[j].Description + "</h5>";
+                                            html += "<h5 id='label_" + aRow[i].Files[j].Id + "'>" + aRow[i].Files[j].Description + "</h5>";
                                         html += "<img onmousedown='imgClickHandler(event,this);'' class='uploadedPicture' id='img_" + aRow[i].Files[j].Id + "' src='" + aRow[i].Files[j].Filename + "'/><br />";
                                     }
 
@@ -454,7 +456,7 @@ function supprImg() {
     var inputId = $("#hiddenIdentity").val();
     
     var id = parseInt(inputId.replace("img_", ""));
-    
+    var labelId = "label_" + id;
     var obj = {};
     obj.Id = id;
 
@@ -466,13 +468,13 @@ function supprImg() {
            $(".confirm").hide();
 
            $("#" + inputId).remove();
+           $("#" + labelId).remove();
+           window.manager.do('init'); // specific to work : to improve to manage knowledges as well 
        })
        .fail(function () {
            $(".confirm").hide();
-
-
        });
-
 }
 function cancelSupprImg() {
+    $(".confirm").hide();
 }
