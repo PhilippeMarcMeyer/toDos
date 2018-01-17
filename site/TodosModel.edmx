@@ -34,6 +34,37 @@
           <Property Name="Subject" Type="nvarchar" MaxLength="80" />
           <Property Name="Body" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Note">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Creation" Type="datetime" />
+          <Property Name="Subject" Type="nchar" MaxLength="100" />
+          <Property Name="Body" Type="nchar" MaxLength="10" />
+          <Property Name="Concern" Type="nchar" MaxLength="30" />
+          <Property Name="ConcernId" Type="int" />
+        </EntityType>
+        <EntityType Name="People">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Nom" Type="nchar" MaxLength="35" />
+          <Property Name="Prenom" Type="nchar" MaxLength="35" />
+          <Property Name="IdPosition" Type="int" />
+          <Property Name="Mobile" Type="nchar" MaxLength="20" />
+          <Property Name="Email" Type="nchar" MaxLength="50" />
+          <Property Name="Photo" Type="nchar" MaxLength="80" />
+          <Property Name="idNotes" Type="int" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="60" />
+        </EntityType>
         <EntityType Name="toDos">
           <Key>
             <PropertyRef Name="Id" />
@@ -68,6 +99,9 @@
           <EntitySet Name="Breaks" EntityType="Self.Breaks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Knowledge" EntityType="Self.Knowledge" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Note" EntityType="Self.Note" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="toDos" EntityType="Self.toDos" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Breaks__ToDoId__1273C1CD" Association="Self.FK__Breaks__ToDoId__1273C1CD">
             <End Role="toDos" EntitySet="toDos" />
@@ -128,6 +162,9 @@
           </AssociationSet>
           <EntitySet Name="Knowledges" EntityType="QuickToDosModel.Knowledge" />
           <EntitySet Name="Files" EntityType="QuickToDosModel.File" />
+          <EntitySet Name="People" EntityType="QuickToDosModel.Person" />
+          <EntitySet Name="Notes" EntityType="QuickToDosModel.Note" />
+          <EntitySet Name="Positions" EntityType="QuickToDosModel.Position" />
         </EntityContainer>
         <EntityType Name="Knowledge">
           <Key>
@@ -148,6 +185,37 @@
           <Property Name="Concern" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
           <Property Name="ExtId" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Nom" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+          <Property Name="Prenom" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+          <Property Name="IdPosition" Type="Int32" />
+          <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+          <Property Name="Photo" Type="String" MaxLength="80" FixedLength="true" Unicode="true" />
+          <Property Name="idNotes" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Note">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Creation" Type="DateTime" Precision="3" />
+          <Property Name="Subject" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Concern" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+          <Property Name="ConcernId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -202,6 +270,40 @@
                 <ScalarProperty Name="ExtId" ColumnName="ExtId" />
                 <ScalarProperty Name="Concern" ColumnName="Concern" />
                 <ScalarProperty Name="Filename" ColumnName="Filename" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="People">
+            <EntityTypeMapping TypeName="QuickToDosModel.Person">
+              <MappingFragment StoreEntitySet="People">
+                <ScalarProperty Name="idNotes" ColumnName="idNotes" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+                <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
+                <ScalarProperty Name="Prenom" ColumnName="Prenom" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notes">
+            <EntityTypeMapping TypeName="QuickToDosModel.Note">
+              <MappingFragment StoreEntitySet="Note">
+                <ScalarProperty Name="ConcernId" ColumnName="ConcernId" />
+                <ScalarProperty Name="Concern" ColumnName="Concern" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Creation" ColumnName="Creation" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="QuickToDosModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

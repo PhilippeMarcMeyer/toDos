@@ -29,5 +29,8 @@ namespace site
         public virtual DbSet<toDo> toDos { get; set; }
         public virtual DbSet<Knowledge> Knowledges { get; set; }
         public virtual DbSet<File> Files { get; set; }
+        public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<Note> Notes { get; set; }
+        public virtual DbSet<Position> Positions { get; set; }
     }
 }

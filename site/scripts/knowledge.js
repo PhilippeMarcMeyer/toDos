@@ -211,6 +211,7 @@
 
         
     }
+   
 }());
 
 function ReplaceNewline(input) {
@@ -235,3 +236,4 @@ function SplitTime(numberOfMinutes) {
 
 
 
+launchKnowHowManager();

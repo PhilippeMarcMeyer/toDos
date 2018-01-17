@@ -50,6 +50,9 @@
     </AssociationSet>
     <EntitySet Name="Knowledges" EntityType="QuickToDosModel.Knowledge" />
     <EntitySet Name="Files" EntityType="QuickToDosModel.File" />
+    <EntitySet Name="People" EntityType="QuickToDosModel.Person" />
+    <EntitySet Name="Notes" EntityType="QuickToDosModel.Note" />
+    <EntitySet Name="Positions" EntityType="QuickToDosModel.Position" />
   </EntityContainer>
   <EntityType Name="Knowledge">
     <Key>
@@ -70,5 +73,36 @@
     <Property Name="Concern" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
     <Property Name="ExtId" Type="Int32" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="80" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Nom" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+    <Property Name="Prenom" Type="String" MaxLength="35" FixedLength="true" Unicode="true" />
+    <Property Name="IdPosition" Type="Int32" />
+    <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="Photo" Type="String" MaxLength="80" FixedLength="true" Unicode="true" />
+    <Property Name="idNotes" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Note">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Creation" Type="DateTime" Precision="3" />
+    <Property Name="Subject" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+    <Property Name="Body" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Concern" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
+    <Property Name="ConcernId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="60" FixedLength="true" Unicode="true" />
   </EntityType>
 </Schema>

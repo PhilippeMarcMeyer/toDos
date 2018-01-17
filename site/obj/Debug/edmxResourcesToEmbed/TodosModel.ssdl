@@ -29,6 +29,37 @@
     <Property Name="Subject" Type="nvarchar" MaxLength="80" />
     <Property Name="Body" Type="nvarchar(max)" />
   </EntityType>
+  <EntityType Name="Note">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Creation" Type="datetime" />
+    <Property Name="Subject" Type="nchar" MaxLength="100" />
+    <Property Name="Body" Type="nchar" MaxLength="10" />
+    <Property Name="Concern" Type="nchar" MaxLength="30" />
+    <Property Name="ConcernId" Type="int" />
+  </EntityType>
+  <EntityType Name="People">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Nom" Type="nchar" MaxLength="35" />
+    <Property Name="Prenom" Type="nchar" MaxLength="35" />
+    <Property Name="IdPosition" Type="int" />
+    <Property Name="Mobile" Type="nchar" MaxLength="20" />
+    <Property Name="Email" Type="nchar" MaxLength="50" />
+    <Property Name="Photo" Type="nchar" MaxLength="80" />
+    <Property Name="idNotes" Type="int" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="60" />
+  </EntityType>
   <EntityType Name="toDos">
     <Key>
       <PropertyRef Name="Id" />
@@ -63,6 +94,9 @@
     <EntitySet Name="Breaks" EntityType="Self.Breaks" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Knowledge" EntityType="Self.Knowledge" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Note" EntityType="Self.Note" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="People" EntityType="Self.People" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="toDos" EntityType="Self.toDos" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__Breaks__ToDoId__1273C1CD" Association="Self.FK__Breaks__ToDoId__1273C1CD">
       <End Role="toDos" EntitySet="toDos" />

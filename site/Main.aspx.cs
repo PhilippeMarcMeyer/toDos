@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Web;
 using System.Web.Services;
 namespace site
 {
@@ -133,6 +134,7 @@ namespace site
                 filename = items[items.Length - 1];
 
                 string concern = anImage.Concern;
+                //string uploadPath = HttpContext.Current.Server.MapPath("") + @"\documents\" + concern + @"\";
                 string uploadPath = ConfigurationManager.AppSettings["RootFolder"]+@"\documents\"+ concern + @"\";
                 string UploadPathOldies = uploadPath + @"oldies\";
 

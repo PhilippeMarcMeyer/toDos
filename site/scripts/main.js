@@ -142,7 +142,6 @@
                     html += " </tbody></table>";
                     $(tableInner).html(html);
 
-                    setTimeout(function () { $('#mainTable').DataTable(); }, 150);
                     self.do('forecastInfo');
 
 

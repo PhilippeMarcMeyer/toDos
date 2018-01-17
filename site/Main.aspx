@@ -6,8 +6,8 @@
     <title>Phm's todos</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/bootstrap.min.css" />
-        <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css">
     <style>
      
     </style>
@@ -23,17 +23,20 @@
             <ul class="nav navbar-nav">
                 <li id="jobs" class="active"><a href="#jobs">Jobs to do</a></li>
                 <li id="knowledge"><a href="#knowledge">Knowledge</a></li>
+                <li id="people"><a href="#people">People</a></li>
             </ul>
         </div>
     </nav>
+
     <span id="toastMessage"></span>
+
     <div id="jobsZone">
         <div class="ui main container" id="app">
             <div class="caption">
-                <span id="caption"></span>&nbsp;<div class="uploadedPicture" id="none" style="display:none;"></div>
-            <span style="font-weight: 100; color: darkgrey;">Chercher :
+                <span id="caption"></span>&nbsp;<div class="uploadedPicture" id="none" style="display: none;"></div>
+                <span style="font-weight: 100; color: darkgrey;">Chercher :
                 <input type="text" id="search" placeholder="Expression" /></span>
-            &nbsp;<span style="font-weight: 100; color: darkgreen;" id="forecastInfo"></span>
+                &nbsp;<span style="font-weight: 100; color: darkgreen;" id="forecastInfo"></span>
             </div>
             <table id="mainTable" class="table table-hover table-bordered table-striped"></table>
             <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px;" id="new">Nouveau Job</button>
@@ -120,48 +123,50 @@
                             </div>
                         </div>
 
-                        <div class="row" id="row_notes" style="display:block;">
+                        <div class="row" id="row_notes" style="display: block;">
                             <div class="form-group col-md-10 col-md-offset-1">
-                                <label for="Notes" style="cursor:hand;cursor:pointer;" >Notes&nbsp;<span style="text-decoration: line-through;">Images</span></label>
+                                <label for="Notes" style="cursor: hand; cursor: pointer;">Notes&nbsp;<span style="text-decoration: line-through;">Images</span></label>
                                 <textarea class="form-control" id="Notes" maxlength="8000"></textarea>
                             </div>
                         </div>
-                        <div class="row" id="row_images" style="display:none;">
+                        <div class="row" id="row_images" style="display: none;">
                             <div class="form-group col-md-10 col-md-offset-1">
-                                <label for="Images" style="cursor:hand;cursor:pointer;" >Images&nbsp;<span style="text-decoration: line-through;">Notes</span></label>
-                                <div id="showFiles" style="height:300px;overflow-y: auto;border:solid 1px #888;"></div>
+                                <label for="Images" style="cursor: hand; cursor: pointer;">Images&nbsp;<span style="text-decoration: line-through;">Notes</span></label>
+                                <div id="showFiles" style="height: 300px; overflow-y: auto; border: solid 1px #888;"></div>
                             </div>
                         </div>
-                        <div class="row" style="display:block;">
+                        <div class="row" style="display: block;">
                             <div class="form-group col-md-5 col-md-offset-1">
                                 <div id="uploads"></div>
                                 <label for="files">Image</label>
                                 <input name="files" id="files" type="file" class="form-control">
-
                             </div>
-                             <div class="form-group col-md-5">
+                            <div class="form-group col-md-5">
                                 <label for="fileDescription">Description de l'image</label>
                                 <input name="fileDescription" id="fileDescription" type="text" class="form-control">
                             </div>
-                            
+
                         </div>
-                             </div>
-                        <div class="form-group" role="group" style="margin-left: 20px; margin-right: 20px;">
-                            <button type="button" class="btn btn-warning appliquer-button pull-left" style="display: none;" id="pause">Pause</button>
-                            <button type="button" class="btn btn-warning appliquer-button pull-left" style="display: none;" id="reprise">Reprise</button>
-                            <button type="button" class="btn btn-primary appliquer-button pull-right" style="width:160px;" id="saveAndClose">Enregistrer et fermer</button>
-                           
-                            <button type="button" class="btn btn-primary appliquer-button pull-right" id="saveAndStay">Enregistrer</button>
-                            <button type="button" class="btn btn-danger appliquer-button pull-right"  id="delete" data-toggle="confirmation2" data-popout="true" data-btn-ok-label="Supprimer" data-btn-ok-icon="glyphicon glyphicon-share-alt" data-btn-ok-class="btn-danger" data-btn-cancel-label="Annuler" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-success" data-title="Etes-vous sûr(e) ?" data-content="">Supprimer</button>
-                        </div>
-                        <br />
-                       <br />
                     </div>
-                    <div class="modal-footer"></div>
+                    <div class="form-group" role="group" style="margin-left: 20px; margin-right: 20px;">
+                        <button type="button" class="btn btn-warning appliquer-button pull-left" style="display: none;" id="pause">Pause</button>
+                        <button type="button" class="btn btn-warning appliquer-button pull-left" style="display: none;" id="reprise">Reprise</button>
+                        <button type="button" class="btn btn-primary appliquer-button pull-right" style="width: 160px;" id="saveAndClose">Enregistrer et fermer</button>
+
+                        <button type="button" class="btn btn-primary appliquer-button pull-right" id="saveAndStay">Enregistrer</button>
+                        <button type="button" class="btn btn-danger appliquer-button pull-right" id="delete" data-toggle="confirmation2" data-popout="true" data-btn-ok-label="Supprimer" data-btn-ok-icon="glyphicon glyphicon-share-alt" data-btn-ok-class="btn-danger" data-btn-cancel-label="Annuler" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-success" data-title="Etes-vous sûr(e) ?" data-content="">Supprimer</button>
+                    </div>
+                    <br />
+                    <br />
                 </div>
+                <div class="modal-footer"></div>
             </div>
         </div>
+    </div>
+    <!-- End of jobs zone -->
+
     <div id="knowledgeZone" style="display: none;">
+
         <div class="ui main container" id="appKnowledge">
             <div class="caption">
                 <span id="knowledgeCaption"></span>&nbsp;Connaissances&nbsp;
@@ -170,7 +175,7 @@
             </div>
 
             <table id="knowledgeTable" class="table table-hover table-bordered table-striped"></table>
-            <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px;width:200px;" id="newk">Nouvelle connaissance</button>
+            <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px; width: 200px;" id="newk">Nouvelle connaissance</button>
         </div>
 
         <!-- Modal -->
@@ -209,32 +214,52 @@
                                 <textarea class="form-control" id="Body" maxlength="8000"></textarea>
                             </div>
                         </div>
-   
+
                         <div class="form-group" role="group" style="margin-left: 20px; margin-right: 20px;">
                             <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px; width: 120px;" id="savek">Enregistrer</button>
                             <button type="button" class="btn btn-danger appliquer-button pull-right" data-toggle="confirmation" data-popout="true" style="margin-left: 4px; width: 120px;" id="deletek" data-btn-ok-label="Supprimer" data-btn-ok-icon="glyphicon glyphicon-share-alt" data-btn-ok-class="btn-danger" data-btn-cancel-label="Annuler" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-success" data-title="Etes-vous sûr(e) ?" data-content="">Supprimer</button>
 
-                             </div>
+                        </div>
                         <br />
                     </div>
                     <div class="modal-footer"></div>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="scripts/jquery-3.2.1.js"></script>
-    <script src="scripts/bootstrap.js"></script>
-    <script src="scripts/bootstrap-confirmation.js"></script>  
-    <script src="scripts/moment.js"></script>
-    <script src="scripts/moment-timezone.js"></script>
-    <script src="scripts/simpleUpload.js"></script>
-    <script src="scripts/toast.js"></script>
-    <script src="scripts/main.js"></script>
-    <script src="scripts/knowledge.js"></script>
 
+
+    </div>
+
+    <!-- End of knowledge zone -->
+    <div id="peopleZone" style="display: none;">
+
+        <div class="ui main container" id="appPeople">
+            <div class="caption">
+                <span id="peopleCaption"></span>&nbsp;People of interest&nbsp;
+            <span style="font-weight: 100; color: darkgrey;">Chercher :
+                <input type="text" id="searchp" placeholder="" /></span>
+            </div>
+            <iframe width="500" src="http://leafletjs.com/examples/quick-start/"></iframe>
+            <table id="peopleTable" class="table table-hover table-bordered table-striped"></table>
+            <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px; width: 200px;" id="newp">Nouvelle personne</button>
+        </div>
+    </div>
+    <!-- End of people zone -->
+    <div id="scripts">
+        <script src="scripts/jquery-3.2.1.js"></script>
+        <script src="scripts/bootstrap.js"></script>
+        <script src="scripts/bootstrap-confirmation.js"></script>
+        <script src="scripts/moment.js"></script>
+        <script src="scripts/moment-timezone.js"></script>
+        <script src="scripts/simpleUpload.js"></script>
+        <script src="scripts/toast.js"></script>
+        <script src="scripts/main.js"></script>
+
+    </div>
     <script>
         window.manager = window.workManager();
         window.manager.do('init');
+
         $(".navbar-nav li").on("click", function () {
             setTimeout(function () {
                 var pathname = $(location).attr('href');
@@ -257,64 +282,127 @@
                     $("#" + menu.id).removeClass("active");
                 }
             });
+            load(menuItem);
         }
 
-        window.knowHowManager = window.knowledgeManager();
-        window.knowHowManager.do('init');
+        var load = function (menuItem) {
+            if (menuItem === "knowledge") {
+                var aScript = $("#scripts [src='scripts/knowledge.js']");
+                if (aScript.length ===0) {
+                    var script = document.createElement('script');
+                    script.src = 'scripts/knowledge.js';
+                    document.getElementById("scripts").appendChild(script);
+                   // setTimeout(function () {
+                      //  launchKnowHowManager();
+                   // }, 300);
+
+                }
+
+                else if (menuItem === "people") {
+
+
+                }
+
+            }
+        }
+        var launchKnowHowManager = function () {
+            window.knowHowManager = window.knowledgeManager();
+            window.knowHowManager.do('init');
+            $("#searchk").on('change', function () {
+                // $("#toggleDoneView").attr("checked", true);
+                window.knowHowManager.do('search', $("#searchk").val());
+            });
+            $("#savek").on('click', function (event) {
+                $(this).attr('disabled', 'disabled');
+                var obj = {};
+                obj.Subject = $("#Subject").val().trim();
+                obj.Id = $("#Idk").val();
+                obj.Body = $("#Body").val().replace(/[\n\r]/g, '<br>');
+
+                var selectedFile = document.getElementById('files').files[0];
+                var json = JSON.stringify({ "Know": obj });
+                $.ajax({
+                    type: "POST",
+                    url: "Main.aspx/AddKnowledge",
+                    contentType: "application/json; charset=utf-8",
+                    async: true,
+                    data: json,
+                    success: function (response) {
+                        $('#myModalk').find('.close').trigger("click"); // closing the modal
+                        var toastMsg = new toast("toastMessage", "messageId", false);
+                        toastMsg.text("Mise à jour réussie des connaissances !");
+                        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                        toastMsg.moveAt(w / 2 - 100, 90);
+                        toastMsg.showFor(3000);
+
+                        window.knowHowManager.do('init');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        var str = jqXHR.responseText;
+                        var obj = JSON.parse(str);
+                        $('#myModalk').find('.close').trigger("click"); // closing the modal
+                        $('.modal-backdrop').remove();
+
+                        setTimeout(function () {
+                            $("#alert-message").html("Echec " + obj.Message);
+                            $('#alert').modal('show');
+                        }, 100);
+
+
+                    } // end error
+                }); // end ajax
+            });
+
+            var doDeleteKnowledge = function () {
+
+                var obj = {};
+                obj.Id = $("#Idk").val();
+                var json = JSON.stringify({ "toDel": obj });
+                var url = "Main.aspx/DeleteKnowledge";
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    contentType: "application/json; charset=utf-8",
+                    data: json,
+                    success: function (response) {
+                        $('#myModalk').find('.close').trigger("click"); // closing the modal
+                        var toastMsg = new toast("toastMessage", "messageId", false);
+                        toastMsg.text("Suppression réussie !");
+                        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                        toastMsg.moveAt(w / 2 - 100, 90);
+                        toastMsg.showFor(3000);
+
+                        window.knowHowManager.do('init');
+
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        var str = jqXHR.responseText;
+                        var obj = JSON.parse(str);
+                        $("#alert-message").html("Echec " + obj.Message);
+                        $('#alert').modal('show');
+                    } // end error
+                }); // end ajax
+            }
+
+            $('[data-toggle=confirmation]').confirmation({
+                rootSelector: '[data-toggle=confirmation]',
+                onConfirm: function () {
+                    doDeleteKnowledge();
+                },
+            });
+        }
+
+
 
         $("#search").on('change', function () {
             // $("#toggleDoneView").attr("checked", true);
             window.manager.do('search', $("#search").val());
         });
 
-        $("#searchk").on('change', function () {
-            // $("#toggleDoneView").attr("checked", true);
-            window.knowHowManager.do('search', $("#searchk").val());
-        });
-
-        
-
-        $("#savek").on('click', function (event) {
-            $(this).attr('disabled', 'disabled');
-            var obj = {};
-            obj.Subject = $("#Subject").val().trim();
-            obj.Id = $("#Idk").val();
-            obj.Body = $("#Body").val().replace(/[\n\r]/g, '<br>');
-
-            var selectedFile = document.getElementById('files').files[0];
-            var json = JSON.stringify({ "Know": obj });
-            $.ajax({
-                type: "POST",
-                url: "Main.aspx/AddKnowledge",
-                contentType: "application/json; charset=utf-8",
-                async: true,
-                data: json,
-                success: function (response) {
-                    $('#myModalk').find('.close').trigger("click"); // closing the modal
-                    var toastMsg = new toast("toastMessage", "messageId", false);
-                    toastMsg.text("Mise à jour réussie des connaissances !");
-                    var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                    toastMsg.moveAt(w / 2 - 100, 90);
-                    toastMsg.showFor(3000);
-
-                    window.knowHowManager.do('init');
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    var str = jqXHR.responseText;
-                    var obj = JSON.parse(str);
-                    $('#myModalk').find('.close').trigger("click"); // closing the modal
-                    $('.modal-backdrop').remove();
-
-                    setTimeout(function () {
-                        $("#alert-message").html("Echec " + obj.Message);
-                        $('#alert').modal('show');
-                    }, 100);
 
 
-                } // end error
-            }); // end ajax
-        });
-        
+
+
         $("#saveAndClose,#saveAndStay").on('click', function (event) {
             var doCloseModal = (this.id === "saveAndClose")
             var image = $("#files").val();
@@ -346,7 +434,7 @@
 
                     $(self).prop('disabled', false);
                     if (image != "") {
-                        upload("#files", image, toDoId, "work",description, doCloseModal);
+                        upload("#files", image, toDoId, "work", description, doCloseModal);
                     } else {
                         if (doCloseModal) {
                             $('#myModal').find('.close').trigger("click"); // closing the modal
@@ -382,36 +470,6 @@
         });
 
 
-        var doDeleteKnowledge = function () {
-
-            var obj = {};
-            obj.Id = $("#Idk").val();
-            var json = JSON.stringify({ "toDel": obj });
-            var url = "Main.aspx/DeleteKnowledge";
-            $.ajax({
-                type: "POST",
-                url: url,
-                contentType: "application/json; charset=utf-8",
-                data: json,
-                success: function (response) {
-                    $('#myModalk').find('.close').trigger("click"); // closing the modal
-                    var toastMsg = new toast("toastMessage", "messageId", false);
-                    toastMsg.text("Suppression réussie !");
-                    var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                    toastMsg.moveAt(w / 2 - 100, 90);
-                    toastMsg.showFor(3000);
-
-                    window.knowHowManager.do('init');
-
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    var str = jqXHR.responseText;
-                    var obj = JSON.parse(str);
-                    $("#alert-message").html("Echec " + obj.Message);
-                    $('#alert').modal('show');
-                } // end error
-            }); // end ajax
-        }
 
         var uploadMessage = function (msg, doCloseModal, modalId) {
             if (doCloseModal) {
@@ -437,9 +495,9 @@
             var filename = $(jqId).val();
             var description = descript ? descript : "";
             if (id > 0 && filename != "" && concern != "" && jqId != "") {
-                var data = { "Id": id, "concern": concern, "description" : description };
+                var data = { "Id": id, "concern": concern, "description": description };
                 var toastMsg = new toast("toastMessage", "messageId", false);
-               
+
                 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 toastMsg.moveAt(w / 2 + 100, 90);
                 //toastMsg.showFor(3000);
@@ -462,9 +520,9 @@
 
                     success: function (data) {
                         this.progressBar.remove();
-                        uploadMessage("Mise à jour et upload réussi !", doCloseModal,'myModal');
+                        uploadMessage("Mise à jour et upload réussi !", doCloseModal, 'myModal');
 
-                       
+
                     },
 
                     error: function (error) {
@@ -476,7 +534,7 @@
             }
         }
 
-        var doDeleteWork = function(){
+        var doDeleteWork = function () {
             var obj = {};
             obj.Id = $("#Id").val();
             $('#myModal').find('.close').trigger("click"); // closing the modal
@@ -508,12 +566,7 @@
         }
 
 
-        $('[data-toggle=confirmation]').confirmation({
-            rootSelector: '[data-toggle=confirmation]',
-            onConfirm: function() {
-                doDeleteKnowledge();
-            },
-        });
+
 
         $('[data-toggle=confirmation2]').confirmation({
             rootSelector: '[data-toggle=confirmation2]',
@@ -534,6 +587,31 @@
             $("#row_images").show();
         });
 
+        $("#newp").on("click", function () {
+
+            var src = $("iframe").attr("src");
+
+            $.ajax({
+                type: "GET",
+                url: src,
+                success: function (response) {
+                    var n = response.search("<title>");
+                    if (n != -1) {
+                        var title = response.substr(n + 7, 100);
+                        n = title.search("</title>");
+                        if (n != -1) {
+                            var title = title.substr(0, n);
+                            console.log(title);
+                            $("iframe").css("zoom", 0.75);
+                        }
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+
+                } // end error
+            }); // end ajax
+
+        });
 
     </script>
 </body>
