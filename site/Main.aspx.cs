@@ -303,10 +303,43 @@ namespace site
             return work;
 
         }
-       
-
 
         [WebMethod]
+        public static PeopleObject GetPeople()
+        {
+            PeopleObject card = new PeopleObject()
+            {
+                caption = "Personnages",
+                headers = new string[] { "Id", "Nom", "Prénom", "Position", "Mobile","Email" },
+                types = new string[] { "number", "string", "string", "string","string" },
+                props = new string[] { "Id", "Nom", "Prenom", "Position", "Mobile", "Email" }
+            };
+
+            using (var dbContext = new QuickToDosEntities())
+            {
+                IQueryable<Person> query = dbContext.People;
+                IQueryable<Position> query2 = dbContext.Positions;
+                IQueryable<Note> query3 = dbContext.Notes;
+                card.data = query.Select(x => new DataForPeople
+                {
+                    Id = x.Id,
+                    Nom = x.Nom,
+                    Prenom = x.Prenom,
+                    IdPosition = x.IdPosition != null ? (int)x.IdPosition : 0,
+                    Email = x.Email,
+                    Photo = x.Photo == null ? x.Photo:"",
+                    Position = query2.Where(y => y.Id == x.Id).FirstOrDefault().Name,
+                    Notes = query3.Where(z => z.ConcernId == x.Id  && z.Concern == "people").ToList()
+                }).ToList();
+            }
+
+            card.data = card.data.OrderByDescending(x => x.Id).Take(12).ToList();
+
+            return card;
+        }
+
+
+         [WebMethod]
         public static KnowHow GetKnowledge()
         {
             KnowHow knowledge = new KnowHow()
@@ -768,6 +801,15 @@ namespace site
             public string[] props { get; set; }
             public List<DataForKnowledge> data {get; set; }
         }
+
+        public class PeopleObject
+        {
+            public string caption { get; set; }
+            public string[] headers { get; set; }
+            public string[] types { get; set; }
+            public string[] props { get; set; }
+            public List<DataForPeople> data { get; set; }
+        }
         public class DataForList
         {
             public int Id { get; set; }
@@ -789,13 +831,25 @@ namespace site
         }
 
         public class DataForKnowledge
-    {
-        public int Id { get; set; }
-        public string Subject { get; set; }
-        public DateTime? Creation { get; set; }
-        public DateTime? Modification { get; set; }
-        public string Body { get; set; }
-    }
+        {
+            public int Id { get; set; }
+            public string Subject { get; set; }
+            public DateTime? Creation { get; set; }
+            public DateTime? Modification { get; set; }
+            public string Body { get; set; }
+        }
+
+        public class DataForPeople
+        {
+            public int Id { get; set; }
+            public string Nom { get; set; }
+            public string Prenom { get; set; }
+            public int IdPosition { get; set; }
+            public string Position { get; set; }
+            public string Email { get; set; }
+            public string Photo { get; set; }
+            public List<Note> Notes { get; set; }
+        }
 
         public class Data
         {

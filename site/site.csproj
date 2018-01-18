@@ -91,12 +91,17 @@
     <Content Include="scripts\main.js" />
     <Content Include="scripts\moment-timezone.js" />
     <Content Include="scripts\moment.js" />
+    <Content Include="scripts\people.js" />
+    <Content Include="scripts\simpleUpload.js" />
     <Content Include="scripts\toast.js" />
     <Content Include="TodosModel.edmx.diagram">
       <DependentUpon>TodosModel.edmx</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
     <Content Include="DocumentsFileUpload.ashx" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -179,7 +184,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="documents\" />
-    <Folder Include="fonts\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

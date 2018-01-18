@@ -7,10 +7,10 @@
 
     //glyphicon glyphicon-pause,play,stop
     // Setting the 
-    window.knowledgeManager = function () {
+    window.peopleManager = function () {
         var who = "Philippe";
-        var app = "#appKnowledge";
-        var tableInner = "#knowledgeTable";
+        var app = "#appPeople";
+        var tableInner = "#peopleTable";
         var errorMessage = "";
         var model = {};
         var showDone = false;
@@ -53,7 +53,7 @@
                     for (var i = 0; i < headers.length; i++) {
                         html += "<th scope='col'>" + headers[i] + "</th>";
                     }
-                    html += "</tr> </thead> <tbody id='callModalk'>"
+                    html += "</tr> </thead> <tbody id='callModalp'>"
                     // Drawing rows and cells
                     for (var i = 0; i < data.length; i++) {
                         var rowIsDone = false;
@@ -97,13 +97,13 @@
 
                     html += " </tbody></table>";
                     $(tableInner).html(html);
-                    $("#callModalk").on('dblclick', 'tr', function (event) {
+                    $("#callModalp").on('dblclick', 'tr', function (event) {
                         var target = event.currentTarget;
                         var id = parseInt(target.cells[0].innerHTML);
                         self.do('showModal', id);
                     });
 
-                    $("#newk").on('click', function () {
+                    $("#newp").on('click', function () {
                         self.do('showModal');
                     });
              
@@ -142,8 +142,7 @@
                                 $("#Subject").val(aRow[i].Subject.trim());
 
                                 $("#Body").val(ReplaceNewline(aRow[i].Body.trim()));
-
-
+                       
                             }
                         }
 
@@ -155,23 +154,26 @@
                     }
 
                     if (id == -1) {
-                        $("#deletek").hide();
+                        $("#deletep").hide();
                     } else {
-                        $("#deletek").show();
+                        $("#deletep").show();
                     }
-                    $("#savek").attr('disabled', false);
+
+                    $("#savep").attr('disabled', false);
+
+                    var html = "<option value=0>...</option><option value=-1>Nouvelle</option>"
+                   $("#Position").html(html);
 
 
 
-
-                   $('#myModalk').modal('show');
+                   $('#myModalp').modal('show');
                 } 
                 else if (whatToDo == 'getModel') {
                     return model;
                 }
                 else if (whatToDo == 'getData') {
                     errorMessage = "";
-                    var xhr = $.ajax("Main.aspx/GetKnowledge", ajax_default_settings)
+                    var xhr = $.ajax("Main.aspx/GetPeople", ajax_default_settings)
                        .done(function (response) {
                            model = response.d;
                            self.do('drawTable');
@@ -192,7 +194,7 @@
                     var json = JSON.stringify({ "searchFor": what });
                     var params = ajax_default_settings;
                     params.data = json;
-                    var xhr = $.ajax("Main.aspx/GetSearchForKnowledge", params)
+                    var xhr = $.ajax("Main.aspx/GetSearchForPeople", params)
                        .done(function (response) {
                            model = response.d;
                            self.do('drawTable');
@@ -216,4 +218,6 @@
 
 
 
-launchKnowHowManager();
+
+
+launchPeopleManager();

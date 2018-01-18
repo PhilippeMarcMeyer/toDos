@@ -384,25 +384,6 @@
     }
 }());
 
-function ReplaceNewline(input) {
-     var newline = String.fromCharCode(13, 10);
-     return ReplaceAll(input, "<br>", newline.toString());
- }
-function ReplaceAll(str, find, replace) {
-    return str.replace(new RegExp(find, 'g'), replace);
-}
-
-function isoToLocalTime(strIsoDate) {
-    var greenwich = moment(strIsoDate);
-    var paris = greenwich.clone().tz("Europe/Paris");
-    return paris.format().split("+")[0];;
-}
-function SplitTime(numberOfMinutes) {
-    var hours = Math.floor(numberOfMinutes / 60);
-    var remainder = numberOfMinutes % 60;
-    var minutes = remainder;
-    return ({ "d": 0, "h": hours, "m": minutes })
-}
 
 function imgClickHandler(e,that) {
  
