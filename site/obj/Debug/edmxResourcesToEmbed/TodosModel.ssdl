@@ -33,7 +33,7 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Creation" Type="datetime" />
     <Property Name="Subject" Type="nchar" MaxLength="100" />
     <Property Name="Body" Type="nchar" MaxLength="10" />
@@ -44,20 +44,19 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Nom" Type="nchar" MaxLength="35" />
     <Property Name="Prenom" Type="nchar" MaxLength="35" />
     <Property Name="IdPosition" Type="int" />
     <Property Name="Mobile" Type="nchar" MaxLength="20" />
     <Property Name="Email" Type="nchar" MaxLength="50" />
     <Property Name="Photo" Type="nchar" MaxLength="80" />
-    <Property Name="idNotes" Type="int" />
   </EntityType>
   <EntityType Name="Position">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nchar" MaxLength="60" />
   </EntityType>
   <EntityType Name="toDos">

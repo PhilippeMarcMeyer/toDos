@@ -9,7 +9,23 @@
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css">
     <style>
-     
+     span.tab{
+        border:1px solid grey;
+        padding:2px 5px 2px 5px;
+        margin-right:2px;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        cursor:hand;
+        cursor:pointer;
+     }
+
+     span.tab.inactive{
+        background-color : lightgray;
+     }
+
+     span.tab.active{
+        background-color : cadetblue;
+     }
     </style>
 
 
@@ -145,7 +161,6 @@
                                 <label for="fileDescription">Description de l'image</label>
                                 <input name="fileDescription" id="fileDescription" type="text" class="form-control">
                             </div>
-
                         </div>
                     </div>
                     <div class="form-group" role="group" style="margin-left: 20px; margin-right: 20px;">
@@ -293,14 +308,21 @@
                             </div>
                         </div>
 
-
-
-
-                         <div class="row">
+                        <div class="row" id="row_Notesp" style="display: block;">
                             <div class="form-group col-md-10 col-md-offset-1">
-                                <label for="Body">Notes</label>
-                                <textarea class="form-control" style="height: 120px; min-height: 100px;" id="MultiNote_0" maxlength="8000"></textarea>
+                                <span class="active tab" id="newNotep">Nouvelle note</span><span class="inactive tab old" id="oldNotep">Notes</span>
+                                 <textarea id="new-notep" class="form-control" style="overflow-y: auto; border: solid 1px #888;"  maxlength="8000">test</textarea>
+                                 <div id="old-notep" style="min-height:300px;max-width:110%; overflow-y: auto; border: solid 1px #888;display:none;"></div>
                             </div>
+                        </div>
+                            
+                         <div class="row" style="display: block;">
+                            <div class="form-group col-md-5 col-md-offset-1">
+                                <div id="uploadsp"></div>
+                                <label for="filesp">Photo</label>
+                                <input name="filesp" id="filesp" type="file" class="form-control">
+                            </div>
+
                         </div>
 
                         <div class="form-group" role="group" style="margin-left: 20px; margin-right: 20px;">
@@ -676,7 +698,6 @@
                         n = title.search("</title>");
                         if (n != -1) {
                             var title = title.substr(0, n);
-                            console.log(title);
                             $("iframe").css("zoom", 0.75);
                         }
                     }
@@ -699,11 +720,22 @@
             $("#savep").on('click', function (event) {
                 $(this).attr('disabled', 'disabled');
                 var obj = {};
-                obj.Subject = $("#Subject").val().trim();
-                obj.Id = $("#Idp").val();
-                obj.Body = $("#Body").val().replace(/[\n\r]/g, '<br>');
-
-                var selectedFile = document.getElementById('filesp').files[0];
+                obj.Nom = $("#Nom").val().trim();
+                obj.Prenom = $("#Prenom").val().trim();
+                obj.Email = $("#Email").val().trim();
+                obj.Mobile = $("#Mobile").val().trim();
+                var tagName = document.getElementById("Position").tagName.toLowerCase();
+                if (tagName == "select") {
+                    obj.Position = parseInt($("#Position").val());
+                    obj.PositionName = "";
+                } else {
+                    obj.Position = -1
+                    obj.PositionName = $("#Position").val().trim();
+                }
+                obj.Id = parseInt($("#Idp").val());
+                obj.NewNote = $("#new-notep").val().trim().replace(/[\n\r]/g, '<br>');
+                
+               // var selectedFile = document.getElementById('filesp').files[0];
                 var json = JSON.stringify({ "People": obj });
                 $.ajax({
                     type: "POST",
@@ -725,12 +757,11 @@
                         var str = jqXHR.responseText;
                         var obj = JSON.parse(str);
                         $('#myModalp').find('.close').trigger("click"); // closing the modal
-                        $('.modal-backdrop').remove();
-
-                        setTimeout(function () {
-                            $("#alert-message").html("Echec " + obj.Message);
-                            $('#alert').modal('show');
-                        }, 100);
+                        var toastMsg = new toast("toastMessage", "messageId", false);
+                        toastMsg.text("Echec de la mise à jour de la fiche personnage ...");
+                        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                        toastMsg.moveAt(w / 2 - 100, 90);
+                        toastMsg.showFor(3000);
 
 
                     } // end error
@@ -823,6 +854,76 @@
             window.manager.do('search', $("#search").val());
         });
 
+        $("#newNotep").on("click", function () {
+            if ($(this).hasClass("inactive")) {
+                $(this).removeClass("inactive").addClass("active");
+                $("#oldNotep").removeClass("active").addClass("inactive");
+                $("#old-notep").hide();
+                $("#new-notep").show();
+            }
+        });
+
+
+
+        $("#oldNotep").on("click", function () {
+            if ($(this).hasClass("inactive")) {
+                $(this).removeClass("inactive").addClass("active");
+                $("#newNotep").removeClass("active").addClass("inactive");
+                $("#new-notep").hide();
+                $("#old-notep").show();
+            }
+        });
+
+        $("#Position").on("change", function () {
+            var doSend = false;
+            var choice = $(this).val();
+            var tagName = this.tagName.toLowerCase();
+            if(tagName=="select"){
+                var int_choice = parseInt(choice);
+                if (!isNaN(int_choice)) {
+                    if (int_choice == -1) { // ask for a new value
+                        doSend = true;
+                        var parent = $(this).parent();
+                        $(this).remove();
+                        parent.append("<input type='text' value='' placeholder='Veuillez saisir' class='form-control' id='Position'/>");
+                    } 
+                }
+            } 
+        });
+
+        $("#filesp").on("change", function () {
+            var selectedFile = this.files[0];
+            if (selectedFile) {
+                console.log(selectedFile);
+                var id = parseInt($("#Idp").val());
+                var data = { "Id": id, "concern": "people", "description": ""};
+ 
+                $(this).simpleUpload("/DocumentsFileUpload.ashx", {
+                    data: data,
+                    allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
+                    allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
+                    maxFileSize: 1048576, //1MB in bytes
+                    success: function (data) {
+                        var params  = {
+                            type: "POST",
+                            dataType: 'json',
+                            contentType: "application/json; charset=utf-8",
+                            data : "{Id:" + id + "}"
+                        };
+                        xhr = $.ajax("Main.aspx/GetPhoto", params)
+                             .done(function (response) {
+                                 if (response.d != "") {
+                                     $("#portraitzone img").attr("src", response.d);
+                                 }
+                                 else {
+                                     $("#portraitzone img").attr("src", "images/nobody.jpg");
+                                 }
+                             })
+                        window.peopleManager.do('init');
+                    },
+                });
+            }
+        });
 
         function ReplaceNewline(input) {
             var newline = String.fromCharCode(13, 10);

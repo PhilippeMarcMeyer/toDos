@@ -21,6 +21,5 @@ namespace site
         public string Mobile { get; set; }
         public string Email { get; set; }
         public string Photo { get; set; }
-        public Nullable<int> idNotes { get; set; }
     }
 }

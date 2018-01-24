@@ -42,11 +42,36 @@ namespace site
                             dbContext.Files.Add(aFile);
                             dbContext.SaveChanges();
                             fileId = aFile.Id;
-                            aFile.Filename = string.Format("/documents/{0}/{1}_{2}_{3}", Concern, Idstr, fileId, fileName);
-                            dbContext.SaveChanges();
-                        }
+                            if (Concern == "people")
+                            {
+                                aFile.Filename = string.Format("/images/{0}_{1}_{2}", Idstr, fileId, fileName);
+                                dbContext.SaveChanges();
 
-                        string documentsPath = context.Server.MapPath("") + @"\documents\"+ Concern+"\\";
+                                Person aPerson = dbContext.People.Find(Id);
+
+                                if (aPerson != null)
+                                {
+                                    aPerson.Photo = aFile.Filename;
+                                    dbContext.SaveChanges();
+                                }
+                            }
+                            else
+                            {
+                                aFile.Filename = string.Format("/documents/{0}/{1}_{2}_{3}", Concern, Idstr, fileId, fileName);
+                                dbContext.SaveChanges();
+
+                            }
+                        }
+                        string documentsPath = "";
+                        if (Concern == "people")
+                        {
+                            documentsPath = context.Server.MapPath("") + @"\images\";
+                        }
+                        else
+                        {
+                            documentsPath = context.Server.MapPath("") + @"\documents\" + Concern + "\\";
+                        }
+                        
                         System.IO.Directory.CreateDirectory(documentsPath);
                         string fileToSave = documentsPath + string.Format("{0}_{1}_{2}", Idstr, fileId, fileName);
 

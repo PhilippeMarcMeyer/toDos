@@ -106,7 +106,30 @@
                     $("#newp").on('click', function () {
                         self.do('showModal');
                     });
-             
+
+                    
+
+                    var tagName = document.getElementById("Position").tagName.toLowerCase();
+                    if (tagName == "select") {
+                        $("#Position").html("");
+
+                    } else {
+                        var parent = $("#Position").parent();
+                        $("#Position").remove();
+                        parent.append("<select id='Position' class='form-control'></select>");
+                    }
+
+                    var html = "<option value=0>...</option>";
+                  
+                    if (model.Positions.length > 0) {
+                        for (var i = 0; i < model.Positions.length; i++) {
+                            html += "<option value=" + model.Positions[i].key + ">" + model.Positions[i].value + "</option>";
+                            
+                        }
+                    }
+                    html += "<option value=-1>Saisir</option>";
+                    $("#Position").html(html);
+
                 }
 
 
@@ -115,56 +138,65 @@
                     if (param1) {
                         id = param1;
                     }
-                    $("#Idk").val(id);
+                    $("#Idp").val(id);
                     var now = new Date();
                     var differenceFuseauxEnMinutes = now.getTimezoneOffset();
                     now.setTime(now.getTime() - (differenceFuseauxEnMinutes * 60000));
                     var now = now.toISOString().split(".")[0];
-                    $("#Creation").val(now);
-                    $("#Modification").val("");
-                    $("#Subject").val("");
+                    $("#Nom").val("");
+                    $("#Prenom").val("");
+                    $("#Mobile").val("");
+                    $("#Email").val("");
+                    $("#Position").val(0);
+                    $("#new-notep").val("");
+                    $("#old-notep").html("");
+                   // $("#Subject").val("");
                     $("#Body").val("");
                     if (id != -1) {
                         var aRow = model.data;
                         for (var i = 0; i < aRow.length; i++) {
                             if (aRow[i].Id == id) {
-                                $("#Idk").val(id);
-                                if (aRow[i].Creation) {
-                                    var Creation = new Date(parseInt(aRow[i].Creation.substring(6, 19))).toISOString();
-                                    Creation = isoToLocalTime(Creation);
-                                    $("#Creation").val(Creation);
+                                $("#Idp").val(id);
+                                $("#Nom").val(aRow[i].Nom);
+                                $("#Prenom").val(aRow[i].Prenom);
+                                $("#Mobile").val(aRow[i].Mobile);
+                                $("#Email").val(aRow[i].Email);
+                                if (aRow[i].IdPosition) {
+                                    $("#Position").val(aRow[i].IdPosition);
                                 }
-                                if (aRow[i].Modification) {
-                                    var Modification = new Date(parseInt(aRow[i].Modification.substring(6, 19))).toISOString();
-                                    Modification = isoToLocalTime(Modification);
-                                    $("#Modification").val(Modification);
+                                if (aRow[i].Photo && aRow[i].Photo!="") {
+                                    $("#portraitzone img").attr("src",aRow[i].Photo);
                                 }
-                                $("#Subject").val(aRow[i].Subject.trim());
-
-                                $("#Body").val(ReplaceNewline(aRow[i].Body.trim()));
-                       
+                                else {
+                                    $("#portraitzone img").attr("src","images/nobody.jpg");
+                                }
+                                if (aRow[i].Notes.length > 0) {
+                                    for (var j = 0; j < aRow[i].Notes.length; j++) {
+                                        $("#old-notep").append(aRow[i].Notes[j].Body + "<hr>");
+                                    }
+                                }
+                                
                             }
                         }
 
-                    } else {
-                        $("#Creation").val(now);
-                        $("#Modification").val("");
-                        $("#Subject").val("");
-                        $("#Body").val("");
-                    }
+                    } 
 
                     if (id == -1) {
                         $("#deletep").hide();
+                        $("#uploadsp").hide();
+
                     } else {
                         $("#deletep").show();
+                        $("#uploadsp").show();
+
                     }
 
                     $("#savep").attr('disabled', false);
 
-                    var html = "<option value=0>...</option><option value=-1>Nouvelle</option>"
-                   $("#Position").html(html);
-
-
+                   $("#newNotep").removeClass("inactive").addClass("active");
+                   $("#oldNotep").removeClass("active").addClass("inactive");
+                   $("#old-notep").hide();
+                   $("#new-notep").show();
 
                    $('#myModalp').modal('show');
                 } 
@@ -175,8 +207,13 @@
                     errorMessage = "";
                     var xhr = $.ajax("Main.aspx/GetPeople", ajax_default_settings)
                        .done(function (response) {
+                           debugger
                            model = response.d;
-                           self.do('drawTable');
+                           xhr = $.ajax("Main.aspx/GetPositions", ajax_default_settings)
+                            .done(function (response) {
+                                model.Positions = response.d;
+                                self.do('drawTable');
+                            })
                        })
                        .fail(function () {
                            errorMessage = "An error occured..";

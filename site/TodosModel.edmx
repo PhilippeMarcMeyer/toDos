@@ -38,7 +38,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Creation" Type="datetime" />
           <Property Name="Subject" Type="nchar" MaxLength="100" />
           <Property Name="Body" Type="nchar" MaxLength="10" />
@@ -49,20 +49,19 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nom" Type="nchar" MaxLength="35" />
           <Property Name="Prenom" Type="nchar" MaxLength="35" />
           <Property Name="IdPosition" Type="int" />
           <Property Name="Mobile" Type="nchar" MaxLength="20" />
           <Property Name="Email" Type="nchar" MaxLength="50" />
           <Property Name="Photo" Type="nchar" MaxLength="80" />
-          <Property Name="idNotes" Type="int" />
         </EntityType>
         <EntityType Name="Position">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="60" />
         </EntityType>
         <EntityType Name="toDos">
@@ -197,7 +196,6 @@
           <Property Name="Mobile" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="Photo" Type="String" MaxLength="80" FixedLength="true" Unicode="true" />
-          <Property Name="idNotes" Type="Int32" />
         </EntityType>
         <EntityType Name="Note">
           <Key>
@@ -277,7 +275,6 @@
           <EntitySetMapping Name="People">
             <EntityTypeMapping TypeName="QuickToDosModel.Person">
               <MappingFragment StoreEntitySet="People">
-                <ScalarProperty Name="idNotes" ColumnName="idNotes" />
                 <ScalarProperty Name="Photo" ColumnName="Photo" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Mobile" ColumnName="Mobile" />

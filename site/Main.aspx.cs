@@ -205,6 +205,99 @@ namespace site
             }
         }
 
+        
+        [WebMethod]
+        public static int AddPeople(DataToAddPeople People)
+        {
+            int Id = People.Id;
+            if (People.Position == -1 && People.PositionName!="")
+            {
+                using (var dbContext = new QuickToDosEntities())
+                {
+                    Position role = dbContext.Positions.FirstOrDefault(x => x.Name == People.PositionName);
+
+                    if (role == null)
+                    {
+                        role = new Position
+                        {
+                            Name = People.PositionName.ToUpper(),
+                        };
+                        dbContext.Positions.Add(role);
+                        dbContext.SaveChanges();
+                        People.Position = role.Id;
+                    }
+                    else
+                    {
+                        People.Position = role.Id;
+
+                    }
+                }
+            }
+            if (Id == -1)
+            {
+                using (var dbContext = new QuickToDosEntities())
+                {
+                    var aPerson = new Person
+                    {
+                        Nom = People.Nom,
+                        Prenom = People.Prenom,
+                        IdPosition = People.Position,
+                        Mobile = People.Mobile,
+                        Email = People.Email,
+                        Photo = ""
+                    };
+                    dbContext.People.Add(aPerson);
+                    dbContext.SaveChanges();
+                    Id = aPerson.Id;
+
+                }
+
+            }
+            else
+            {
+
+                using (var dbContext = new QuickToDosEntities())
+                {
+
+                    Person aPerson = dbContext.People.Find(Id);
+
+                    if (aPerson == null)
+                    {
+                        throw new Exception("Echec mise a jour");
+                    }
+
+                    aPerson.Nom = People.Nom;
+                    aPerson.Prenom = People.Prenom;
+                    aPerson.IdPosition = People.Position;
+                    aPerson.Mobile = People.Mobile;
+                    aPerson.Email = People.Email;
+
+                    dbContext.SaveChanges();
+                }
+
+            }
+            //
+            if (People.NewNote != "")
+            {
+             //   Notes = query3.Where(z => z.ConcernId == x.Id && z.Concern == "people").ToList()
+                using (var dbContext = new QuickToDosEntities())
+                {
+                    var aNote = new Note
+                    {
+                        Subject = "",
+                        Body = People.NewNote,
+                        Concern = "people",
+                        Creation = DateTime.Now,
+                        ConcernId = Id
+                    };
+                    dbContext.Notes.Add(aNote);
+                    dbContext.SaveChanges();
+                }
+
+            }
+            return Id;
+        }
+
         [WebMethod]
         public static int AddWork(Data toDo)
         {
@@ -327,7 +420,8 @@ namespace site
                     Prenom = x.Prenom,
                     IdPosition = x.IdPosition != null ? (int)x.IdPosition : 0,
                     Email = x.Email,
-                    Photo = x.Photo == null ? x.Photo:"",
+                    Mobile = x.Mobile,
+                    Photo = x.Photo != null ? x.Photo:"",
                     Position = query2.Where(y => y.Id == x.Id).FirstOrDefault().Name,
                     Notes = query3.Where(z => z.ConcernId == x.Id  && z.Concern == "people").ToList()
                 }).ToList();
@@ -368,6 +462,39 @@ namespace site
             return knowledge;
 
         }
+
+        [WebMethod]
+        public static List<htmlSelect> GetPositions()
+        {
+            List<htmlSelect> positions = new List<htmlSelect>();
+            using (var dbContext = new QuickToDosEntities())
+            {
+                positions = dbContext.Positions.Where(x => x.Id > 0).Select(y => new htmlSelect
+                {
+                    key = y.Id,
+                    value = y.Name
+                }).ToList();
+            }
+            return positions;
+        }
+
+        [WebMethod]
+        public static string GetPhoto(int Id)
+        {
+            string Photo = "";
+            using (var dbContext = new QuickToDosEntities())
+            {
+                Person aPerson = dbContext.People.Find(Id);
+
+                if (aPerson != null)
+                {
+                    Photo = aPerson.Photo;
+                }
+            }
+            return Photo;
+        }
+
+        
 
         [WebMethod]
         public static KnowHow GetSearchForKnowledge(string searchFor)
@@ -519,7 +646,6 @@ namespace site
 
         }
 
-       
 
         public static PauseInfo DoTogglePause(int jobId)
         {
@@ -774,6 +900,13 @@ namespace site
 
             return connectionString;
         }
+
+        public class htmlSelect
+        {
+            public int key { get; set; }
+            public string value { get; set; }
+
+        }
         public class Work
         {
             public string caption { get; set; }
@@ -846,9 +979,22 @@ namespace site
             public string Prenom { get; set; }
             public int IdPosition { get; set; }
             public string Position { get; set; }
+            public string Mobile { get; set; }
             public string Email { get; set; }
             public string Photo { get; set; }
             public List<Note> Notes { get; set; }
+        }
+
+        public class DataToAddPeople
+        {
+            public int Id { get; set; }
+            public string Nom { get; set; }
+            public string Prenom { get; set; }
+            public int Position { get; set; }
+            public string PositionName { get; set; }
+            public string Mobile { get; set; }//
+            public string Email { get; set; }//
+            public string NewNote { get; set; }//
         }
 
         public class Data

@@ -55,7 +55,6 @@
     <EntitySetMapping Name="People">
       <EntityTypeMapping TypeName="QuickToDosModel.Person">
         <MappingFragment StoreEntitySet="People">
-          <ScalarProperty Name="idNotes" ColumnName="idNotes" />
           <ScalarProperty Name="Photo" ColumnName="Photo" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Mobile" ColumnName="Mobile" />
