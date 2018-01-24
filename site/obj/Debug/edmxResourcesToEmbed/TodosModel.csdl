@@ -93,7 +93,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" />
     <Property Name="Creation" Type="DateTime" Precision="3" />
     <Property Name="Subject" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-    <Property Name="Body" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="Concern" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
     <Property Name="ConcernId" Type="Int32" />
   </EntityType>

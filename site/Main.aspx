@@ -141,13 +141,13 @@
 
                         <div class="row" id="row_notes" style="display: block;">
                             <div class="form-group col-md-10 col-md-offset-1">
-                                <label for="Notes" style="cursor: hand; cursor: pointer;">Notes&nbsp;<span style="text-decoration: line-through;">Images</span></label>
+                                <span class="tab active">Notes</span><span class="tab inactive" id="showImagesw">Images</span>
                                 <textarea class="form-control" id="Notes" maxlength="8000"></textarea>
                             </div>
                         </div>
                         <div class="row" id="row_images" style="display: none;">
                             <div class="form-group col-md-10 col-md-offset-1">
-                                <label for="Images" style="cursor: hand; cursor: pointer;">Images&nbsp;<span style="text-decoration: line-through;">Notes</span></label>
+                                <span class="tab inactive" id="showNotesw">Notes</span><span class="tab active">Images</span>
                                 <div id="showFiles" style="height: 300px; overflow-y: auto; border: solid 1px #888;"></div>
                             </div>
                         </div>
@@ -672,14 +672,14 @@
             },
         });
 
+        
 
-
-        $("label[for = 'Images']").on("click", function () {
+        $("#showNotesw").on("click", function () {
             $("#row_notes").show();
             $("#row_images").hide();
         });
 
-        $("label[for = 'Notes']").on("click", function () {
+        $("#showImagesw").on("click", function () {
             $("#row_notes").hide();
             $("#row_images").show();
         });

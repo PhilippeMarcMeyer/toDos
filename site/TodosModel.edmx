@@ -41,7 +41,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Creation" Type="datetime" />
           <Property Name="Subject" Type="nchar" MaxLength="100" />
-          <Property Name="Body" Type="nchar" MaxLength="10" />
+          <Property Name="Body" Type="nvarchar(max)" />
           <Property Name="Concern" Type="nchar" MaxLength="30" />
           <Property Name="ConcernId" Type="int" />
         </EntityType>
@@ -204,7 +204,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="Creation" Type="DateTime" Precision="3" />
           <Property Name="Subject" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="Body" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Concern" Type="String" MaxLength="30" FixedLength="true" Unicode="true" />
           <Property Name="ConcernId" Type="Int32" />
         </EntityType>

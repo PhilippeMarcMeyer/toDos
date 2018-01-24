@@ -36,7 +36,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Creation" Type="datetime" />
     <Property Name="Subject" Type="nchar" MaxLength="100" />
-    <Property Name="Body" Type="nchar" MaxLength="10" />
+    <Property Name="Body" Type="nvarchar(max)" />
     <Property Name="Concern" Type="nchar" MaxLength="30" />
     <Property Name="ConcernId" Type="int" />
   </EntityType>
