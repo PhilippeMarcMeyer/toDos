@@ -83,7 +83,10 @@
                                         checked = "checked";
                                     }
                                     item = "<input class='done' type='checkbox' " + checked + " id='_" + id + "'>";
-                                    }
+                                }
+                                item = tidy(item);
+
+
                                 line += "<td>" + item + "</td>";
                             }
 
@@ -157,10 +160,10 @@
                         for (var i = 0; i < aRow.length; i++) {
                             if (aRow[i].Id == id) {
                                 $("#Idp").val(id);
-                                $("#Nom").val(aRow[i].Nom);
-                                $("#Prenom").val(aRow[i].Prenom);
-                                $("#Mobile").val(aRow[i].Mobile);
-                                $("#Email").val(aRow[i].Email);
+                                $("#Nom").val(tidy(aRow[i].Nom));
+                                $("#Prenom").val(tidy(aRow[i].Prenom));
+                                $("#Mobile").val(tidy(aRow[i].Mobile));
+                                $("#Email").val(tidy(aRow[i].Email));
                                 if (aRow[i].IdPosition) {
                                     $("#Position").val(aRow[i].IdPosition);
                                 }
@@ -168,7 +171,7 @@
                                     $("#portraitzone img").attr("src",aRow[i].Photo);
                                 }
                                 else {
-                                    $("#portraitzone img").attr("src","images/nobody.jpg");
+                                    $("#portraitzone img").attr("src","/images/nobody.jpg");
                                 }
                                 if (aRow[i].Notes.length > 0) {
                                     for (var j = 0; j < aRow[i].Notes.length; j++) {
@@ -184,7 +187,7 @@
                     if (id == -1) {
                         $("#deletep").hide();
                         $("#uploadsp").hide();
-
+                        $("#portraitzone img").attr("src", "/images/nobody.jpg");
                     } else {
                         $("#deletep").show();
                         $("#uploadsp").show();
@@ -207,7 +210,6 @@
                     errorMessage = "";
                     var xhr = $.ajax("Main.aspx/GetPeople", ajax_default_settings)
                        .done(function (response) {
-                           debugger
                            model = response.d;
                            xhr = $.ajax("Main.aspx/GetPositions", ajax_default_settings)
                             .done(function (response) {

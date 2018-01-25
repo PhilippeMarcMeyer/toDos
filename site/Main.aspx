@@ -8,26 +8,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css">
-    <style>
-     span.tab{
-        border:1px solid grey;
-        padding:2px 5px 2px 5px;
-        margin-right:2px;
-        border-top-left-radius: 5px;
-        border-top-right-radius: 5px;
-        cursor:hand;
-        cursor:pointer;
-     }
-
-     span.tab.inactive{
-        background-color : lightgray;
-     }
-
-     span.tab.active{
-        background-color : cadetblue;
-     }
-    </style>
-
 
 </head>
 <body>
@@ -672,7 +652,7 @@
             },
         });
 
-        
+
 
         $("#showNotesw").on("click", function () {
             $("#row_notes").show();
@@ -734,8 +714,8 @@
                 }
                 obj.Id = parseInt($("#Idp").val());
                 obj.NewNote = $("#new-notep").val().trim().replace(/[\n\r]/g, '<br>');
-                
-               // var selectedFile = document.getElementById('filesp').files[0];
+
+                // var selectedFile = document.getElementById('filesp').files[0];
                 var json = JSON.stringify({ "People": obj });
                 $.ajax({
                     type: "POST",
@@ -878,7 +858,7 @@
             var doSend = false;
             var choice = $(this).val();
             var tagName = this.tagName.toLowerCase();
-            if(tagName=="select"){
+            if (tagName == "select") {
                 var int_choice = parseInt(choice);
                 if (!isNaN(int_choice)) {
                     if (int_choice == -1) { // ask for a new value
@@ -886,9 +866,9 @@
                         var parent = $(this).parent();
                         $(this).remove();
                         parent.append("<input type='text' value='' placeholder='Veuillez saisir' class='form-control' id='Position'/>");
-                    } 
+                    }
                 }
-            } 
+            }
         });
 
         $("#filesp").on("change", function () {
@@ -896,19 +876,19 @@
             if (selectedFile) {
                 console.log(selectedFile);
                 var id = parseInt($("#Idp").val());
-                var data = { "Id": id, "concern": "people", "description": ""};
- 
+                var data = { "Id": id, "concern": "people", "description": "" };
+
                 $(this).simpleUpload("/DocumentsFileUpload.ashx", {
                     data: data,
                     allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
                     allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
                     maxFileSize: 1048576, //1MB in bytes
                     success: function (data) {
-                        var params  = {
+                        var params = {
                             type: "POST",
                             dataType: 'json',
                             contentType: "application/json; charset=utf-8",
-                            data : "{Id:" + id + "}"
+                            data: "{Id:" + id + "}"
                         };
                         xhr = $.ajax("Main.aspx/GetPhoto", params)
                              .done(function (response) {
@@ -944,6 +924,58 @@
             var minutes = remainder;
             return ({ "d": 0, "h": hours, "m": minutes })
         }
+
+        function tidy(str) {
+            if (typeof str == "string") {
+                var arr = str.split(" ");
+                str.split(" ");
+                str = "";
+
+                for (var k = arr.length - 1; k >= 0; k--) {
+                    if (arr[k] == "") {
+                        arr.pop();
+                    }
+                }
+                str = arr.join(" ");
+            }
+
+            return str;
+        }
+
+        $(".appliquer-button").each(function () {
+            var goGreen = 21;
+            var goRed = 40;
+            var offset = 35;
+            var css = $(this).css("background-color");
+            var str = css.replace(/[^0123456789,]+/g, '');
+            var colorsDark = str.split(",");
+            var colorsLigth = str.split(",");
+            for (var i = 0; i < colorsDark.length; i++) {
+                colorsDark[i] = parseInt(colorsDark[i]);
+                colorsLigth[i] = parseInt(colorsLigth[i]);
+
+                if (colorsDark[i] > offset)
+                    colorsDark[i] = colorsDark[i] - offset;
+                else
+                    colorsDark[i] = 0;
+
+                if (colorsLigth[i] < 255 - offset)
+                    colorsLigth[i] = colorsLigth[i] + offset;
+                else
+                    colorsLigth[i] = 255;
+            }
+            colorsLigth[1] += goGreen;
+            colorsDark[1] += goGreen;
+            colorsLigth[0] += goRed;
+            colorsDark[0] += goRed;
+            var cssLight = "rgb(" + colorsLigth.join(",") + ")";
+            var cssDark = "rgb(" + colorsDark.join(",") + ")";
+            var gradient = "linear-gradient(" + cssLight + " 10% , " + cssDark + ")"; //to right, 
+            $(this).css("background", gradient);//.css("color","black");
+
+           // $(".modal-header").css("background", $(".btn-primary").css("background"));
+
+        });
 
     </script>
 </body>

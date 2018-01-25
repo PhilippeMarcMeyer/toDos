@@ -422,7 +422,7 @@ namespace site
                     Email = x.Email,
                     Mobile = x.Mobile,
                     Photo = x.Photo != null ? x.Photo:"",
-                    Position = query2.Where(y => y.Id == x.Id).FirstOrDefault().Name,
+                    Position = query2.Where(y => y.Id == x.IdPosition).FirstOrDefault().Name,
                     Notes = query3.Where(z => z.ConcernId == x.Id  && z.Concern == "people").ToList()
                 }).ToList();
             }
