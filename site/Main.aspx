@@ -122,7 +122,9 @@
                         <div class="row" id="row_notes" style="display: block;">
                             <div class="form-group col-md-10 col-md-offset-1">
                                 <span class="tab active">Notes</span><span class="tab inactive" id="showImagesw">Images</span>
-                                <textarea class="form-control" id="Notes" maxlength="8000"></textarea>
+                                <textarea class="form-control" id="Notes" maxlength="8000" style="min-height:120px;height:120px;"></textarea>
+                                <div id="old-notew" class="oldNotes"></div>
+
                             </div>
                         </div>
                         <div class="row" id="row_images" style="display: none;">
@@ -498,6 +500,7 @@
             obj.Done = $("#Done").val() == "true" ? true : false;
             obj.Appraisal = $("#Appraisal").val();
             obj.AppraisalNote = $("#AppraisalNote").val();
+            obj.NoExternalNote = (this.id == "saveAndStay");
             var json = JSON.stringify({ "toDo": obj });
             var self = this;
             $.ajax({
@@ -943,9 +946,9 @@
         }
 
         $(".appliquer-button").each(function () {
-            var goGreen = 21;
-            var goRed = 40;
-            var offset = 35;
+            var goGreen = 0;
+            var goRed = 0;
+            var offset = 15;
             var css = $(this).css("background-color");
             var str = css.replace(/[^0123456789,]+/g, '');
             var colorsDark = str.split(",");

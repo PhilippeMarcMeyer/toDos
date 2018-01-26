@@ -301,10 +301,12 @@ namespace site
         [WebMethod]
         public static int AddWork(Data toDo)
         {
+            // transaction à ajouter stp
             int toDoId;
             DateTime? toDoStart;
             DateTime? toDoEnd;
             toDoId = toDo.Id;
+            bool NoExternalNote = toDo.NoExternalNote;
 
             if (toDo.Id == -1)
             {
@@ -322,11 +324,15 @@ namespace site
                             Reference = toDo.Reference,
                             Done = false,
                             Planned = toDo.Planned,
-                            Notes = toDo.Notes,
+                            Notes = "",
                             Branch = toDo.Branch,
                             Status = toDo.Appraisal,
                             Status_Note= toDo.AppraisalNote
                         };
+                        if (NoExternalNote)
+                        {
+                            aJob.Notes = toDo.Notes;
+                        }
                         dbContext.toDos.Add(aJob);
                         dbContext.SaveChanges();
 
@@ -342,6 +348,7 @@ namespace site
 
                         dbContext.Breaks.Add(aTimeChunk);
                         dbContext.SaveChanges();
+
                     }
                         catch (Exception e)
                         {
@@ -368,13 +375,37 @@ namespace site
                         job.Duration = toDo.Duration;
                         job.Reference = toDo.Reference;
                         job.Done = toDo.Done;
-                        job.Notes = toDo.Notes;
+                        job.Notes = "";
+                        if (NoExternalNote)
+                        {
+                            job.Notes = toDo.Notes;
+                        }
                         job.Planned = toDo.Planned;
                         job.Branch = toDo.Branch;
                         job.Status = toDo.Appraisal;
                         job.Status_Note = toDo.AppraisalNote;
                     dbContext.SaveChanges();
+
+
                 }
+            }
+
+            if (toDo.Notes != "" && (!NoExternalNote))
+            {
+                using (var dbContext = new QuickToDosEntities())
+                {
+                    var aNote = new Note
+                    {
+                        Subject = "",
+                        Body = toDo.Notes,
+                        Concern = "work",
+                        Creation = DateTime.Now,
+                        ConcernId = toDoId
+                    };
+                    dbContext.Notes.Add(aNote);
+                    dbContext.SaveChanges();
+                }
+
             }
             return toDoId;
         }
@@ -591,7 +622,7 @@ namespace site
                         query = dbContext.toDos.Where(x => x.DontShow != true && (x.Begin >= start && x.Begin <= finish));
                     }
                 }
-                work.data = query.Select(x => new DataForList
+                work.data = query.Select(x => new DataForJobs
                 {
                     Id = x.Id,
                     Description = x.Description,
@@ -605,6 +636,7 @@ namespace site
                     Branch = x.Branch == null ? "" : x.Branch,
                     Appraisal = x.Status,
                     AppraisalNote = x.Status_Note == null ? "" : x.Status_Note,
+                    ExtNotes = dbContext.Notes.Where(y => y.ConcernId == x.Id && y.Concern == "work").OrderByDescending(y => y.Id).ToList(),
                     TimeChunks = x.Breaks.Where(y => y.ToDoId == x.Id)
                     .Select(y => new TimeChunkInfo
                     {
@@ -614,7 +646,7 @@ namespace site
                     }).ToList()
                 }).ToList();
             }
-            foreach (DataForList job in work.data)
+            foreach (DataForJobs job in work.data)
             {
                 job.Files = getFiles(job.Id,"work");
 
@@ -913,7 +945,7 @@ namespace site
             public string[] headers { get; set; }
             public string[] types { get; set; }
             public string[] props { get; set; }        
-            public List<DataForList> data { get; set; }
+            public List<DataForJobs> data { get; set; }
             public List<EnumValues> appraisal { get; set; }
         }
 
@@ -943,7 +975,7 @@ namespace site
             public string[] props { get; set; }
             public List<DataForPeople> data { get; set; }
         }
-        public class DataForList
+        public class DataForJobs
         {
             public int Id { get; set; }
             public string Description { get; set; }
@@ -961,6 +993,7 @@ namespace site
             public string AppraisalNote { get; set; }
             public List<TimeChunkInfo> TimeChunks { get; set; }
             public List<File> Files { get; set; }
+            public List<Note> ExtNotes { get; set; }
         }
 
         public class DataForKnowledge
@@ -1000,6 +1033,7 @@ namespace site
         public class Data
         {
             public int Id { get; set; }
+            public bool NoExternalNote { get; set; }
             public string Description { get; set; }
             public DateTime? Begin { get; set; }
             public DateTime? End { get; set; }

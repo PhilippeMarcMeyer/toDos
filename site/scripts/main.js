@@ -104,7 +104,6 @@
                                 }
                                 if (type == "datetime") {
                                     item = new Date(parseInt(item.substring(6, 19))).toLocaleString();
-
                                 }
                                 else if (type == "boolean") {
 
@@ -235,6 +234,7 @@
                     $("#AppraisalNote").val("");
                     $("#showFiles").html("");
                     $("#fileDescription").val("");
+                    $("#old-notew").html("");
                     if (id != -1) {
                         var aRow = model.data;
                         for (var i = 0; i < aRow.length; i++) {
@@ -268,7 +268,15 @@
                                         html += "<img onmousedown='imgClickHandler(event,this);'' class='uploadedPicture' id='img_" + aRow[i].Files[j].Id + "' src='" + aRow[i].Files[j].Filename + "'/><br />";
                                     }
 
-                                    $("#showFiles").html(html);
+                                    $("#showFiles").html(html)
+                                }
+                                var itemDate
+                                if (aRow[i].ExtNotes.length > 0) {
+                                    for (var j = 0; j < aRow[i].ExtNotes.length; j++) {
+                                        itemDate = new Date(parseInt(aRow[i].ExtNotes[j].Creation.substring(6, 19))).toLocaleString();
+                                        
+                                        $("#old-notew").append("<b>" + itemDate + " : </b>" + aRow[i].ExtNotes[j].Body.trim() + "<hr>");
+                                    }
                                 }
 
                                 var appraisal = aRow[i].Appraisal == null ? 0 : aRow[i].Appraisal;
