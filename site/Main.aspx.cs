@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Resources;
 using System.Web;
 using System.Web.Services;
 namespace site
@@ -563,8 +564,19 @@ namespace site
 
         public static Work GetData(string searchFor)
         {
+           //var begin = App_GlobalResources.Resources.Begin;
+
+            //headers = new string[] { App_GlobalResources.Resources.Id,
+            //        App_GlobalResources.Resources.Description,
+            //        App_GlobalResources.Resources.Begin,
+            //        App_GlobalResources.Resources.End,
+            //        App_GlobalResources.Resources.Reference,
+            //        App_GlobalResources.Resources.Branch,
+            //        App_GlobalResources.Resources.Scheduled,App_GlobalResources.Resources.Duration,
+            //        App_GlobalResources.Resources.Done,
+            //        App_GlobalResources.Resources.Status },
             Work work = new Work()
-            {
+            {//ResourceSet
                 caption = "Travail en cours",
                 headers = new string[] { "Id", "Description", "Début", "Fin", "Référence", "Branche", "Prévu", "Durée", "Fait", "Statut" },
                 types = new string[] { "number", "string", "datetime", "datetime", "string", "string", "number", "number", "boolean", "string" },
