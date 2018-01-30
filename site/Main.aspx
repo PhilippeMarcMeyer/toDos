@@ -13,14 +13,25 @@
 <body>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
+
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Learning C#, Linq and js factories</a>
+               <div class="btn-group" style="margin-top: 8px;margin-right:10px;">
+                <button id="btnLang" type="button" class="btn navbar-inverse" style="border:none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="" style="width: 20px;">
+                </button>
+                <ul class="dropdown-menu" id="menuLanguage">
+
+                </ul>
+            </div>
+                <a class="navbar-brand"  href="#" data-translate="brand">Learning C#, Linq and js factories
+                </a>
             </div>
             <ul class="nav navbar-nav">
                 <li id="jobs" class="active"><a href="#jobs">Jobs to do</a></li>
                 <li id="knowledge"><a href="#knowledge">Knowledge</a></li>
                 <li id="people"><a href="#people">People</a></li>
             </ul>
+
         </div>
     </nav>
 
@@ -333,8 +344,55 @@
 
     </div>
     <script>
+
+        var arrLanguages = [
+            { "language": "fr", "culture": "fr-FR", "img": "fr.jpg", "label": "Français" },
+            { "language": "en", "culture": "en-US", "img": "en.jpg", "label": "English" },
+            { "language": "es", "culture": "es-ES", "img": "sp.jpg", "label": "Español" },
+            { "language": "de", "culture": "de-DE", "img": "de.jpg", "label": "Deutsh" }
+        ]
+
+
+
+        var userLang = document.cookie.replace(/(?:(?:^|.*;\s*)language\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        if (userLang == "") {
+            userLang = navigator.language || navigator.userLanguage;
+            document.cookie = "language=" + userLang;
+        }
+        
+        var html = "";
+        var pos = -1;
+        for (var i = 0; i < arrLanguages.length; i++) {
+            if (arrLanguages[i].language === userLang) {
+                html += "<li class='active'>";
+                $("#btnLang img").attr("src", "img/"+arrLanguages[i].img);
+            } else {
+                html += "<li>";
+            }
+            html += "<a class='CultureInfo' data-culture='" + arrLanguages[i].culture + "'>";
+            html += "<img src='img/" + arrLanguages[i].img + "' width='20' />&nbsp;&nbsp;";
+            html += arrLanguages[i].label + "</a></li>";
+        }
+
+        $("#menuLanguage").html(html);
+
+        window.translations = {};
         window.manager = window.workManager();
-        window.manager.do('init');
+        setLanguage(userLang);
+
+        $(".dropdown-menu li").on("click", function () {
+            var culture = $(this).find("a").attr("data-culture");
+            var img = $(this).find("img").attr("src");
+            $(".dropdown-menu li").removeClass("active");
+            $(this).addClass("active");
+            $("#btnLang img").attr("src", img);
+            var arr = culture.split("-");
+            if (arr.length == 2) {
+                document.cookie = "language=" + arr[0];
+                setLanguage(arr[0]);
+            }
+
+        });
 
         $(".navbar-nav li").on("click", function () {
             setTimeout(function () {
@@ -908,6 +966,39 @@
             }
         });
 
+        function setLanguage(lang) {
+            var params = {
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ "lang": lang })
+            };
+            xhr = $.ajax("Main.aspx/SetLanguage", params)
+                 .done(function (response) {
+                     window.manager.do('init');
+                   //  translations = getTranslations();
+                 })
+        }
+
+        function getTranslations() {
+            var params = {
+                type: "POST",
+                dataType: 'json',
+                contentType: "application/json; charset=utf-8"
+            };
+            xhr = $.ajax("Main.aspx/GetTranslations", params)
+                 .done(function (response) {
+                     translations = response.d;
+                     doTranslate();
+                 })
+        }
+
+        function Translations() {
+            for (var i = 0; i < translations.length; i++) {
+                $("[data-translate='" + translations[i].key + "']").html(translations[i].value);
+            }
+        }
+
         function ReplaceNewline(input) {
             var newline = String.fromCharCode(13, 10);
             return ReplaceAll(input, "<br>", newline.toString());
@@ -976,7 +1067,7 @@
             var gradient = "linear-gradient(" + cssLight + " 10% , " + cssDark + ")"; //to right, 
             $(this).css("background", gradient);//.css("color","black");
 
-           // $(".modal-header").css("background", $(".btn-primary").css("background"));
+            // $(".modal-header").css("background", $(".btn-primary").css("background"));
 
         });
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Resources;
 using System.Web;
@@ -14,6 +15,14 @@ namespace site
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
+
+        }
+
+        [WebMethod(EnableSession = true)]
+        public static void SetLanguage(string lang)
+        {
+            HttpContext.Current.Session["Language"] = lang;
         }
 
 
@@ -135,7 +144,6 @@ namespace site
                 filename = items[items.Length - 1];
 
                 string concern = anImage.Concern;
-                //string uploadPath = HttpContext.Current.Server.MapPath("") + @"\documents\" + concern + @"\";
                 string uploadPath = ConfigurationManager.AppSettings["RootFolder"]+@"\documents\"+ concern + @"\";
                 string UploadPathOldies = uploadPath + @"oldies\";
 
@@ -412,19 +420,22 @@ namespace site
         }
         //searchFor
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static Work GetSearch(string searchFor)
         {
-       
-            Work work = GetData(searchFor);
+            string lang = (string)HttpContext.Current.Session["Language"];
+
+            Work work = GetData(searchFor, lang);
             return work;
 
         }
 
-        [WebMethod]
+        [WebMethod(EnableSession = true)]
         public static Work GetWork()
         {
-            Work work = GetData("");
+            string lang = (string)HttpContext.Current.Session["Language"];
+
+            Work work = GetData("",lang);
             return work;
 
         }
@@ -562,19 +573,8 @@ namespace site
         }
         
 
-        public static Work GetData(string searchFor)
+        public static Work GetData(string searchFor, string lang)
         {
-           //var begin = App_GlobalResources.Resources.Begin;
-
-            //headers = new string[] { App_GlobalResources.Resources.Id,
-            //        App_GlobalResources.Resources.Description,
-            //        App_GlobalResources.Resources.Begin,
-            //        App_GlobalResources.Resources.End,
-            //        App_GlobalResources.Resources.Reference,
-            //        App_GlobalResources.Resources.Branch,
-            //        App_GlobalResources.Resources.Scheduled,App_GlobalResources.Resources.Duration,
-            //        App_GlobalResources.Resources.Done,
-            //        App_GlobalResources.Resources.Status },
             Work work = new Work()
             {//ResourceSet
                 caption = "Travail en cours",
@@ -583,9 +583,13 @@ namespace site
                 props = new string[] { "Id", "Description", "Begin", "End", "Reference", "Branch", "Planned", "Duration", "Done", "Status" },
                 appraisal = getStatusList()
             };
+            if (lang == "en")
+            {
+                work.caption = "Work in progress";
+                work.headers = new string[] { "Id", "Description", "Begin", "End", "Reference", "Branch", "Planned", "Duration", "Done", "Status" };
+            }
 
-
-            using (var dbContext = new QuickToDosEntities())
+                using (var dbContext = new QuickToDosEntities())
             {
                 IQueryable<toDo> query;
                 if (searchFor.Length == 0)

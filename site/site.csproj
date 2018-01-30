@@ -128,10 +128,10 @@
     <Content Include="Main.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_GlobalResources\Resources.en.designer.cs">
+    <Compile Include="App_GlobalResources\Resources.en-US.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.en.resx</DependentUpon>
+      <DependentUpon>Resources.en-US.resx</DependentUpon>
     </Compile>
     <Compile Include="App_GlobalResources\Resources.designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
@@ -146,6 +146,7 @@
     <Compile Include="Break.cs">
       <DependentUpon>TodosModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Constants.cs" />
     <Compile Include="DocumentsFileUpload.ashx.cs">
       <DependentUpon>DocumentsFileUpload.ashx</DependentUpon>
     </Compile>
@@ -198,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="img\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_GlobalResources\Resources.fr.resx">
@@ -206,9 +208,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_GlobalResources\Resources.en.resx">
+    <Content Include="App_GlobalResources\Resources.en-US.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.en.designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.en-US.Designer.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
