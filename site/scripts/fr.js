@@ -1,0 +1,33 @@
+﻿var words_fr = {
+    "brand": "J'apprends C#, Linq et les js factories",
+    "Jobstodo": "A faire",
+    "Knowledge": "Connaissances",
+    "People": "Personnages",
+    "Btn_New-Job": "Nouvelle tâche",
+    "search": "Chercher",
+    "showOldies": "Montrer les tâches archivées",
+    "Id": "Id",
+    "Description": "Description",
+    "Begin": "Début",
+    "End": "Fin",
+    "Reference": "Réference",
+    "Branch": "Branche",
+    "Planned": "Prévu",
+    "Duration": "Durée",
+    "Done": "Fait",
+    "Status": "Statut",
+    "JobsCaption": "Travail en cours",
+    "Running": "En cours",
+    "Pending": "En pause",
+    "modalJobTitle": "Saisie d'un job",
+    "Appraisal": "Priorité",
+    "AppraisalNote": "Note de bilan",
+    "Pause": "Pause",
+    "Reprise": "Reprise",
+    "SaveAndClose": "Enregistrer et fermer",
+    "SaveAndStay": "Enregistrer",
+    "fileDescription": "Description de l'image",
+    "Supprimer": "Supprimer"
+
+
+};

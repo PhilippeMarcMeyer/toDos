@@ -87,6 +87,8 @@
       <LastGenOutput>TodosModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <Content Include="scripts\bootstrap-confirmation.js" />
+    <Content Include="scripts\en.js" />
+    <Content Include="scripts\fr.js" />
     <Content Include="scripts\knowledge.js" />
     <Content Include="scripts\main.js" />
     <Content Include="scripts\moment-timezone.js" />

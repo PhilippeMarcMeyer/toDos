@@ -27,9 +27,9 @@
                 </a>
             </div>
             <ul class="nav navbar-nav">
-                <li id="jobs" class="active"><a href="#jobs">Jobs to do</a></li>
-                <li id="knowledge"><a href="#knowledge">Knowledge</a></li>
-                <li id="people"><a href="#people">People</a></li>
+                <li id="jobs" class="active"><a href="#jobs" data-translate="Jobstodo">Jobs to do</a></li>
+                <li id="knowledge"><a href="#knowledge" data-translate="Knowledge">Knowledge</a></li>
+                <li id="people"><a href="#people" data-translate="People">People</a></li>
             </ul>
 
         </div>
@@ -40,13 +40,22 @@
     <div id="jobsZone">
         <div class="ui main container" id="app">
             <div class="caption">
-                <span id="caption"></span>&nbsp;<div class="uploadedPicture" id="none" style="display: none;"></div>
-                <span style="font-weight: 100; color: darkgrey;">Chercher :
-                <input type="text" id="search" placeholder="Expression" /></span>
-                &nbsp;<span style="font-weight: 100; color: darkgreen;" id="forecastInfo"></span>
+
+                <span id="caption" data-translate="JobsCaption"></span>&nbsp;<div class="uploadedPicture" id="none" style="display: none;"></div>
+                <span style="font-weight: 100; color: darkgrey;" data-translate="search">Chercher :</span>
+                <span style="font-weight: 100; color: darkgrey;">
+                    <input type="text" id="search" placeholder="Expression" />
+                </span>
+                <span style='float:right;font-size:12px;font-weight:normal'>
+                    <input  type='checkbox' id='toggleDoneView'> 
+                    <label for='toggleDoneView' data-translate='showOldies'>Montrer les tâches archivées </label>
+                </span>
+
+                &nbsp;
+                <span style="font-weight: 100; color: darkgreen;" id="forecastInfo"></span>
             </div>
             <table id="mainTable" class="table table-hover table-bordered table-striped"></table>
-            <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px;" id="new">Nouveau Job</button>
+            <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px;" id="new" data-translate="Btn_New-Job">Nouveau Job</button>
         </div>
 
 
@@ -77,18 +86,18 @@
                 <div class="modal-content animated bounceInRight">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">Saisie d'un job <span id="myModalMessage"></span></h4>
+                        <h4 class="modal-title" data-translate="modalJobTitle">Saisie d'un job <span id="myModalMessage"></span></h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <input type="text" id="Id" style="display: none;" />
                             <input type="text" id="Done" style="display: none;" />
                             <div class="form-group col-md-7 col-md-offset-1">
-                                <label for="Description"><span class="text-danger">*</span>Description</label>
+                                <label for="Description"><span class="text-danger">*</span><span data-translate="Description">Description</span></label>
                                 <input type="text" class="form-control" id="Description" maxlength="80" value="" />
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="Branch"><span class="text-danger">*</span>Branche</label>
+                                <label for="Branch"><span class="text-danger">*</span><span data-translate="Branch">Branche</span></label>
                                 <input type="text" class="form-control" id="Branch" maxlength="30" value="" />
                             </div>
                         </div>
@@ -125,7 +134,7 @@
                                 <div id="tempDuration"></div>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="Duration">Note de bilan</label>
+                                <label for="AppraisalNote">Note de bilan</label>
                                 <input type="text" class="form-control" id="AppraisalNote" maxlength="80" value="" />
                             </div>
                         </div>
@@ -157,12 +166,12 @@
                         </div>
                     </div>
                     <div class="form-group" role="group" style="margin-left: 20px; margin-right: 20px;">
-                        <button type="button" class="btn btn-warning appliquer-button pull-left" style="display: none;" id="pause">Pause</button>
-                        <button type="button" class="btn btn-warning appliquer-button pull-left" style="display: none;" id="reprise">Reprise</button>
-                        <button type="button" class="btn btn-primary appliquer-button pull-right" style="width: 160px;" id="saveAndClose">Enregistrer et fermer</button>
+                        <button type="button" class="btn btn-warning appliquer-button pull-left" style="display: none;" data-translate="Pause" id="pause">Pause</button>
+                        <button type="button" class="btn btn-warning appliquer-button pull-left" style="display: none;" data-translate="Reprise" id="reprise">Reprise</button>
+                        <button type="button" class="btn btn-primary appliquer-button pull-right" style="width: 160px;" data-translate="SaveAndClose"  id="saveAndClose">Enregistrer et fermer</button>
 
-                        <button type="button" class="btn btn-primary appliquer-button pull-right" id="saveAndStay">Enregistrer</button>
-                        <button type="button" class="btn btn-danger appliquer-button pull-right" id="delete" data-toggle="confirmation2" data-popout="true" data-btn-ok-label="Supprimer" data-btn-ok-icon="glyphicon glyphicon-share-alt" data-btn-ok-class="btn-danger" data-btn-cancel-label="Annuler" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-success" data-title="Etes-vous sûr(e) ?" data-content="">Supprimer</button>
+                        <button type="button" class="btn btn-primary appliquer-button pull-right" data-translate="SaveAndStay" id="saveAndStay">Enregistrer</button>
+                        <button type="button" class="btn btn-danger appliquer-button pull-right" id="delete" data-toggle="confirmation2" data-popout="true" data-btn-ok-label="Supprimer" data-btn-ok-icon="glyphicon glyphicon-share-alt" data-btn-ok-class="btn-danger" data-btn-cancel-label="Annuler" data-btn-cancel-icon="glyphicon glyphicon-ban-circle" data-btn-cancel-class="btn-success" data-title="Etes-vous sûr(e) ?" data-translate="Supprimer" data-content="">Supprimer</button>
                     </div>
                     <br />
                     <br />
@@ -341,15 +350,17 @@
         <script src="scripts/simpleUpload.js"></script>
         <script src="scripts/toast.js"></script>
         <script src="scripts/main.js"></script>
+        <script src="scripts/fr.js"></script>
+        <script src="scripts/en.js"></script>
 
     </div>
     <script>
 
+        var translations = { "en": words_en, "fr": words_fr }
+
         var arrLanguages = [
             { "language": "fr", "culture": "fr-FR", "img": "fr.jpg", "label": "Français" },
-            { "language": "en", "culture": "en-US", "img": "en.jpg", "label": "English" },
-            { "language": "es", "culture": "es-ES", "img": "sp.jpg", "label": "Español" },
-            { "language": "de", "culture": "de-DE", "img": "de.jpg", "label": "Deutsh" }
+            { "language": "en", "culture": "en-US", "img": "en.jpg", "label": "English" }
         ]
 
 
@@ -376,9 +387,8 @@
 
         $("#menuLanguage").html(html);
 
-        window.translations = {};
         window.manager = window.workManager();
-        setLanguage(userLang);
+        window.manager.do('init');
 
         $(".dropdown-menu li").on("click", function () {
             var culture = $(this).find("a").attr("data-culture");
@@ -388,8 +398,9 @@
             $("#btnLang img").attr("src", img);
             var arr = culture.split("-");
             if (arr.length == 2) {
-                document.cookie = "language=" + arr[0];
-                setLanguage(arr[0]);
+                userLang = arr[0];
+                document.cookie = "language=" + userLang;
+                getTranslations(userLang);
             }
 
         });
@@ -976,27 +987,34 @@
             xhr = $.ajax("Main.aspx/SetLanguage", params)
                  .done(function (response) {
                      window.manager.do('init');
-                   //  translations = getTranslations();
                  })
         }
 
-        function getTranslations() {
-            var params = {
-                type: "POST",
-                dataType: 'json',
-                contentType: "application/json; charset=utf-8"
-            };
-            xhr = $.ajax("Main.aspx/GetTranslations", params)
-                 .done(function (response) {
-                     translations = response.d;
-                     doTranslate();
-                 })
-        }
-
-        function Translations() {
-            for (var i = 0; i < translations.length; i++) {
-                $("[data-translate='" + translations[i].key + "']").html(translations[i].value);
+        function getTranslations(lang) {
+            if (lang == "fr"|| lang == "en") {
+                doTranslate(translations[lang]);
+            } else {
+                doTranslate(translations["en"]);
             }
+         
+        }
+
+        function doTranslate(tranlations) {
+            $("[data-translate]").each(function () {
+                var key = $(this).attr("data-translate");
+                var value = tranlations[key];
+                if (value) $(this).html(value);
+            });
+            $(".Status").each(function () {
+                var key = $(this).html();
+                var value = tranlations[key];
+                if (value) $(this).html(value);
+            });
+            $("[for]").each(function () {
+                var key = $(this).attr("for");
+                var value = tranlations[key];
+                if (value) $(this).html(value);
+            });
         }
 
         function ReplaceNewline(input) {
@@ -1010,7 +1028,7 @@
         function isoToLocalTime(strIsoDate) {
             var greenwich = moment(strIsoDate);
             var paris = greenwich.clone().tz("Europe/Paris");
-            return paris.format().split("+")[0];;
+            return paris.format().split("+")[0];
         }
         function SplitTime(numberOfMinutes) {
             var hours = Math.floor(numberOfMinutes / 60);

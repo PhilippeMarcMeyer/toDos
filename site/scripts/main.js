@@ -53,8 +53,8 @@
                     var data = model.data;
                     var props = model.props;
 
-                    var captionHtml = caption + "<span style='float:right;font-size:12px;font-weight:normal'><input  type='checkbox' id='toggleDoneView'> Montrer les tâches archivées <span>";
-                    $(app).find("#caption").html(captionHtml);
+                    var captionHtml = caption ;
+
                     $("#toggleDoneView").attr("checked", showDone)
                     $("#toggleDoneView").on("click", function () {
                         self.do('setShowDone', this.checked);
@@ -64,7 +64,7 @@
                     // Drawing headers
                     var html = " <thead class='thead-dark'><tr>"
                     for (var i = 0; i < headers.length; i++) {
-                        html += "<th scope='col'>" + headers[i] + "</th>";
+                        html += "<th scope='col' data-translate='" + props[i] + "'>" + headers[i] + "</th>";
                     }
                     html += "</tr> </thead> <tbody id='callModal'>"
                     // Drawing rows and cells
@@ -117,7 +117,7 @@
                                     item = "<input class='done' type='checkbox' " + checked + " id='_" + id + "'>";
                                 }
                               //  if (rowIsDone) Appraisal_Str
-                                        line += "<td>" + item + "</td>";
+                                line += "<td class='" + props[j] + "'>" + item + "</td>";
                             }
 
                             line += "</tr>";
@@ -140,7 +140,9 @@
 
                     html += " </tbody></table>";
                     $(tableInner).html(html);
-
+                    setTimeout(function () {
+                        getTranslations(userLang);
+                    }, 300);
                     self.do('forecastInfo');
 
 
@@ -201,6 +203,7 @@
                     info += time.m > 0 ? time.m + " m." : "";
                     if (info != "") info = "Reste à faire : " + info;
                     $("#forecastInfo").html(info);
+
                 }
                 else if (whatToDo == 'showModal') {
                     var id = -1;
@@ -282,11 +285,11 @@
                                 var appraisal = aRow[i].Appraisal == null ? 0 : aRow[i].Appraisal;
                                 $("#Appraisal").val(appraisal);
 
-                                if (aRow[i].Status == "En cours") {
+                                if (aRow[i].Status == "Running") {
                                     $("#pause").show();
                                     $("#reprise").hide();
                                 }
-                                if (aRow[i].Status == "En pause") {
+                                if (aRow[i].Status == "Pending") {
                                     $("#pause").hide();
                                     $("#reprise").show();
                                 }
@@ -348,12 +351,13 @@
                     return model;
                 }
                 else if (whatToDo == 'getData') {
+                    
                     errorMessage = "";
                     var params = ajax_default_settings;
                     var xhr = $.ajax("Main.aspx/GetWork", params)
                        .done(function (response) {
                            model = response.d;
-                           self.do('drawTable');
+                               self.do('drawTable');
                        })
                        .fail(function () {
                            errorMessage = "An error occured..";
@@ -370,7 +374,7 @@
                     var xhr = $.ajax("Main.aspx/GetSearch", params)
                        .done(function (response) {
                            model = response.d;
-                           self.do('drawTable');
+                               self.do('drawTable');
                        })
                        .fail(function () {
                            errorMessage = "An error occured..";

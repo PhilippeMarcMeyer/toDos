@@ -15,15 +15,15 @@ namespace site
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+
 
         }
 
-        [WebMethod(EnableSession = true)]
-        public static void SetLanguage(string lang)
-        {
-            HttpContext.Current.Session["Language"] = lang;
-        }
+        //[WebMethod(EnableSession = true)]
+        //public static void SetLanguage(string lang)
+        //{
+        //    HttpContext.Current.Session["Language"] = lang;
+        //}
 
 
         [WebMethod]
@@ -420,22 +420,24 @@ namespace site
         }
         //searchFor
 
-        [WebMethod(EnableSession = true)]
+        //[WebMethod(EnableSession = true)]
+        [WebMethod]
         public static Work GetSearch(string searchFor)
         {
-            string lang = (string)HttpContext.Current.Session["Language"];
+            //string lang = (string)HttpContext.Current.Session["Language"];
 
-            Work work = GetData(searchFor, lang);
+            Work work = GetData(searchFor);
             return work;
 
         }
 
-        [WebMethod(EnableSession = true)]
+        //[WebMethod(EnableSession = true)]
+        [WebMethod]
         public static Work GetWork()
         {
-            string lang = (string)HttpContext.Current.Session["Language"];
+            //string lang = (string)HttpContext.Current.Session["Language"];
 
-            Work work = GetData("",lang);
+            Work work = GetData("");
             return work;
 
         }
@@ -573,21 +575,30 @@ namespace site
         }
         
 
-        public static Work GetData(string searchFor, string lang)
+        public static Work GetData(string searchFor)
         {
+            //var culture = "fr-FR";
+            //var language = "fr";
+            //if(lang == "en")
+            //{
+            //    language = lang;
+            //    culture = "en-US";
+            //}
+        
+            //CultureInfo ci = new CultureInfo(culture);
+            //CultureInfo ciUI = new CultureInfo(language);
+            //CultureInfo.DefaultThreadCurrentCulture = ci;
+            //CultureInfo.DefaultThreadCurrentUICulture = ciUI;
+
+            //var test = App_GlobalResources.Resources.Branch;
             Work work = new Work()
             {//ResourceSet
-                caption = "Travail en cours",
-                headers = new string[] { "Id", "Description", "Début", "Fin", "Référence", "Branche", "Prévu", "Durée", "Fait", "Statut" },
+                caption = "Work in progress",
+                headers = new string[] { "Id", "Description", "Begin", "End", "Reference", "Branch", "Planned", "Duration", "Done", "Status" },
                 types = new string[] { "number", "string", "datetime", "datetime", "string", "string", "number", "number", "boolean", "string" },
                 props = new string[] { "Id", "Description", "Begin", "End", "Reference", "Branch", "Planned", "Duration", "Done", "Status" },
                 appraisal = getStatusList()
             };
-            if (lang == "en")
-            {
-                work.caption = "Work in progress";
-                work.headers = new string[] { "Id", "Description", "Begin", "End", "Reference", "Branch", "Planned", "Duration", "Done", "Status" };
-            }
 
                 using (var dbContext = new QuickToDosEntities())
             {
@@ -675,11 +686,11 @@ namespace site
                     var item = job.TimeChunks.FirstOrDefault(i => i.End == null);
                     if (item != null)
                     {
-                        job.Status = "En cours";
+                        job.Status = "Running";
                     }
                     else
                     {
-                        job.Status = "En pause";
+                        job.Status = "Pending";
                     }
 
                 }
