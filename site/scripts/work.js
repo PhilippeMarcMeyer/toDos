@@ -81,15 +81,14 @@
                         if (nrProp > 0) {
                             var id = data[i].Id;
                             for (var j = 0; j < props.length; j++) {
+                                
                                 var item = data[i][props[j]];
                                 var type = types[j];
-                                //  job.Duration = (span.Days * 480) + (span.Hours * 60) + span.Minutes;
                                 if (props[j] == "Duration" || props[j] == "Planned") {
                                     if (item == null) item = "0";
                                     var minutes = parseInt(item);
                                     if (minutes != 0) {
                                         var response = SplitTime(minutes);
-                                       // item = response.d != 0 ? response.d + "d" : "";
                                         item = response.h != 0 ? response.h + "h " : "";
                                         item += response.m != 0 ? response.m + "m" : "";
                                         type = "string";
@@ -107,7 +106,8 @@
 
                                 }
                                 if (type == "datetime") {
-                                    item = new Date(parseInt(item.substring(6, 19))).toLocaleString();
+                                    item = new Date(parseInt(item.substring(6, 19))).toLocaleString(culture); 
+
                                 }
                                 else if (type == "boolean") {
 
@@ -120,7 +120,10 @@
                                     }
                                     item = "<input class='done' type='checkbox' " + checked + " id='_" + id + "'>";
                                 }
-                              //  if (rowIsDone) Appraisal_Str
+
+                                if (props[j] == "Status") {
+                                    item = translate(item);
+                                }
                                 line += "<td class='" + props[j] + "'>" + item + "</td>";
                             }
 
@@ -676,3 +679,16 @@ var upload = function (jqId, filename, id, concern, descript, doCloseModal) {
         });
     }
 }
+
+//$(function () {
+//    $('#Begin').datetimepicker();
+//    $('#End').datetimepicker({
+//        useCurrent: false //Important! See issue #1075
+//    });
+//    $("#Begin").on("dp.change", function (e) {
+//        $('#End').data("DateTimePicker").minDate(e.date);
+//    });
+//    $("#End").on("dp.change", function (e) {
+//        $('#Begin').data("DateTimePicker").maxDate(e.date);
+//    });
+//});

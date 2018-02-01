@@ -7,11 +7,25 @@ var arrLanguages = [
 ]
 
 var userLang = document.cookie.replace(/(?:(?:^|.*;\s*)language\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
 if (userLang == "") {
     userLang = navigator.language || navigator.userLanguage;
+    userLang = userLang.substr(0, 2);
     document.cookie = "language=" + userLang;
 }
+var found = false;
+var culture = "";
+for(lang of arrLanguages) {
+    if (userLang == lang.language) {
+        found = true;
+        culture = lang.culture;
+    }
+}
 
+if (!found) {
+    userLang = "en";
+    culture = "en-US";
+}
 var html = "";
 var pos = -1;
 for (var i = 0; i < arrLanguages.length; i++) {
@@ -29,7 +43,7 @@ for (var i = 0; i < arrLanguages.length; i++) {
 $("#menuLanguage").html(html);
 
 $(".dropdown-menu li").on("click", function () {
-    var culture = $(this).find("a").attr("data-culture");
+    culture = $(this).find("a").attr("data-culture");
     var img = $(this).find("img").attr("src");
     $(".dropdown-menu li").removeClass("active");
     $(this).addClass("active");
@@ -39,6 +53,8 @@ $(".dropdown-menu li").on("click", function () {
         userLang = arr[0];
         document.cookie = "language=" + userLang;
         getTranslations(userLang);
+        window.manager.do('drawTable');
+
     }
 
 });
@@ -206,14 +222,23 @@ function getTranslations(lang) {
 
 }
 
+
+function translate(key) {
+    var output = key;
+    var dict = translations[userLang];
+    if (dict) {
+        var value = dict[key];
+        if (value) {
+            output = value;
+        }
+    }
+    return output;
+}
+
 function doTranslate(tranlations) {
+    localDate = tranlations["localDate"];
     $("[data-translate]").each(function () {
         var key = $(this).attr("data-translate");
-        var value = tranlations[key];
-        if (value) $(this).html(value);
-    });
-    $(".Status").each(function () {
-        var key = $(this).html();
         var value = tranlations[key];
         if (value) $(this).html(value);
     });

@@ -27,7 +27,17 @@
     "SaveAndClose": "Enregistrer et fermer",
     "SaveAndStay": "Enregistrer",
     "fileDescription": "Description de l'image",
-    "Supprimer": "Supprimer"
-
-
+    "Supprimer": "Supprimer",
+    "localDate": "DD/MM/YYYY",
+    "Btn_newp": "Nouveau personnage",
+    "peopleCaption": "Liste des personnages",
+    "Nom": "Nom",
+    "Prenom": "Prénom",
+    "Position": "Position",
+    "Mobile": "Mobile",
+    "Email": "Email",
+    "photo": "Photographie",
+    "newNotep":"Nouvelle note",
+    "oldNotep": "Anciennes notes",
+    "peopleModalCaption": "Saisie d'un personnage"
 };

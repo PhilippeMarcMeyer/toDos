@@ -97,7 +97,7 @@
                                 <input type="text" class="form-control" id="Description" maxlength="80" value="" />
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="Branch"><span class="text-danger">*</span><span data-translate="Branch">Branche</span></label>
+                                <label for="Branch">Branch</label>
                                 <input type="text" class="form-control" id="Branch" maxlength="30" value="" />
                             </div>
                         </div>
@@ -106,10 +106,13 @@
                             <div class="form-group col-md-3 col-md-offset-1">
                                 <label for="Begin">Début</label>
                                 <input type="datetime-local" class="form-control" id="Begin" value="" />
+                                <input type="text" class="form-control" id="dt-Begin" style="display:none;" value=""/>
+
                             </div>
                             <div class="form-group col-md-3">
                                 <label for="End">Fin</label>
                                 <input type="datetime-local" class="form-control" id="End" value="" />
+
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="Appraisal">Priorité</label>
@@ -252,12 +255,14 @@
 
         <div class="ui main container" id="appPeople">
             <div class="caption">
-                <span id="peopleCaption"></span>&nbsp;People of interest&nbsp;
-            <span style="font-weight: 100; color: darkgrey;">Chercher :
-                <input type="text" id="searchp" placeholder="" /></span>
+                <span id="peopleCaption" data-translate="peopleCaption">People of interest</span>
+                <span style="font-weight: 100; color: darkgrey;" data-translate="search">Chercher :</span>
+                 <span style="font-weight: 100; color: darkgrey;">
+                    <input type="text" id="searchp" placeholder="Expression" />
+                </span>
             </div>
             <table id="peopleTable" class="table table-hover table-bordered table-striped"></table>
-            <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px; width: 200px;" id="newp">Nouvelle personne</button>
+            <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px; width: 200px;" id="newp" data-translate="Btn_newp">Nouvelle personne</button>
         </div>
 
         <!-- Modal -->
@@ -267,7 +272,7 @@
                 <div class="modal-content animated bounceInRight">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">Saisie d'un personnage</h4>
+                        <h4 class="modal-title" data-translate="peopleModalCaption">Saisie d'un personnage</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
@@ -312,7 +317,7 @@
 
                         <div class="row" id="row_Notesp" style="display: block;">
                             <div class="form-group col-md-10 col-md-offset-1">
-                                <span class="active tab" id="newNotep">Nouvelle note</span><span class="inactive tab old" id="oldNotep">Notes</span>
+                                <span class="active tab" id="newNotep" data-translate="newNotep">Nouvelle note</span><span class="inactive tab old" data-translate="oldNotep" id="oldNotep">Notes</span>
                                  <textarea id="new-notep" class="form-control" style="overflow-y: auto; border: solid 1px #888;"  maxlength="8000">test</textarea>
                                  <div id="old-notep" style="min-height:300px;max-width:110%; overflow-y: auto; border: solid 1px #888;display:none;"></div>
                             </div>
@@ -321,7 +326,7 @@
                          <div class="row" style="display: block;">
                             <div class="form-group col-md-5 col-md-offset-1">
                                 <div id="uploadsp"></div>
-                                <label for="filesp">Photo</label>
+                                <label for="filesp" data-translate="Photo">Photo</label>
                                 <input name="filesp" id="filesp" type="file" class="form-control">
                             </div>
 
@@ -359,6 +364,7 @@
 
         window.manager = window.workManager();
         window.manager.do('init');
+        
         
         // change the look of bootstrap buttons for fun !
         $(".appliquer-button").each(function () {

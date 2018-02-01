@@ -502,7 +502,7 @@ namespace site
                 }).ToList();
             }
 
-            knowledge.data = knowledge.data.OrderByDescending(x => x.Id).Take(12).ToList();
+            knowledge.data = knowledge.data.OrderByDescending(x => x.Id).Take(50).ToList();
 
             return knowledge;
 
@@ -573,8 +573,43 @@ namespace site
             return knowledge;
 
         }
-        
 
+        [WebMethod]
+        public static PeopleObject GetSearchForPeople(string searchFor)
+        {
+
+            PeopleObject card = new PeopleObject()
+            {
+                caption = "Personnages",
+                headers = new string[] { "Id", "Nom", "Prénom", "Position", "Mobile", "Email" },
+                types = new string[] { "number", "string", "string", "string", "string" },
+                props = new string[] { "Id", "Nom", "Prenom", "Position", "Mobile", "Email" }
+            };
+
+            using (var dbContext = new QuickToDosEntities())
+            {
+                IQueryable<Person> query = dbContext.People.Where(x => x.Nom.Contains(searchFor) || x.Prenom.Contains(searchFor) || x.Email.Contains(searchFor));
+                IQueryable<Position> query2 = dbContext.Positions;
+                IQueryable<Note> query3 = dbContext.Notes;
+                card.data = query.Select(x => new DataForPeople
+                {
+                    Id = x.Id,
+                    Nom = x.Nom,
+                    Prenom = x.Prenom,
+                    IdPosition = x.IdPosition != null ? (int)x.IdPosition : 0,
+                    Email = x.Email,
+                    Mobile = x.Mobile,
+                    Photo = x.Photo != null ? x.Photo : "",
+                    Position = query2.Where(y => y.Id == x.IdPosition).FirstOrDefault().Name,
+                    Notes = query3.Where(z => z.ConcernId == x.Id && z.Concern == "people").ToList()
+                }).ToList();
+            }
+
+            card.data = card.data.OrderByDescending(x => x.Id).Take(30).ToList();
+
+            return card;
+
+        }
         public static Work GetData(string searchFor)
         {
             //var culture = "fr-FR";

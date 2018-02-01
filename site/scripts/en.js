@@ -29,7 +29,21 @@
      "SaveAndClose": "Save and close",
      "SaveAndStay": "Save",
      "fileDescription": "Image comment",
-     "Supprimer": "Delete"
+     "Supprimer": "Delete",
+     "localDate": "MM/DD/YYYY",
+     "Btn_newp": "New person",
+     "peopleCaption": "People of interest",
+    "Nom": "Last Name",
+    "Prenom": "First Name",
+    "Position": "Position",
+    "Mobile": "Mobile",
+    "Email": "Email",
+    "photo": "Photo",
+    "newNotep": "New note",
+    "oldNotep": "Old notes",
+    "peopleModalCaption": "Editing people bio"
+
+
 
 
 

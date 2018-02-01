@@ -53,7 +53,7 @@
                     // Drawing headers
                     var html = " <thead class='thead-dark'><tr>"
                     for (var i = 0; i < headers.length; i++) {
-                        html += "<th scope='col'>" + headers[i] + "</th>";
+                        html += "<th scope='col' data-translate='" + props[i] + "'>" + headers[i] + "</th>";
                     }
                     html += "</tr> </thead> <tbody id='callModalp'>"
                     // Drawing rows and cells
@@ -102,6 +102,10 @@
 
                     html += " </tbody></table>";
                     $(tableInner).html(html);
+                    setTimeout(function () {
+                        getTranslations(userLang);
+                    }, 300);
+
                     $("#callModalp").off('dblclick').on('dblclick', 'tr', function (event) {
                         var target = event.currentTarget;
                         var id = parseInt(target.cells[0].innerHTML);
