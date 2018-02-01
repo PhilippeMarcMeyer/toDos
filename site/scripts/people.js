@@ -19,6 +19,8 @@
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
         };
+        SetPeopleListeners();
+       
         return {
             do: function (whatToDo, param1) {
                 var self = this;
@@ -100,13 +102,13 @@
 
                     html += " </tbody></table>";
                     $(tableInner).html(html);
-                    $("#callModalp").on('dblclick', 'tr', function (event) {
+                    $("#callModalp").off('dblclick').on('dblclick', 'tr', function (event) {
                         var target = event.currentTarget;
                         var id = parseInt(target.cells[0].innerHTML);
                         self.do('showModal', id);
                     });
 
-                    $("#newp").on('click', function () {
+                    $("#newp").off('click').on('click', function () {
                         self.do('showModal');
                     });
 
@@ -260,3 +262,124 @@
 
 
 launchPeopleManager();
+
+function SetPeopleListeners() {
+    $('[data-toggle=confirmationp]').confirmation({
+        rootSelector: '[data-toggle=confirmationp]',
+        onConfirm: function () {
+            doDeletePeople();
+        },
+    });
+
+    $("#searchp").on('change', function () {
+        window.peopleManager.do('search', $("#search").val());
+    });
+
+    $("#oldNotep").on("click", function () {
+        if ($(this).hasClass("inactive")) {
+            $(this).removeClass("inactive").addClass("active");
+            $("#newNotep").removeClass("active").addClass("inactive");
+            $("#new-notep").hide();
+            $("#old-notep").show();
+        }
+    });
+
+    $("#newNotep").on("click", function () {
+        if ($(this).hasClass("inactive")) {
+            $(this).removeClass("inactive").addClass("active");
+            $("#oldNotep").removeClass("active").addClass("inactive");
+            $("#old-notep").hide();
+            $("#new-notep").show();
+        }
+    });
+
+
+    $("#filesp").on("change", function () {
+        var selectedFile = this.files[0];
+        if (selectedFile) {
+            console.log(selectedFile);
+            var id = parseInt($("#Idp").val());
+            var data = { "Id": id, "concern": "people", "description": "" };
+
+            $(this).simpleUpload("/DocumentsFileUpload.ashx", {
+                data: data,
+                allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
+                allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
+                maxFileSize: 1048576, //1MB in bytes
+                success: function (data) {
+                    var params = {
+                        type: "POST",
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        data: "{Id:" + id + "}"
+                    };
+                    xhr = $.ajax("Main.aspx/GetPhoto", params)
+                         .done(function (response) {
+                             if (response.d != "") {
+                                 $("#portraitzone img").attr("src", response.d);
+                             }
+                             else {
+                                 $("#portraitzone img").attr("src", "images/nobody.jpg");
+                             }
+                         })
+                    window.peopleManager.do('init');
+                },
+            });
+        }
+    });
+    $("#newp").on("click", function () {
+
+        var src = $("iframe").attr("src");
+
+        $.ajax({
+            type: "GET",
+            url: src,
+            success: function (response) {
+                var n = response.search("<title>");
+                if (n != -1) {
+                    var title = response.substr(n + 7, 100);
+                    n = title.search("</title>");
+                    if (n != -1) {
+                        var title = title.substr(0, n);
+                        $("iframe").css("zoom", 0.75);
+                    }
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+
+            } // end error
+        }); // end ajax
+
+    });
+}
+
+var doDeletePeople = function () {
+
+    var obj = {};
+    obj.Id = $("#Ido").val();
+    var json = JSON.stringify({ "toDel": obj });
+    var url = "Main.aspx/DeletePeople";
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        data: json,
+        success: function (response) {
+            $('#myModalp').find('.close').trigger("click"); // closing the modal
+            var toastMsg = new toast("toastMessage", "messageId", false);
+            toastMsg.text("Suppression réussie !");
+            var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            toastMsg.moveAt(w / 2 - 100, 90);
+            toastMsg.showFor(3000);
+
+            window.peopleManager.do('init');
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var str = jqXHR.responseText;
+            var obj = JSON.parse(str);
+            $("#alert-message").html("Echec " + obj.Message);
+            $('#alert').modal('show');
+        } // end error
+    }); // end ajax
+}

@@ -19,6 +19,10 @@
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
         };
+
+        SetListeners();
+
+
         return {
             do: function (whatToDo, param1) {
                 var self = this;
@@ -397,6 +401,38 @@
 }());
 
 
+
+var doDeleteWork = function () {
+    var obj = {};
+    obj.Id = $("#Id").val();
+    $('#myModal').find('.close').trigger("click"); // closing the modal
+    var json = JSON.stringify({ "toDel": obj });
+    $.ajax({
+        type: "POST",
+        url: "Main.aspx/DeleteWork",
+        contentType: "application/json; charset=utf-8",
+        data: json,
+        success: function (response) {
+            $('#myModal').find('.close').trigger("click"); // closing the modal
+            var toastMsg = new toast("toastMessage", "messageId", false);
+            toastMsg.text("Suppression réussie !");
+            var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            toastMsg.moveAt(w / 2 - 100, 90);
+            toastMsg.showFor(3000);
+            window.manager.do('init');
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var str = jqXHR.responseText;
+            var obj = JSON.parse(str);
+            $('#myModal').find('.close').trigger("click"); // closing the modal
+            $("#alert-message").html("Echec " + obj.Message);
+            $('#alert').modal('show');
+        } // end error
+    }); // end ajax
+
+}
+
 function imgClickHandler(e,that) {
  
         var test = document.getElementById("hiddenIdentity");
@@ -467,6 +503,176 @@ function supprImg() {
            $(".confirm").hide();
        });
 }
+
 function cancelSupprImg() {
     $(".confirm").hide();
+}
+function SetListeners() {
+    $("#search").on('change', function () {
+        window.manager.do('search', $("#search").val());
+    });
+
+    $("#saveAndClose,#saveAndStay").on('click', function (event) {
+        var doCloseModal = (this.id === "saveAndClose")
+        var image = $("#files").val();
+        var description = $("#fileDescription").val();
+        $(this).prop('disabled', true);
+        var obj = {};
+        obj.Description = $("#Description").val().trim();
+        obj.Reference = $("#Reference").val().trim();
+        obj.Duration = $("#Duration").val();
+        obj.Planned = $("#Planned").val();
+        obj.Begin = $("#Begin").val();
+        obj.End = $("#End").val();
+        obj.Id = $("#Id").val();
+        obj.Notes = $("#Notes").val().replace(/[\n\r]/g, '<br>');
+        obj.Branch = $("#Branch").val().trim();
+        obj.Done = $("#Done").val() == "true" ? true : false;
+        obj.Appraisal = $("#Appraisal").val();
+        obj.AppraisalNote = $("#AppraisalNote").val();
+        obj.NoExternalNote = (this.id == "saveAndStay");
+        var json = JSON.stringify({ "toDo": obj });
+        var self = this;
+        $.ajax({
+            type: "POST",
+            url: "Main.aspx/AddWork",
+            contentType: "application/json; charset=utf-8",
+            async: true,
+            data: json,
+            success: function (response) {
+                var toDoId = response.d;
+
+                $(self).prop('disabled', false);
+                if (image != "") {
+                    upload("#files", image, toDoId, "work", description, doCloseModal);
+                } else {
+                    if (doCloseModal) {
+                        $('#myModal').find('.close').trigger("click"); // closing the modal
+                        var toastMsg = new toast("toastMessage", "messageId", false);
+                        toastMsg.text("Mise à jour réussie !");
+                        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                        toastMsg.moveAt(w / 2 - 100, 90);
+                        toastMsg.showFor(3000);
+                    } else {
+                        var toastMsg = new toast("myModalMessage", "modalWorkMsgId", false);
+                        toastMsg.text("Mise à jour réussie !");
+                        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                        toastMsg.moveAt(350, 10);
+                        toastMsg.showFor(3000);
+                    }
+                }
+
+                window.manager.do('init');
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var str = jqXHR.responseText;
+                var obj = JSON.parse(str);
+                $('#myModal').find('.close').trigger("click"); // closing the modal
+
+                $("#alert-message").html("Echec " + obj.Message);
+                $('#alert').modal('show');
+            } // end error
+        }); // end ajax
+    });
+    $("#search").on('change', function () {
+        window.manager.do('search', $("#search").val());
+    });
+
+    $("#showNotesw").on("click", function () {
+        $("#row_notes").show();
+        $("#row_images").hide();
+    });
+
+    $("#showImagesw").on("click", function () {
+        $("#row_notes").hide();
+        $("#row_images").show();
+    });
+
+    $('[data-toggle=confirmation2]').confirmation({
+        rootSelector: '[data-toggle=confirmation2]',
+        onConfirm: function () {
+            doDeleteWork();
+        },
+    });
+    $("#Position").on("change", function () {
+        var doSend = false;
+        var choice = $(this).val();
+        var tagName = this.tagName.toLowerCase();
+        if (tagName == "select") {
+            var int_choice = parseInt(choice);
+            if (!isNaN(int_choice)) {
+                if (int_choice == -1) { // ask for a new value
+                    doSend = true;
+                    var parent = $(this).parent();
+                    $(this).remove();
+                    parent.append("<input type='text' value='' placeholder='Veuillez saisir' class='form-control' id='Position'/>");
+                }
+            }
+        }
+    });
+
+}
+
+var uploadMessage = function (msg, doCloseModal, modalId) {
+    if (doCloseModal) {
+        $('#' + modalId).find('.close').trigger("click"); // closing the modal
+        var toastMsg = new toast("toastMessage", "messageId", false);
+        toastMsg.text(msg);
+        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        toastMsg.moveAt(w / 2 - 100, 90);
+        toastMsg.showFor(3000);
+
+    } else {
+        var toastMsg = new toast(modalId + "Message", modalId + "Message_id", false);
+        toastMsg.text(msg);
+        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        toastMsg.moveAt(350, 10);
+        toastMsg.showFor(3000);
+    }
+
+
+}
+
+var upload = function (jqId, filename, id, concern, descript, doCloseModal) {
+    var filename = $(jqId).val();
+    var description = descript ? descript : "";
+    if (id > 0 && filename != "" && concern != "" && jqId != "") {
+        var data = { "Id": id, "concern": concern, "description": description };
+        var toastMsg = new toast("toastMessage", "messageId", false);
+
+        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        toastMsg.moveAt(w / 2 + 100, 90);
+        //toastMsg.showFor(3000);
+
+        $(jqId).simpleUpload("/DocumentsFileUpload.ashx", {
+            data: data,
+            allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
+            allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
+            maxFileSize: 1048576, //1MB in bytes
+            start: function (file) {
+                this.block = $('<div class="block"></div>');
+                this.progressBar = $('<div class="progressBar"></div>');
+                this.block.append(this.progressBar);
+                $('#uploads').append(this.block);
+            },
+
+            progress: function (progress) {
+                this.progressBar.width(progress + "%");
+            },
+
+            success: function (data) {
+                this.progressBar.remove();
+                uploadMessage("Mise à jour et upload réussi !", doCloseModal, 'myModal');
+
+
+            },
+
+            error: function (error) {
+                this.progressBar.remove();
+                uploadMessage("Mise à jour réussie mais upload en échec...", doCloseModal, 'myModal');
+            }
+
+        });
+    }
 }

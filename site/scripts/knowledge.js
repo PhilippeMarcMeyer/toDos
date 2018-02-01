@@ -19,6 +19,9 @@
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
         };
+
+        SetKnowledgeListeners();
+
         return {
             do: function (whatToDo, param1) {
                 var self = this;
@@ -77,7 +80,6 @@
                                     item = new Date(parseInt(item.substring(6, 19))).toLocaleString();
                                 }
                                 else if (type == "boolean") {
-
                                     var checked = "";
                                     if (item) {
                                         checked = "checked";
@@ -86,17 +88,13 @@
                                     }
                                 line += "<td>" + item + "</td>";
                             }
-
                             line += "</tr>";
-
-                             html += line;
-
+                            html += line;
                         } 
-                            
                     }
-
                     html += " </tbody></table>";
                     $(tableInner).html(html);
+
                     $("#callModalk").on('dblclick', 'tr', function (event) {
                         var target = event.currentTarget;
                         var id = parseInt(target.cells[0].innerHTML);
@@ -106,10 +104,7 @@
                     $("#newk").on('click', function () {
                         self.do('showModal');
                     });
-             
                 }
-
-
                 else if (whatToDo == 'showModal') {
                     var id = -1;
                     if (param1) {
@@ -140,10 +135,7 @@
                                     $("#Modification").val(Modification);
                                 }
                                 $("#Subject").val(aRow[i].Subject.trim());
-
                                 $("#Body").val(ReplaceNewline(aRow[i].Body.trim()));
-
-
                             }
                         }
 
@@ -217,3 +209,91 @@
 
 
 launchKnowHowManager();
+
+function SetKnowledgeListeners() {
+
+
+    $("#searchk").on('change', function () {
+        // $("#toggleDoneView").attr("checked", true);
+        window.knowHowManager.do('search', $("#searchk").val());
+    });
+
+    $('[data-toggle=confirmation]').confirmation({
+        rootSelector: '[data-toggle=confirmation]',
+        onConfirm: function () {
+            doDeleteKnowledge();
+        },
+    });
+
+    $("#savek").on('click', function (event) {
+        $(this).attr('disabled', 'disabled');
+        var obj = {};
+        obj.Subject = $("#Subject").val().trim();
+        obj.Id = $("#Idk").val();
+        obj.Body = $("#Body").val().replace(/[\n\r]/g, '<br>');
+
+        var selectedFile = document.getElementById('files').files[0];
+        var json = JSON.stringify({ "Know": obj });
+        $.ajax({
+            type: "POST",
+            url: "Main.aspx/AddKnowledge",
+            contentType: "application/json; charset=utf-8",
+            async: true,
+            data: json,
+            success: function (response) {
+                $('#myModalk').find('.close').trigger("click"); // closing the modal
+                var toastMsg = new toast("toastMessage", "messageId", false);
+                toastMsg.text("Mise à jour réussie des connaissances !");
+                var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                toastMsg.moveAt(w / 2 - 100, 90);
+                toastMsg.showFor(3000);
+
+                window.knowHowManager.do('init');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                var str = jqXHR.responseText;
+                var obj = JSON.parse(str);
+                $('#myModalk').find('.close').trigger("click"); // closing the modal
+                $('.modal-backdrop').remove();
+
+                setTimeout(function () {
+                    $("#alert-message").html("Echec " + obj.Message);
+                    $('#alert').modal('show');
+                }, 100);
+
+
+            } // end error
+        }); // end ajax
+    });
+
+}
+
+var doDeleteKnowledge = function () {
+    var obj = {};
+    obj.Id = $("#Idk").val();
+    var json = JSON.stringify({ "toDel": obj });
+    var url = "Main.aspx/DeleteKnowledge";
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: "application/json; charset=utf-8",
+        data: json,
+        success: function (response) {
+            $('#myModalk').find('.close').trigger("click"); // closing the modal
+            var toastMsg = new toast("toastMessage", "messageId", false);
+            toastMsg.text("Suppression réussie !");
+            var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            toastMsg.moveAt(w / 2 - 100, 90);
+            toastMsg.showFor(3000);
+
+            window.knowHowManager.do('init');
+
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            var str = jqXHR.responseText;
+            var obj = JSON.parse(str);
+            $("#alert-message").html("Echec " + obj.Message);
+            $('#alert').modal('show');
+        } // end error
+    }); // end ajax
+}
