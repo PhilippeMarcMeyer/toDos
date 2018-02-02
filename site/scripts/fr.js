@@ -19,6 +19,8 @@
     "JobsCaption": "Travail en cours",
     "Running": "En cours",
     "Pending": "En pause",
+    "Laufen": "En cours",
+    "Steht aus": "En pause",
     "modalJobTitle": "Saisie d'un job",
     "Appraisal": "Priorité",
     "AppraisalNote": "Note de bilan",
@@ -39,5 +41,6 @@
     "photo": "Photographie",
     "newNotep":"Nouvelle note",
     "oldNotep": "Anciennes notes",
-    "peopleModalCaption": "Saisie d'un personnage"
+    "peopleModalCaption": "Saisie d'un personnage",
+    "nofile":"Aucun fichier choisi"
 };

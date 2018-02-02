@@ -3,9 +3,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Phm's todos</title>
     <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>Phm's todos</title>
+
+    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/style.css">
 
@@ -159,8 +165,12 @@
                         <div class="row" style="display: block;">
                             <div class="form-group col-md-5 col-md-offset-1">
                                 <div id="uploads"></div>
-                                <label for="files">Image</label>
-                                <input name="files" id="files" type="file" class="form-control">
+                                <label for="files" style="display:block;">Image</label>
+                                <button type="button" style="position:absolute;" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-upload"></span>&nbsp;<span data-translate="selectImage">Envoyer</span>
+                                </button>
+                                <span id="filenamew" data-translate="nofile" style="position:absolute;left:120px;line-height:20px;margin-top:7px;"></span>
+                                <input name="files" id="files" type="file" style="opacity:0" class="form-control">
                             </div>
                             <div class="form-group col-md-5">
                                 <label for="fileDescription">Description de l'image</label>
@@ -347,15 +357,18 @@
     </div>
     <!-- End of people zone -->
     <div id="scripts">
+        <script src="scripts/vendor/modernizr-3.5.0.min.js"></script>
         <script src="scripts/jquery-3.2.1.js"></script>
         <script src="scripts/bootstrap.js"></script>
         <script src="scripts/bootstrap-confirmation.js"></script>
+        <script src="scripts/plugins.js"></script>
         <script src="scripts/moment.js"></script>
         <script src="scripts/moment-timezone.js"></script>
         <script src="scripts/simpleUpload.js"></script>
         <script src="scripts/toast.js"></script>
         <script src="scripts/fr.js"></script>
         <script src="scripts/en.js"></script>
+        <script src="scripts/de.js"></script>
         <script src="scripts/common.js"></script>
         <script src="scripts/work.js"></script>
     </div>

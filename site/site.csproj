@@ -90,6 +90,7 @@
     <Content Include="scripts\common.js" />
     <Content Include="scripts\en.js" />
     <Content Include="scripts\fr.js" />
+    <Content Include="scripts\de.js" />
     <Content Include="scripts\knowledge.js" />
     <Content Include="scripts\work.js" />
     <Content Include="scripts\moment-timezone.js" />

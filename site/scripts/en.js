@@ -21,6 +21,8 @@
      "Pending": "Pending",
      "En cours": "Running",
      "En pause": "Pending",
+     "Laufen": "Running",
+     "Steht aus": "Pending",
      "modalJobTitle": "Job definition",
      "Appraisal": "Priority",
      "AppraisalNote": "Debriefing",
@@ -41,7 +43,9 @@
     "photo": "Photo",
     "newNotep": "New note",
     "oldNotep": "Old notes",
-    "peopleModalCaption": "Editing people bio"
+    "peopleModalCaption": "Editing people bio",
+    "nofile": "No file chosen"
+
 
 
 

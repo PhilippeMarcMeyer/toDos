@@ -1,9 +1,10 @@
 ﻿
-var translations = { "en": words_en, "fr": words_fr }
+var translations = { "en": words_en, "fr": words_fr, "de": words_de };
 
 var arrLanguages = [
     { "language": "fr", "culture": "fr-FR", "img": "fr.jpg", "label": "Français" },
-    { "language": "en", "culture": "en-US", "img": "en.jpg", "label": "English" }
+    { "language": "en", "culture": "en-US", "img": "en.jpg", "label": "English" },
+    { "language": "de", "culture": "de-DE", "img": "de.jpg", "label": "German" }
 ]
 
 var userLang = document.cookie.replace(/(?:(?:^|.*;\s*)language\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -214,7 +215,7 @@ function tidy(str) {
 }
 
 function getTranslations(lang) {
-    if (lang == "fr" || lang == "en") {
+    if (lang == "fr" || lang == "en" || lang == "de") {
         doTranslate(translations[lang]);
     } else {
         doTranslate(translations["en"]);
@@ -247,4 +248,70 @@ function doTranslate(tranlations) {
         var value = tranlations[key];
         if (value) $(this).html(value);
     });
+}
+
+
+var Detect = {
+    init: function () {
+        this.OS = this.searchString(this.dataOS);
+    },
+    searchString: function (data) {
+        for (var i = 0; i < data.length; i++) {
+            var dataString = data[i].string;
+            var dataProp = data[i].prop;
+            if (dataString) {
+                if (dataString.indexOf(data[i].subString) != -1)
+                    return data[i].identity;
+            }
+            else if (dataProp)
+                return data[i].identity;
+        }
+    },
+    dataOS: [
+        {
+            string: navigator.platform,
+            subString: 'Win',
+            identity: 'Windows'
+        },
+        {
+            string: navigator.platform,
+            subString: 'Mac',
+            identity: 'macOS'
+        },
+        {
+            string: navigator.userAgent,
+            subString: 'iPhone',
+            identity: 'iOS'
+        },
+        {
+            string: navigator.userAgent,
+            subString: 'iPad',
+            identity: 'iOS'
+        },
+        {
+            string: navigator.userAgent,
+            subString: 'iPod',
+            identity: 'iOS'
+        },
+        {
+            string: navigator.userAgent,
+            subString: 'Android',
+            identity: 'Android'
+        },
+        {
+            string: navigator.platform,
+            subString: 'Linux',
+            identity: 'Linux'
+        }
+    ]
+};
+Detect.init();
+window.operatingSystem = Detect.OS;
+
+function htmlEncode(value) {
+    return $('<div/>').text(value).html();
+}
+
+function htmlDecode(value) {
+    return $('<div/>').html(value).text();
 }

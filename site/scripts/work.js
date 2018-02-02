@@ -225,6 +225,7 @@
                     var differenceFuseauxEnMinutes = now.getTimezoneOffset();
                     now.setTime(now.getTime() - (differenceFuseauxEnMinutes * 60000));
                     var now = now.toISOString().split(".")[0];
+                    $("#filenamew").html(translate("nofile"));
                     $("#tempDuration").html("");
                     $("#Begin").val(now);
                     $("#Description").val("");
@@ -514,7 +515,18 @@ function SetListeners() {
     $("#search").on('change', function () {
         window.manager.do('search', $("#search").val());
     });
-
+    
+    $("#files").on('change', function () {
+        var image = $("#files").val();
+        if (image.length == 0) {
+            $("#filenamew").html(translate("nofile"));
+        } else {
+            var separator = (operatingSystem == "Windows") ? "\\" : "/";
+            var arr = image.split(separator);
+            if (arr.length > 0) image = arr[arr.length - 1];
+            $("#filenamew").html(image);
+        }
+    });
     $("#saveAndClose,#saveAndStay").on('click', function (event) {
         var doCloseModal = (this.id === "saveAndClose")
         var image = $("#files").val();
@@ -528,7 +540,8 @@ function SetListeners() {
         obj.Begin = $("#Begin").val();
         obj.End = $("#End").val();
         obj.Id = $("#Id").val();
-        obj.Notes = $("#Notes").val().replace(/[\n\r]/g, '<br>');
+        obj.Notes = htmlEncode($("#Notes").val());
+        obj.Notes = obj.Notes.replace(/[\n\r]/g, '<br>');
         obj.Branch = $("#Branch").val().trim();
         obj.Done = $("#Done").val() == "true" ? true : false;
         obj.Appraisal = $("#Appraisal").val();
