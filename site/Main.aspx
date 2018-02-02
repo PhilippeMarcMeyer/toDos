@@ -412,6 +412,79 @@
             $(this).css("background", gradient);//.css("color","black");
         });
 
+        $('#portraitzone').on(
+            'dragover',
+            function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+        });
+
+        $('#portraitzone').on(
+            'dragleave',
+            function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        )
+
+        $('#portraitzone').on(
+        'drop',
+        function (e) {
+            console.log("drop!");
+            if (e.originalEvent.dataTransfer) {
+                if (e.originalEvent.dataTransfer.files.length>0) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var formData = new FormData();
+                    var id = parseInt($("#Idp").val());
+                    var params = { "Id": id, "concern": "people", "description": "" };
+                    /*UPLOAD FILES HERE*/
+                    // console.log(e.originalEvent.dataTransfer.files[0]);
+                    var items = e.originalEvent.dataTransfer.items;
+                    console.log(items);
+                    var item = items[0].webkitGetAsEntry();
+                    console.log(item);
+                    // get a blob and send the blob (domfilesystem)
+                
+                    //if (item.isFile) {
+                    //    item.file(function (file) {
+                    //        console.log(file);                  // show info
+                    //        formData.append('file[]', file);    // file exist, but don't append
+                    //        var xhr = new XMLHttpRequest();
+                    //        xhr.open('post', '/DocumentsFileUpload.ashx');
+                    //        xhr.send(formData);
+                    //    });
+                    //}
+                   // uploadPeople(e.originalEvent.dataTransfer.files[0], params);
+                }
+            }
+        }
+    );
+
+        function uploadPeople(files, params) {
+            var obj = {};
+            obj.data = files;
+            //obj.Id = params.Id;
+            //obj.concern = params.concern;
+            //obj.description = params.description;
+            $.ajax({
+                type: "post",
+                url: "/DocumentsFileUpload.ashx",
+                data: JSON.stringify(obj),
+                dataType: "json",
+                cache: false,
+                processData: false,
+                success: function (data) {
+                    console.log("uploaded");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    var str = jqXHR.responseText;
+                    var obj = JSON.parse(str);
+                    $("#alert-message").html("Echec " + obj.Message);
+                    $('#alert').modal('show');
+                } // end error
+            })
+        }
     </script>
 </body>
 </html>

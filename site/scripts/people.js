@@ -268,6 +268,8 @@
 launchPeopleManager();
 
 function SetPeopleListeners() {
+
+
     $('[data-toggle=confirmationp]').confirmation({
         rootSelector: '[data-toggle=confirmationp]',
         onConfirm: function () {
@@ -299,9 +301,9 @@ function SetPeopleListeners() {
 
 
     $("#filesp").on("change", function () {
+        
         var selectedFile = this.files[0];
         if (selectedFile) {
-            console.log(selectedFile);
             var id = parseInt($("#Idp").val());
             var data = { "Id": id, "concern": "people", "description": "" };
 
@@ -331,6 +333,7 @@ function SetPeopleListeners() {
             });
         }
     });
+
     $("#newp").on("click", function () {
 
         var src = $("iframe").attr("src");
