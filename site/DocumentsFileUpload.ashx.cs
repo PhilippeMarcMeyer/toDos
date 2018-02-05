@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -10,10 +12,10 @@ namespace site
     /// </summary>
     public class DocumentsFileUpload__ : IHttpHandler
     {
-
         public void ProcessRequest(HttpContext context)
         {
             context.Response.ContentType = "text/plain";
+            System.Diagnostics.Debugger.Launch();
 
             try
             {
@@ -24,61 +26,80 @@ namespace site
 
                     if (!string.IsNullOrEmpty(fileName))
                     {
-                        string Idstr = context.Request.Params["id"];
+                        string Idstr = context.Request.Params["Id"];
                         int Id = int.Parse(Idstr);
-                        string Concern = context.Request.Params["concern"];
-                        string Description = context.Request.Params["description"];
+                        string Concern = context.Request.Params["Concern"];
+                        string Description = context.Request.Params["Description"];
                         if (Description == null) Description = "";
                         int fileId = 0;
+                        
+                      //  string data64 = context.Request.Params["File"];
+
                         using (var dbContext = new QuickToDosEntities())
-                        {
-                            var aFile = new File
                             {
-                                Filename = "temp",
-                                Concern= Concern,
-                                ExtId = Id,
-                                Description= Description
-                            };
-                            dbContext.Files.Add(aFile);
-                            dbContext.SaveChanges();
-                            fileId = aFile.Id;
+                                var aFile = new File
+                                {
+                                    Filename = "temp",
+                                    Concern = Concern,
+                                    ExtId = Id,
+                                    Description = Description
+                                };
+                                dbContext.Files.Add(aFile);
+                                dbContext.SaveChanges();
+                                fileId = aFile.Id;
+                                if (Concern == "people")
+                                {
+                                if (fileName == "blob") {
+                                    string type = context.Request.Params["Type"];
+                                    if(type == "jpeg")
+                                        fileName = "image.jpg";
+                                    else
+                                        fileName = "image."+type;
+                                }
+                                    aFile.Filename = string.Format("/images/{0}_{1}_{2}", Idstr, fileId, fileName);
+                                    dbContext.SaveChanges();
+
+                                    Person aPerson = dbContext.People.Find(Id);
+
+                                    if (aPerson != null)
+                                    {
+                                        aPerson.Photo = aFile.Filename;
+                                        dbContext.SaveChanges();
+                                    }
+                                }
+                                else
+                                {
+                                    aFile.Filename = string.Format("/documents/{0}/{1}_{2}_{3}", Concern, Idstr, fileId, fileName);
+                                    dbContext.SaveChanges();
+
+                                }
+                            }
+                            string documentsPath = "";
                             if (Concern == "people")
                             {
-                                aFile.Filename = string.Format("/images/{0}_{1}_{2}", Idstr, fileId, fileName);
-                                dbContext.SaveChanges();
-
-                                Person aPerson = dbContext.People.Find(Id);
-
-                                if (aPerson != null)
-                                {
-                                    aPerson.Photo = aFile.Filename;
-                                    dbContext.SaveChanges();
-                                }
+                                documentsPath = context.Server.MapPath("") + @"\images\";
                             }
                             else
                             {
-                                aFile.Filename = string.Format("/documents/{0}/{1}_{2}_{3}", Concern, Idstr, fileId, fileName);
-                                dbContext.SaveChanges();
-
+                                documentsPath = context.Server.MapPath("") + @"\documents\" + Concern + "\\";
                             }
-                        }
-                        string documentsPath = "";
-                        if (Concern == "people")
-                        {
-                            documentsPath = context.Server.MapPath("") + @"\images\";
-                        }
-                        else
-                        {
-                            documentsPath = context.Server.MapPath("") + @"\documents\" + Concern + "\\";
-                        }
-                        
-                        System.IO.Directory.CreateDirectory(documentsPath);
-                        string fileToSave = documentsPath + string.Format("{0}_{1}_{2}", Idstr, fileId, fileName);
+
+                            System.IO.Directory.CreateDirectory(documentsPath);
+                            string fileToSave = documentsPath + string.Format("{0}_{1}_{2}", Idstr, fileId, fileName);
 
 
                         file.SaveAs(fileToSave);
+
+
+                        //else
+                        //{
+                        //    file.SaveAs(fileToSave);
+                        //}
+
                     }
-                }
+
+                       
+                    }
             }
             catch (Exception ex)
             {

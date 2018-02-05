@@ -281,7 +281,8 @@
             <div class="modal-dialog modal-lg md-skin">
                 <div class="modal-content animated bounceInRight">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span>
+                            <span class="sr-only">Close</span></button>
                         <h4 class="modal-title" data-translate="peopleModalCaption">Saisie d'un personnage</h4>
                     </div>
                     <div class="modal-body">
@@ -412,11 +413,19 @@
             $(this).css("background", gradient);//.css("color","black");
         });
 
+        $('#portraitzone').on('dragenter', function () {
+            $(this).css('border', '3px dashed red');
+            return false;
+        });
+
+
         $('#portraitzone').on(
             'dragover',
             function (e) {
                 e.preventDefault();
                 e.stopPropagation();
+                $(this).css('border', '3px dashed red');
+                return false;
         });
 
         $('#portraitzone').on(
@@ -424,58 +433,71 @@
             function (e) {
                 e.preventDefault();
                 e.stopPropagation();
+                $(this).css('border', '3px dashed #BBBBBB');
+                return false;
             }
         )
 
         $('#portraitzone').on(
         'drop',
         function (e) {
-            console.log("drop!");
-            if (e.originalEvent.dataTransfer) {
+            var id = parseInt($("#Idp").val());
+            if (e.originalEvent.dataTransfer && id != -1) {
                 if (e.originalEvent.dataTransfer.files.length>0) {
                     e.preventDefault();
                     e.stopPropagation();
-                    var formData = new FormData();
-                    var id = parseInt($("#Idp").val());
-                    var params = { "Id": id, "concern": "people", "description": "" };
-                    /*UPLOAD FILES HERE*/
-                    // console.log(e.originalEvent.dataTransfer.files[0]);
-                    var items = e.originalEvent.dataTransfer.items;
-                    console.log(items);
-                    var item = items[0].webkitGetAsEntry();
-                    console.log(item);
-                    // get a blob and send the blob (domfilesystem)
-                
-                    //if (item.isFile) {
-                    //    item.file(function (file) {
-                    //        console.log(file);                  // show info
-                    //        formData.append('file[]', file);    // file exist, but don't append
-                    //        var xhr = new XMLHttpRequest();
-                    //        xhr.open('post', '/DocumentsFileUpload.ashx');
-                    //        xhr.send(formData);
-                    //    });
-                    //}
-                   // uploadPeople(e.originalEvent.dataTransfer.files[0], params);
+
+                    var items = e.originalEvent.dataTransfer.files;
+   
+                    var reader = new FileReader();
+                    reader.onload = uploadPeople;
+                    reader.readAsDataURL(items[0]);
+          
                 }
             }
         }
     );
 
-        function uploadPeople(files, params) {
-            var obj = {};
-            obj.data = files;
-            //obj.Id = params.Id;
-            //obj.concern = params.concern;
-            //obj.description = params.description;
+        function uploadPeople(evt) {
+            var id = parseInt($("#Idp").val());
+            var params = { "Id": id, "concern": "people", "description": "" };
+            var image = evt.target.result;
+            var base64ImageContent = image.split(",")[1];
+            var type = image.split(",")[0];
+            type = type.split("/")[1];
+            type = type.split(";")[0];
+            var blob = base64ToBlob(base64ImageContent, 'image/' + type);
+            var formData = new FormData();
+            formData.append('File', blob);
+            formData.append('Id', params.Id);
+            formData.append('Type', type);
+            formData.append('Concern', params.concern);
+            formData.append('Description', params.Iddescription);
             $.ajax({
                 type: "post",
-                url: "/DocumentsFileUpload.ashx",
-                data: JSON.stringify(obj),
-                dataType: "json",
+                url: "DocumentsFileUpload.ashx",
+                data: formData,
                 cache: false,
+                contentType: false,
                 processData: false,
                 success: function (data) {
-                    console.log("uploaded");
+                    var params = {
+                        type: "POST",
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        data: "{Id:" + id + "}"
+                    };
+                    xhr = $.ajax("Main.aspx/GetPhoto", params)
+                         .done(function (response) {
+                             if (response.d != "") {
+                                 $("#portraitzone img").attr("src", response.d);
+                             }
+                             else {
+                                 $("#portraitzone img").attr("src", "images/nobody.jpg");
+                             }
+                             $("#portraitzone").css('border', '1px solid #bbb');
+                         })
+                    window.peopleManager.do('init');
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     var str = jqXHR.responseText;

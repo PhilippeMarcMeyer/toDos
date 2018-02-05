@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Resources;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Services;
 namespace site
 {
@@ -25,6 +28,20 @@ namespace site
         //    HttpContext.Current.Session["Language"] = lang;
         //}
 
+        [WebMethod]
+        public static void uploadBase64(picData data)
+        {
+            System.Diagnostics.Debugger.Launch();
+            byte[] bytes = Convert.FromBase64String(data.File);
+
+            using (System.IO.MemoryStream ms = new MemoryStream(bytes))
+            {
+                Image image = Image.FromStream(ms);
+                string documentsPath = "";
+                documentsPath = HostingEnvironment.MapPath("") + @"\images\test.jpg";
+                image.Save(documentsPath);
+            }
+        }
 
         [WebMethod]
         public static void DeleteWork(InfoId toDel)
@@ -1149,6 +1166,15 @@ namespace site
         {
             public int EnumValue { get; set; }
             public string EnumDisplayName { get; set; }
+        }
+
+        public class picData
+        {
+            public string File { get; set; }
+            public int Id { get; set; }
+            public string Concern { get; set; }
+            public string Description { get; set; }
+
         }
 
     }

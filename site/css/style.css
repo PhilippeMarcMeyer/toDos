@@ -1,5 +1,6 @@
 ﻿
 
+
 .dot {
     position: absolute;
     background-color: red;
@@ -65,6 +66,8 @@ h5 {
     max-width:110%;
     overflow-y: auto; 
     border: solid 1px #888;
+    padding-top:10px;
+    padding-left:10px;
 }
 
 #uploads .block .progressBar {
@@ -180,3 +183,4 @@ table td {
     box-sizing: border-box;
     border-bottom: 1px solid #E0E1E3;
 }
+

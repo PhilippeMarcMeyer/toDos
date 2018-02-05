@@ -78,6 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\bootstrap.min.css" />
+    <Content Include="css\normalize.css" />
     <Content Include="css\style.css" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
@@ -92,6 +93,8 @@
     <Content Include="scripts\fr.js" />
     <Content Include="scripts\de.js" />
     <Content Include="scripts\knowledge.js" />
+    <Content Include="scripts\plugins.js" />
+    <Content Include="scripts\vendor\modernizr-3.5.0.min.js" />
     <Content Include="scripts\work.js" />
     <Content Include="scripts\moment-timezone.js" />
     <Content Include="scripts\moment.js" />
