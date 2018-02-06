@@ -665,8 +665,20 @@ namespace site
                     TimeToken result = GetToken(searchFor);
                     if (result.Token == "none")
                     {
+                        List<int?> Ids = new List<int?>();
+                        var NoteList = dbContext.Notes.Where(x => x.Body.Contains(searchFor) && x.Concern == "work").ToList();
+                        foreach (var note in NoteList)
+                        {
+                            Ids.Add(note.ConcernId);
+                        }
 
-                        query = dbContext.toDos.Where(x => x.DontShow != true && (x.Branch.Contains(searchFor) || x.Notes.Contains(searchFor) || x.Notes.Contains(searchFor) || x.Reference.Contains(searchFor)));
+                        query = dbContext.toDos.Where(x => x.DontShow != true 
+                        && (
+                        x.Branch.Contains(searchFor) 
+                        || x.Notes.Contains(searchFor) 
+                        || x.Reference.Contains(searchFor)
+                        || Ids.Contains(x.Id)
+                        ));
                     }else
                     {
                         //Name = "last week",
@@ -1179,3 +1191,21 @@ namespace site
 
     }
 }
+
+//SqlParameter[] sqlParameters =
+//   {
+//                            new SqlParameter("searchFor", searchFor)
+//                        };
+
+//string sql = @" 
+//                            SELECT * 
+//                            FROM toDos 
+//                            LEFT OUTER JOIN Note ON Note.ConcernId = toDos.Id 
+//                            WHERE Note.Concern = 'work' 
+//                            AND  Note.Body like '%@searchFor% ' 
+//                            OR   toDos.Notes like '%@searchFor% 
+//                            OR   toDos.Description like '%@searchFor% 
+//                            OR   toDos.Reference like '%@searchFor% 
+//                            OR   toDos.Branch like '%@searchFor% ";
+
+//L

@@ -23,7 +23,7 @@
             <div class="navbar-header">
                <div class="btn-group" style="margin-top: 8px;margin-right:10px;">
                 <button id="btnLang" type="button" class="btn navbar-inverse" style="border:none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="" style="width: 20px;">
+                    <img src="x" style="width: 20px;">
                 </button>
                 <ul class="dropdown-menu" id="menuLanguage">
 
