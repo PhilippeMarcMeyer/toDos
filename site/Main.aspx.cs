@@ -153,28 +153,27 @@ namespace site
             using (var dbContext = new QuickToDosEntities())
             {
                 File anImage = dbContext.Files.Find(toDel.Id);
-                if (anImage == null)
+                if (anImage != null)
                 {
-               
-                string filename = anImage.Filename;
-                string[] items = filename.Split('/');
-                filename = items[items.Length - 1];
+                    string filename = anImage.Filename;
+                    string[] items = filename.Split('/');
+                    filename = items[items.Length - 1];
 
-                string concern = anImage.Concern;
-                string uploadPath = ConfigurationManager.AppSettings["RootFolder"]+@"\documents\"+ concern + @"\";
-                string UploadPathOldies = uploadPath + @"oldies\";
+                    string concern = anImage.Concern;
+                    string uploadPath = ConfigurationManager.AppSettings["RootFolder"]+@"\documents\"+ concern + @"\";
+                    string UploadPathOldies = uploadPath + @"oldies\";
 
-                string sourceFile = System.IO.Path.Combine(uploadPath, filename);
-                string destFile = System.IO.Path.Combine(UploadPathOldies, filename);
+                    string sourceFile = System.IO.Path.Combine(uploadPath, filename);
+                    string destFile = System.IO.Path.Combine(UploadPathOldies, filename);
 
-                if (!System.IO.Directory.Exists(UploadPathOldies))
-                {
-                    System.IO.Directory.CreateDirectory(UploadPathOldies);
-                }
-                System.IO.File.Move(sourceFile, destFile);
+                    if (!System.IO.Directory.Exists(UploadPathOldies))
+                    {
+                        System.IO.Directory.CreateDirectory(UploadPathOldies);
+                    }
+                    System.IO.File.Move(sourceFile, destFile);
 
-                dbContext.Files.Remove(anImage);
-                dbContext.SaveChanges();
+                    dbContext.Files.Remove(anImage);
+                    dbContext.SaveChanges();
                 }
             }
         }
@@ -679,7 +678,8 @@ namespace site
                         || x.Reference.Contains(searchFor)
                         || Ids.Contains(x.Id)
                         ));
-                    }else
+                    }
+                    else
                     {
                         //Name = "last week",
                         //Token = "week",

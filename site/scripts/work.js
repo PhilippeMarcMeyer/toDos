@@ -275,8 +275,9 @@
                                 if (aRow[i].Files.length != 0) {
                                     for (var j = 0; j < aRow[i].Files.length; j++) {
                                         if (aRow[i].Files[j].Description)
-                                            html += "<h5 id='label_" + aRow[i].Files[j].Id + "'>" + aRow[i].Files[j].Description + "</h5>";
-                                        html += "<img onmousedown='imgClickHandler(event,this);'' class='uploadedPicture' id='img_" + aRow[i].Files[j].Id + "' src='" + aRow[i].Files[j].Filename + "'/><br />";
+                                            html += "<h5 id='label_" + aRow[i].Files[j].Id + "'>" + aRow[i].Files[j].Description;
+                                        html += "<img src='img/delete.png' onmousedown='imgClickHandler(event,this);' id='del_" + aRow[i].Files[j].Id + "'/> </h5>";
+                                            html += "<img class='uploadedPicture' id='img_" + aRow[i].Files[j].Id + "' src='" + aRow[i].Files[j].Filename + "'/><br />";
                                     }
 
                                     $("#showFiles").html(html)
@@ -479,6 +480,7 @@ function imgClickHandler(e,that) {
 
 }
 function supprImg() {
+    debugger
     var ajax_default_settings = {
         type: "POST",
         dataType: 'json',
@@ -487,7 +489,8 @@ function supprImg() {
     $(".confirm").hide();
     var inputId = $("#hiddenIdentity").val();
     
-    var id = parseInt(inputId.replace("img_", ""));
+    var id = parseInt(inputId.replace("del_", ""));
+    var imageId = inputId.replace("del_", "img_");
     var labelId = "label_" + id;
     var obj = {};
     obj.Id = id;
@@ -500,6 +503,7 @@ function supprImg() {
            $(".confirm").hide();
 
            $("#" + inputId).remove();
+           $("#" + imageId).remove();
            $("#" + labelId).remove();
            window.manager.do('init'); // specific to work : to improve to manage knowledges as well 
        })
