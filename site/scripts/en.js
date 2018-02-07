@@ -44,12 +44,13 @@
     "newNotep": "New note",
     "oldNotep": "Old notes",
     "peopleModalCaption": "Editing people bio",
-    "nofile": "No file chosen"
-
-
-
-
-
+    "nofile": "No file chosen",
+    "notSupportedFileType": "Not supported file type",
+    "peopleCardUpdateSuccess": "Update succesfull for people !",
+    "peopleCardUpdateFail": "Update went awry for people !",
+    "knowledgeCardUpdateSuccess": "Update succesful for knowledge !",
+    "deleteSuccess": "Delete succesfull !",
+    "updateSuccess": "Update succesfull !"
 
 };
 

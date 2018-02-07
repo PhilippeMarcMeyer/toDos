@@ -374,7 +374,7 @@ var doDeletePeople = function () {
         success: function (response) {
             $('#myModalp').find('.close').trigger("click"); // closing the modal
             var toastMsg = new toast("toastMessage", "messageId", false);
-            toastMsg.text("Suppression réussie !");
+            toastMsg.text(translate("deleteSuccess"));
             var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
             toastMsg.moveAt(w / 2 - 100, 90);
             toastMsg.showFor(3000);

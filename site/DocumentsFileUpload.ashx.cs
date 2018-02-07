@@ -89,6 +89,24 @@ namespace site
 
 
                         file.SaveAs(fileToSave);
+                        if (Concern == "people")
+                        {
+                            const int maxHeight = 450;
+                            Image original = Image.FromFile(fileToSave);
+                            int originalWidth = original.Width;
+                            int originalHeight = original.Height;
+                            if(originalHeight > maxHeight)
+                            {
+                                double factor;
+                                factor = (double)maxHeight / originalHeight;
+                                int newHeight = maxHeight;
+                                int newWidth = (int)(originalWidth*factor);
+                                Image thumbnail = original.GetThumbnailImage(newWidth,newHeight, null, IntPtr.Zero);
+                                original.Dispose();
+                                thumbnail.Save(fileToSave);
+                            }
+                        }
+
 
 
                         //else

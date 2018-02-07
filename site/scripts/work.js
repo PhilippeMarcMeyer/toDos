@@ -420,7 +420,7 @@ var doDeleteWork = function () {
         success: function (response) {
             $('#myModal').find('.close').trigger("click"); // closing the modal
             var toastMsg = new toast("toastMessage", "messageId", false);
-            toastMsg.text("Suppression réussie !");
+            toastMsg.text(translate("deleteSuccess"));
             var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
             toastMsg.moveAt(w / 2 - 100, 90);
             toastMsg.showFor(3000);
@@ -431,7 +431,7 @@ var doDeleteWork = function () {
             var str = jqXHR.responseText;
             var obj = JSON.parse(str);
             $('#myModal').find('.close').trigger("click"); // closing the modal
-            $("#alert-message").html("Echec " + obj.Message);
+            $("#alert-message").html("Error " + obj.Message);
             $('#alert').modal('show');
         } // end error
     }); // end ajax
@@ -569,13 +569,13 @@ function SetListeners() {
                     if (doCloseModal) {
                         $('#myModal').find('.close').trigger("click"); // closing the modal
                         var toastMsg = new toast("toastMessage", "messageId", false);
-                        toastMsg.text("Mise à jour réussie !");
+                        toastMsg.text(translate("updateSuccess"));
                         var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                         toastMsg.moveAt(w / 2 - 100, 90);
                         toastMsg.showFor(3000);
                     } else {
                         var toastMsg = new toast("myModalMessage", "modalWorkMsgId", false);
-                        toastMsg.text("Mise à jour réussie !");
+                        toastMsg.text(translate("updateSuccess"));
                         var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                         toastMsg.moveAt(350, 10);
                         toastMsg.showFor(3000);

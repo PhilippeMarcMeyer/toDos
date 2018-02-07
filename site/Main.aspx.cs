@@ -604,9 +604,24 @@ namespace site
 
             using (var dbContext = new QuickToDosEntities())
             {
-                IQueryable<Person> query = dbContext.People.Where(x => x.Nom.Contains(searchFor) || x.Prenom.Contains(searchFor) || x.Email.Contains(searchFor));
                 IQueryable<Position> query2 = dbContext.Positions;
                 IQueryable<Note> query3 = dbContext.Notes;
+                List<int?> Ids = new List<int?>();
+                var NoteList = dbContext.Notes.Where(
+                    x => x.Body.Contains(searchFor) 
+                    && x.Concern == "people"
+                    ).ToList();
+                foreach (var note in NoteList)
+                {
+                    Ids.Add(note.ConcernId);
+                }
+                IQueryable<Person> query = dbContext.People.Where(
+                    x => x.Nom.Contains(searchFor) 
+                    || x.Prenom.Contains(searchFor) 
+                    || x.Email.Contains(searchFor)
+                    || Ids.Contains(x.Id)
+                    );
+
                 card.data = query.Select(x => new DataForPeople
                 {
                     Id = x.Id,
@@ -628,22 +643,9 @@ namespace site
         }
         public static Work GetData(string searchFor)
         {
-            //var culture = "fr-FR";
-            //var language = "fr";
-            //if(lang == "en")
-            //{
-            //    language = lang;
-            //    culture = "en-US";
-            //}
-        
-            //CultureInfo ci = new CultureInfo(culture);
-            //CultureInfo ciUI = new CultureInfo(language);
-            //CultureInfo.DefaultThreadCurrentCulture = ci;
-            //CultureInfo.DefaultThreadCurrentUICulture = ciUI;
 
-            //var test = App_GlobalResources.Resources.Branch;
             Work work = new Work()
-            {//ResourceSet
+            {
                 caption = "Work in progress",
                 headers = new string[] { "Id", "Description", "Begin", "End", "Reference", "Branch", "Planned", "Duration", "Done", "Status" },
                 types = new string[] { "number", "string", "datetime", "datetime", "string", "string", "number", "number", "boolean", "string" },

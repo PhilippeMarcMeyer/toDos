@@ -88,7 +88,7 @@
 
 
         <div id="myModal" class="modal inmodal fade in" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg md-skin">
+            <div class="modal-dialog modal-lg md-skin" style="width:70%;">
                 <div class="modal-content animated bounceInRight">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -466,46 +466,55 @@
             var type = image.split(",")[0];
             type = type.split("/")[1];
             type = type.split(";")[0];
-            var blob = base64ToBlob(base64ImageContent, 'image/' + type);
-            var formData = new FormData();
-            formData.append('File', blob);
-            formData.append('Id', params.Id);
-            formData.append('Type', type);
-            formData.append('Concern', params.concern);
-            formData.append('Description', params.Iddescription);
-            $.ajax({
-                type: "post",
-                url: "DocumentsFileUpload.ashx",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function (data) {
-                    var params = {
-                        type: "POST",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        data: "{Id:" + id + "}"
-                    };
-                    xhr = $.ajax("Main.aspx/GetPhoto", params)
-                         .done(function (response) {
-                             if (response.d != "") {
-                                 $("#portraitzone img").attr("src", response.d);
-                             }
-                             else {
-                                 $("#portraitzone img").attr("src", "images/nobody.jpg");
-                             }
-                             $("#portraitzone").css('border', '1px solid #bbb');
-                         })
-                    window.peopleManager.do('init');
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    var str = jqXHR.responseText;
-                    var obj = JSON.parse(str);
-                    $("#alert-message").html("Echec " + obj.Message);
-                    $('#alert').modal('show');
-                } // end error
-            })
+            if (type == "jpeg" || type == "jpg" || type == "png" || type == "gif") {
+                var blob = base64ToBlob(base64ImageContent, 'image/' + type);
+                var formData = new FormData();
+                formData.append('File', blob);
+                formData.append('Id', params.Id);
+                formData.append('Type', type);
+                formData.append('Concern', params.concern);
+                formData.append('Description', params.description);
+                $.ajax({
+                    type: "post",
+                    url: "DocumentsFileUpload.ashx",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        var params = {
+                            type: "POST",
+                            dataType: 'json',
+                            contentType: "application/json; charset=utf-8",
+                            data: "{Id:" + id + "}"
+                        };
+                        xhr = $.ajax("Main.aspx/GetPhoto", params)
+                             .done(function (response) {
+                                 if (response.d != "") {
+                                     $("#portraitzone img").attr("src", response.d);
+                                 }
+                                 else {
+                                     $("#portraitzone img").attr("src", "images/nobody.jpg");
+                                 }
+                                 $("#portraitzone").css('border', '1px solid #bbb');
+                             })
+                        window.peopleManager.do('init');
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        var str = jqXHR.responseText;
+                        var obj = JSON.parse(str);
+                        $("#alert-message").html("Echec " + obj.Message);
+                        $('#alert').modal('show');
+                    } // end error
+                })
+            } else {
+                $("#portraitzone").css('border', '1px solid #bbb');
+                var toastMsg = new toast("toastMessage", "messageId", false);
+                toastMsg.text(translate("notSupportedFileType"));
+                var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                toastMsg.moveAt(w / 2 - 100, 90);
+                toastMsg.showFor(3000);
+            }
         }
     </script>
 </body>

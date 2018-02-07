@@ -243,7 +243,7 @@ function SetKnowledgeListeners() {
             success: function (response) {
                 $('#myModalk').find('.close').trigger("click"); // closing the modal
                 var toastMsg = new toast("toastMessage", "messageId", false);
-                toastMsg.text("Mise à jour réussie des connaissances !");
+                toastMsg.text(translate("knowledgeCardUpdateSuccess"));
                 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 toastMsg.moveAt(w / 2 - 100, 90);
                 toastMsg.showFor(3000);
@@ -257,7 +257,7 @@ function SetKnowledgeListeners() {
                 $('.modal-backdrop').remove();
 
                 setTimeout(function () {
-                    $("#alert-message").html("Echec " + obj.Message);
+                    $("#alert-message").html("Failure " + obj.Message);
                     $('#alert').modal('show');
                 }, 100);
 
@@ -281,7 +281,7 @@ var doDeleteKnowledge = function () {
         success: function (response) {
             $('#myModalk').find('.close').trigger("click"); // closing the modal
             var toastMsg = new toast("toastMessage", "messageId", false);
-            toastMsg.text("Suppression réussie !");
+            toastMsg.text(translate("deleteSuccess"));
             var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
             toastMsg.moveAt(w / 2 - 100, 90);
             toastMsg.showFor(3000);
@@ -292,7 +292,7 @@ var doDeleteKnowledge = function () {
         error: function (jqXHR, textStatus, errorThrown) {
             var str = jqXHR.responseText;
             var obj = JSON.parse(str);
-            $("#alert-message").html("Echec " + obj.Message);
+            $("#alert-message").html("Failure " + obj.Message);
             $('#alert').modal('show');
         } // end error
     }); // end ajax

@@ -152,7 +152,7 @@ var launchPeopleManager = function () {
             success: function (response) {
                 $('#myModalp').find('.close').trigger("click"); // closing the modal
                 var toastMsg = new toast("toastMessage", "messageId", false);
-                toastMsg.text("Mise à jour réussie de la fiche personnage !");
+                toastMsg.text(translate("peopleCardUpdateSuccess"));
                 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 toastMsg.moveAt(w / 2 - 100, 90);
                 toastMsg.showFor(3000);
@@ -164,7 +164,7 @@ var launchPeopleManager = function () {
                 var obj = JSON.parse(str);
                 $('#myModalp').find('.close').trigger("click"); // closing the modal
                 var toastMsg = new toast("toastMessage", "messageId", false);
-                toastMsg.text("Echec de la mise à jour de la fiche personnage ...");
+                toastMsg.text(translate("peopleCardUpdateFail"));
                 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
                 toastMsg.moveAt(w / 2 - 100, 90);
                 toastMsg.showFor(3000);

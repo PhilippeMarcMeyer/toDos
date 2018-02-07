@@ -42,6 +42,12 @@
     "newNotep": "Neue Notiz",
     "oldNotep": "Alte Notizen",
     "peopleModalCaption": "Bearbeiten von Personen bio",
-    "nofile": "Keine Datei ausgewählt"
+    "nofile": "Keine Datei ausgewählt",
+    "notSupportedFileType": "Nicht unterstützter Bildtyp",
+    "peopleCardUpdateSuccess": "Personen Aktualisierung erfolgreich !",
+    "peopleCardUpdateFail": "Personen Aktualisierung fehlgeschlagen !",
+    "knowledgeCardUpdateSuccess": "Aktualisierung erfolgreich !",
+    "deleteSuccess": "Löschen erfolgreich !",
+    "updateSuccess": "Aktualisierung erfolgreich  !"
 
 }

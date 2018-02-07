@@ -42,5 +42,11 @@
     "newNotep":"Nouvelle note",
     "oldNotep": "Anciennes notes",
     "peopleModalCaption": "Saisie d'un personnage",
-    "nofile":"Aucun fichier choisi"
+    "nofile": "Aucun fichier choisi",
+    "notSupportedFileType": "Type de fichier non pris en charge",
+    "peopleCardUpdateSuccess": "Mise à jour réussie de la fiche personnage !",
+    "peopleCardUpdateFail": "Echec de la mise à jour de la fiche personnage !",
+    "knowledgeCardUpdateSuccess": "Mise à jour réussie des connaissances !",
+    "deleteSuccess": "Suppression réussie !",
+    "updateSuccess":"Mise à jour réussie !"
 };
