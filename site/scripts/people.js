@@ -100,8 +100,13 @@
                             
                     }
 
-                    html += " </tbody></table>";
+                    html += " </tbody>";
                     $(tableInner).html(html);
+
+                    setTimeout(function () {
+                        pagineTable("peopleTable", 12, 0, "peopleTableBottom");
+                    }, 100);
+
                     setTimeout(function () {
                         getTranslations(userLang);
                     }, 300);
@@ -148,6 +153,7 @@
                         id = param1;
                     }
                     $("#Idp").val(id);
+                    var itemDate
                     var now = new Date();
                     var differenceFuseauxEnMinutes = now.getTimezoneOffset();
                     now.setTime(now.getTime() - (differenceFuseauxEnMinutes * 60000));
@@ -181,7 +187,9 @@
                                 }
                                 if (aRow[i].Notes.length > 0) {
                                     for (var j = 0; j < aRow[i].Notes.length; j++) {
-                                        $("#old-notep").append(aRow[i].Notes[j].Body + "<hr>");
+                                        itemDate = new Date(parseInt(aRow[i].Notes[j].Creation.substring(6, 19))).toLocaleString();
+
+                                        $("#old-notep").append("<b>" + itemDate + " : </b>" + aRow[i].Notes[j].Body.trim() + "<hr>");
                                     }
                                 }
                                 

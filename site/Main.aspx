@@ -61,6 +61,7 @@
                 <span style="font-weight: 100; color: darkgreen;" id="forecastInfo"></span>
             </div>
             <table id="mainTable" class="table table-hover table-bordered table-striped"></table>
+            <div id="mainTableBottom" class="table-bottom"></div>
             <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px;" id="new" data-translate="Btn_New-Job">Nouveau Job</button>
         </div>
 
@@ -205,6 +206,8 @@
             </div>
 
             <table id="knowledgeTable" class="table table-hover table-bordered table-striped"></table>
+            <div id="knowledgeTableBottom" class="table-bottom"></div>
+            
             <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px; width: 200px;" id="newk">Nouvelle connaissance</button>
         </div>
 
@@ -236,14 +239,35 @@
                                 <input type="datetime-local" class="form-control" readonly="readonly" id="Modification" value="" />
                             </div>
                         </div>
-
-
-                        <div class="row">
+                        <div>&nbsp;</div>  
+                         <div class="row" id="row_notesk" style="display: block;">
                             <div class="form-group col-md-10 col-md-offset-1">
-                                <label for="Body">Notes</label>
+                                <span class="tab active">Notes</span><span class="tab inactive" id="showImagesk">Images</span>
                                 <textarea class="form-control" id="Body" maxlength="8000"></textarea>
                             </div>
                         </div>
+                        <div class="row" id="row_imagesk" style="display: none;">
+                            <div class="form-group col-md-10 col-md-offset-1">
+                                <span class="tab inactive" id="showNotesk">Notes</span><span class="tab active">Images</span>
+                                <div id="showFilesk" style="height: 300px; overflow-y: auto; border: solid 1px #888;"></div>
+                            </div>
+                        </div>
+                        <div class="row" style="display: block;">
+                            <div class="form-group col-md-5 col-md-offset-1">
+                                <div id="uploadsk"></div>
+                                <label for="files" style="display:block;">Image</label>
+                                <button type="button" style="position:absolute;" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-upload"></span>&nbsp;<span data-translate="selectImage">Envoyer</span>
+                                </button>
+                                <span id="filenamek" data-translate="nofile" style="position:absolute;left:120px;line-height:20px;margin-top:7px;"></span>
+                                <input name="files" id="filesk" type="file" style="opacity:0" class="form-control">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label for="fileDescriptionk">Description de l'image</label>
+                                <input name="fileDescription" id="fileDescriptionk" type="text" class="form-control">
+                            </div>
+                        </div>
+
 
                         <div class="form-group" role="group" style="margin-left: 20px; margin-right: 20px;">
                             <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px; width: 120px;" id="savek">Enregistrer</button>
@@ -272,6 +296,7 @@
                 </span>
             </div>
             <table id="peopleTable" class="table table-hover table-bordered table-striped"></table>
+            <div id="peopleTableBottom" class="table-bottom"></div>
             <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px; width: 200px;" id="newp" data-translate="Btn_newp">Nouvelle personne</button>
         </div>
 
@@ -340,7 +365,6 @@
                                 <label for="filesp" data-translate="Photo">Photo</label>
                                 <input name="filesp" id="filesp" type="file" class="form-control">
                             </div>
-
                         </div>
 
                         <div class="form-group" role="group" style="margin-left: 20px; margin-right: 20px;">

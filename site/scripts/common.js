@@ -114,7 +114,7 @@ var launchKnowHowManager = function () {
 
 
 }
- 
+
 
 var launchPeopleManager = function () {
     window.peopleManager = window.peopleManager();
@@ -316,8 +316,7 @@ function htmlDecode(value) {
     return $('<div/>').html(value).text();
 }
 
-function base64ToBlob(base64, mime) 
-{
+function base64ToBlob(base64, mime) {
     mime = mime || '';
     var sliceSize = 1024;
     var byteChars = window.atob(base64);
@@ -336,5 +335,225 @@ function base64ToBlob(base64, mime)
         byteArrays.push(byteArray);
     }
 
-    return new Blob(byteArrays, {type: mime});
+    return new Blob(byteArrays, { type: mime });
+}
+
+
+function pagineTable(idTable, nbLigneParPage, offset, zonePagine) {
+
+    var xTable = document.getElementById(idTable)
+    var debut = offset + 1; // on saute l'entête
+    var fin = debut + nbLigneParPage - 1;
+    var vTr;
+    var pageCourante = Math.ceil(offset / nbLigneParPage);
+    if (xTable) {
+        var nbLignes = xTable.rows.length;
+        var nbMax = nbLignes - 1;
+        for (var i = nbMax; i > 0; i--) {
+            vTr = xTable.rows[i];
+            var cp = vTr.cells[0].colSpan;
+            if (cp != 1) xTable.deleteRow(i);
+        }
+
+        var nbLignes = xTable.rows.length;
+        if (nbLignes >= nbLigneParPage + 1) {
+
+            var nbPages = Math.ceil((nbLignes - 1) / nbLigneParPage);
+            var nbCellManquantes = (nbPages * nbLigneParPage) - nbLignes;
+            var nbspan = xTable.rows[0].cells.length;
+
+            for (var i = 0; i <= nbCellManquantes; i++) {
+                var row = xTable.insertRow(nbLignes);
+                var cell = row.insertCell(0);
+                cell.colSpan = nbspan;
+                cell.innerHTML = "&nbsp;"
+                nbLignes++;
+            }
+
+            nbLignes = xTable.rows.length;
+
+            for (var i = 1; i < nbLignes; i++) {
+                vTr = xTable.rows[i];
+                if (i >= debut && i <= fin) {
+                    vTr.style.display = "";
+                }
+                else {
+                    vTr.style.display = "none";
+                }
+            }
+            var vbottom = "";
+            for (var i = 0; i < nbPages; i++) {
+                boffset = Math.floor(i * nbLigneParPage);
+                if (pageCourante == i)
+                    vbottom += "<b>" + (i + 1) + "</b>&nbsp;";
+                else
+                    vbottom += "<a href='#' onclick=\"pagineTable('" + idTable + "'," + nbLigneParPage + "," + boffset + ",'" + zonePagine + "')\">" + (i + 1) + "</a>&nbsp;";
+            }
+            var xBottom = document.getElementById(zonePagine);
+            if (xBottom) {
+                xBottom.innerHTML = vbottom;
+            }
+            if (nbLignes <= nbLigneParPage + 1) {
+                var xBottom = document.getElementById(zonePagine);
+                if (xBottom) xBottom.innerHTML = "";
+
+            }
+        }
+        else {
+            var xBottom = document.getElementById(zonePagine);
+            if (xBottom) xBottom.innerHTML = "";
+
+        }
+    }
+}
+
+
+function imgClickHandler(e, that, concern) {
+
+    var hiddenId = "hiddenIdentity_" + concern;
+    var test = document.getElementById(hiddenId);
+    if (test) {
+        test.value = that.id;
+        $(".confirm").show();
+    } else {
+        var aDiv = document.createElement("div");
+        aDiv.setAttribute("class", "confirm");
+        var hiddenIdentity = document.createElement("input");
+        hiddenIdentity.setAttribute("type", "hidden");
+        hiddenIdentity.setAttribute('id', hiddenId);
+        hiddenIdentity.setAttribute('value', that.id);
+        aDiv.appendChild(hiddenIdentity);
+        var aTitle = document.createElement("h5");
+        var txt = document.createTextNode("Supprimer cette image ?");
+        aTitle.appendChild(txt);
+        aDiv.appendChild(aTitle);
+
+        var elem = document.createElement("button");
+        elem.setAttribute('onclick', 'supprImg("' + concern + '");');
+        elem.setAttribute('class', 'btn btn-danger appliquer-button pull-right');
+        var txt2 = document.createTextNode("Supprimer");
+        elem.appendChild(txt2);
+        aDiv.appendChild(elem);
+
+        var elem2 = document.createElement("button");
+        elem2.setAttribute('onclick', 'cancelSupprImg();');
+        elem2.setAttribute('class', 'btn btn-primary appliquer-button pull-left');
+        var txt3 = document.createTextNode("Annuler");
+        elem2.appendChild(txt3);
+        aDiv.appendChild(elem2);
+
+        //showFiles
+        if (concern=="work")
+            document.getElementById("showFiles").appendChild(aDiv);
+        else
+            document.getElementById("showFilesk").appendChild(aDiv);
+
+    }
+
+    return false;
+}
+
+function supprImg(concern) {
+    var hiddenId = "hiddenIdentity_" + concern;
+
+    var ajax_default_settings = {
+        type: "POST",
+        dataType: 'json',
+        contentType: "application/json; charset=utf-8",
+    };
+    $(".confirm").hide();
+    var inputId = $("#" + hiddenId).val();
+
+    var id = parseInt(inputId.replace("del_", ""));
+    var imageId = inputId.replace("del_", "img_");
+    var labelId = "label_" + id;
+    var obj = {};
+    obj.Id = id;
+
+    var json = JSON.stringify({ "toDel": obj });
+    var params = ajax_default_settings;
+    params.data = json;
+    var xhr = $.ajax("Main.aspx/DeleteImg", params)
+       .done(function (response) {
+           $(".confirm").hide();
+
+           $("#" + inputId).remove();
+           $("#" + imageId).remove();
+           $("#" + labelId).remove();
+           if (concern == "work")
+               window.manager.do('init');
+           else if (concern == "knowledge")
+               window.knowHowManager.do('init');
+       })
+       .fail(function () {
+           $(".confirm").hide();
+       });
+}
+
+function cancelSupprImg() {
+    $(".confirm").hide();
+}
+
+var uploadMessage = function (msg, doCloseModal, modalId) {
+    if (doCloseModal) {
+        $('#' + modalId).find('.close').trigger("click"); // closing the modal
+        var toastMsg = new toast("toastMessage", "messageId", false);
+        toastMsg.text(msg);
+        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        toastMsg.moveAt(w / 2 - 100, 90);
+        toastMsg.showFor(3000);
+
+    } else {
+        var toastMsg = new toast(modalId + "Message", modalId + "Message_id", false);
+        toastMsg.text(msg);
+        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        toastMsg.moveAt(350, 10);
+        toastMsg.showFor(3000);
+    }
+
+
+}
+
+var upload = function (jqId, filename, id, concern, descript, doCloseModal,modalId) {
+    var filename = $(jqId).val();
+    var description = descript ? descript : "";
+    
+    if (id > 0 && filename != "" && concern != "" && jqId != "") {
+        var data = { "Id": id, "concern": concern, "description": description };
+        var toastMsg = new toast("toastMessage", "messageId", false);
+
+        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        toastMsg.moveAt(w / 2 + 100, 90);
+        //toastMsg.showFor(3000);
+
+        $(jqId).simpleUpload("/DocumentsFileUpload.ashx", {
+            data: data,
+            allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
+            allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
+            maxFileSize: 1048576, //1MB in bytes
+            start: function (file) {
+                this.block = $('<div class="block"></div>');
+                this.progressBar = $('<div class="progressBar"></div>');
+                this.block.append(this.progressBar);
+                $('#uploads').append(this.block);
+            },
+
+            progress: function (progress) {
+                this.progressBar.width(progress + "%");
+            },
+
+            success: function (data) {
+                this.progressBar.remove();
+                uploadMessage("Mise à jour et upload réussi !", doCloseModal, modalId);
+
+
+            },
+
+            error: function (error) {
+                this.progressBar.remove();
+                uploadMessage("Mise à jour réussie mais upload en échec...", doCloseModal, modalId);
+            }
+
+        });
+    }
 }

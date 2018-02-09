@@ -194,8 +194,9 @@ namespace site
         }
 
         [WebMethod]
-        public static void AddKnowledge(KnowAdd Know)
+        public static int AddKnowledge(KnowAdd Know)
         {
+
             if (Know.Id == -1)
             {
                 using (var dbContext = new QuickToDosEntities())
@@ -208,6 +209,7 @@ namespace site
                     };
                     dbContext.Knowledges.Add(aKnowledge);
                     dbContext.SaveChanges();
+                    Know.Id = aKnowledge.Id;
                 }
             }
             else
@@ -228,6 +230,7 @@ namespace site
                     dbContext.SaveChanges();
                 }
             }
+            return Know.Id;
         }
 
         
@@ -484,11 +487,12 @@ namespace site
                     Mobile = x.Mobile,
                     Photo = x.Photo != null ? x.Photo:"",
                     Position = query2.Where(y => y.Id == x.IdPosition).FirstOrDefault().Name,
-                    Notes = query3.Where(z => z.ConcernId == x.Id  && z.Concern == "people").ToList()
+                    Notes = query3.Where(z => z.ConcernId == x.Id  && z.Concern == "people").OrderByDescending(z => z.Id).ToList()
+
                 }).ToList();
             }
 
-            card.data = card.data.OrderByDescending(x => x.Id).Take(12).ToList();
+            card.data = card.data.OrderBy(x => x.Nom).ToList();
 
             return card;
         }
@@ -518,7 +522,14 @@ namespace site
                 }).ToList();
             }
 
-            knowledge.data = knowledge.data.OrderByDescending(x => x.Id).Take(50).ToList();
+
+
+            knowledge.data = knowledge.data.OrderByDescending(x => x.Id).Take(100).ToList();
+
+            foreach (DataForKnowledge know in knowledge.data)
+            {
+                know.Files = getFiles(know.Id, "knowledge");
+            }
 
             return knowledge;
 
@@ -1096,6 +1107,8 @@ namespace site
             public DateTime? Creation { get; set; }
             public DateTime? Modification { get; set; }
             public string Body { get; set; }
+            public List<File> Files { get; set; }
+
         }
 
         public class DataForPeople

@@ -50,20 +50,20 @@
                 }
                 else if (whatToDo == 'drawTable') {
                     $(tableInner).html("");
-             
+
                     var caption = model.caption;
                     var headers = model.headers;
                     var types = model.types;
                     var data = model.data;
                     var props = model.props;
 
-                    var captionHtml = caption ;
+                    var captionHtml = caption;
 
                     $("#toggleDoneView").attr("checked", showDone)
                     $("#toggleDoneView").on("click", function () {
                         self.do('setShowDone', this.checked);
                     });
-                 
+
 
                     // Drawing headers
                     var html = " <thead class='thead-dark'><tr>"
@@ -81,7 +81,7 @@
                         if (nrProp > 0) {
                             var id = data[i].Id;
                             for (var j = 0; j < props.length; j++) {
-                                
+
                                 var item = data[i][props[j]];
                                 var type = types[j];
                                 if (props[j] == "Duration" || props[j] == "Planned") {
@@ -106,7 +106,7 @@
 
                                 }
                                 if (type == "datetime") {
-                                    item = new Date(parseInt(item.substring(6, 19))).toLocaleString(culture); 
+                                    item = new Date(parseInt(item.substring(6, 19))).toLocaleString(culture);
 
                                 }
                                 else if (type == "boolean") {
@@ -116,7 +116,7 @@
                                         checked = "checked";
                                         if (props[j] == "Done") {
                                             rowIsDone = true;
-                                        } 
+                                        }
                                     }
                                     item = "<input class='done' type='checkbox' " + checked + " id='_" + id + "'>";
                                 }
@@ -129,7 +129,7 @@
 
                             line += "</tr>";
 
-                            if (rowIsDone) 
+                            if (rowIsDone)
                                 line = line.replace("#tag#", "class='done'");
                             else if (rowIsPause)
                                 line = line.replace("#tag#", "class='pause'");
@@ -139,14 +139,17 @@
                             if (!showDone && rowIsDone) {
                                 line = "";
                             }
-                             html += line;
+                            html += line;
 
-                        } 
-                            
+                        }
+
                     }
 
-                    html += " </tbody></table>";
+                    html += " </tbody>";
                     $(tableInner).html(html);
+                    setTimeout(function () {
+                        pagineTable("mainTable", 12, 0, "mainTableBottom");
+                    }, 100);
                     setTimeout(function () {
                         getTranslations(userLang);
                     }, 300);
@@ -162,10 +165,10 @@
                     $("#new").on('click', function () {
                         self.do('showModal');
                     });
-             
+
                     $(".done").on('click', function (event) {
                         var id = this.id.replace("_", "");
-                        if(id!=""){
+                        if (id != "") {
                             var id = parseInt(id);
                             var done = this.checked;
                             var obj = {};
@@ -180,8 +183,8 @@
                                   $("#Duration").val(minutes);
                                   var message = "temps cumulé : " + minutes + " m";
                                   $("#tempDuration").html(message);
-                                 self.do('init');
-                                 // self.do('drawTable');
+                                  self.do('init');
+                                  // self.do('drawTable');
                               })
                               .fail(function () {
                                   $("#alert-message").html("Echec");
@@ -269,15 +272,16 @@
                                 $("#Notes").val(ReplaceNewline(aRow[i].Notes.trim()));
                                 $("#Branch").val(aRow[i].Branch.trim());
                                 $("#AppraisalNote").val(aRow[i].AppraisalNote.trim());
-                               
+
                                 var html = "";
 
                                 if (aRow[i].Files.length != 0) {
                                     for (var j = 0; j < aRow[i].Files.length; j++) {
                                         if (aRow[i].Files[j].Description)
                                             html += "<h5 id='label_" + aRow[i].Files[j].Id + "'>" + aRow[i].Files[j].Description;
-                                        html += "<img src='img/delete.png' onmousedown='imgClickHandler(event,this);' id='del_" + aRow[i].Files[j].Id + "'/> </h5>";
-                                            html += "<img class='uploadedPicture' id='img_" + aRow[i].Files[j].Id + "' src='" + aRow[i].Files[j].Filename + "'/><br />";
+
+                                        html += "<img src='img/delete.png' onmousedown='imgClickHandler(event,this,\"work\");' id='del_" + aRow[i].Files[j].Id + "'/> </h5>";
+                                        html += "<img class='uploadedPicture' id='img_" + aRow[i].Files[j].Id + "' src='" + aRow[i].Files[j].Filename + "'/><br />";
                                     }
 
                                     $("#showFiles").html(html)
@@ -286,7 +290,7 @@
                                 if (aRow[i].ExtNotes.length > 0) {
                                     for (var j = 0; j < aRow[i].ExtNotes.length; j++) {
                                         itemDate = new Date(parseInt(aRow[i].ExtNotes[j].Creation.substring(6, 19))).toLocaleString();
-                                        
+
                                         $("#old-notew").append("<b>" + itemDate + " : </b>" + aRow[i].ExtNotes[j].Body.trim() + "<hr>");
                                     }
                                 }
@@ -360,13 +364,13 @@
                     return model;
                 }
                 else if (whatToDo == 'getData') {
-                    
+
                     errorMessage = "";
                     var params = ajax_default_settings;
                     var xhr = $.ajax("Main.aspx/GetWork", params)
                        .done(function (response) {
                            model = response.d;
-                               self.do('drawTable');
+                           self.do('drawTable');
                        })
                        .fail(function () {
                            errorMessage = "An error occured..";
@@ -383,7 +387,7 @@
                     var xhr = $.ajax("Main.aspx/GetSearch", params)
                        .done(function (response) {
                            model = response.d;
-                               self.do('drawTable');
+                           self.do('drawTable');
                        })
                        .fail(function () {
                            errorMessage = "An error occured..";
@@ -401,7 +405,7 @@
 
         }
 
-        
+
     }
 }());
 
@@ -438,88 +442,11 @@ var doDeleteWork = function () {
 
 }
 
-function imgClickHandler(e,that) {
- 
-        var test = document.getElementById("hiddenIdentity");
-        if (test) {
-            test.value = that.id;
-            $(".confirm").show();
-        } else {
-            var aDiv = document.createElement("div");
-            aDiv.setAttribute("class", "confirm");
-            var hiddenIdentity = document.createElement("input");
-            hiddenIdentity.setAttribute("type", "hidden");
-            hiddenIdentity.setAttribute('id', 'hiddenIdentity');
-            hiddenIdentity.setAttribute('value', that.id);
-            aDiv.appendChild(hiddenIdentity);
-            var aTitle = document.createElement("h5");
-            var txt = document.createTextNode("Supprimer cette image ?");
-            aTitle.appendChild(txt);
-            aDiv.appendChild(aTitle);
-
-            var elem = document.createElement("button");
-            elem.setAttribute('onclick', 'supprImg();');
-            elem.setAttribute('class', 'btn btn-danger appliquer-button pull-right');
-            var txt2 = document.createTextNode("Supprimer");
-            elem.appendChild(txt2);
-            aDiv.appendChild(elem);
-
-            var elem2 = document.createElement("button");
-            elem2.setAttribute('onclick', 'cancelSupprImg();');
-            elem2.setAttribute('class', 'btn btn-primary appliquer-button pull-left');
-            var txt3 = document.createTextNode("Annuler");
-            elem2.appendChild(txt3);
-            aDiv.appendChild(elem2);
-
-            //showFiles
-            document.getElementById("showFiles").appendChild(aDiv);
-        }
-
-        return false;
-
-
-}
-function supprImg() {
-    debugger
-    var ajax_default_settings = {
-        type: "POST",
-        dataType: 'json',
-        contentType: "application/json; charset=utf-8",
-    };
-    $(".confirm").hide();
-    var inputId = $("#hiddenIdentity").val();
-    
-    var id = parseInt(inputId.replace("del_", ""));
-    var imageId = inputId.replace("del_", "img_");
-    var labelId = "label_" + id;
-    var obj = {};
-    obj.Id = id;
-
-    var json = JSON.stringify({ "toDel": obj });
-    var params = ajax_default_settings;
-    params.data = json;
-    var xhr = $.ajax("Main.aspx/DeleteImg", params)
-       .done(function (response) {
-           $(".confirm").hide();
-
-           $("#" + inputId).remove();
-           $("#" + imageId).remove();
-           $("#" + labelId).remove();
-           window.manager.do('init'); // specific to work : to improve to manage knowledges as well 
-       })
-       .fail(function () {
-           $(".confirm").hide();
-       });
-}
-
-function cancelSupprImg() {
-    $(".confirm").hide();
-}
 function SetListeners() {
     $("#search").on('change', function () {
         window.manager.do('search', $("#search").val());
     });
-    
+
     $("#files").on('change', function () {
         var image = $("#files").val();
         if (image.length == 0) {
@@ -531,6 +458,7 @@ function SetListeners() {
             $("#filenamew").html(image);
         }
     });
+
     $("#saveAndClose,#saveAndStay").on('click', function (event) {
         var doCloseModal = (this.id === "saveAndClose")
         var image = $("#files").val();
@@ -564,7 +492,7 @@ function SetListeners() {
 
                 $(self).prop('disabled', false);
                 if (image != "") {
-                    upload("#files", image, toDoId, "work", description, doCloseModal);
+                    upload("#files", image, toDoId, "work", description, doCloseModal,"myModal");
                 } else {
                     if (doCloseModal) {
                         $('#myModal').find('.close').trigger("click"); // closing the modal
@@ -634,68 +562,7 @@ function SetListeners() {
 
 }
 
-var uploadMessage = function (msg, doCloseModal, modalId) {
-    if (doCloseModal) {
-        $('#' + modalId).find('.close').trigger("click"); // closing the modal
-        var toastMsg = new toast("toastMessage", "messageId", false);
-        toastMsg.text(msg);
-        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        toastMsg.moveAt(w / 2 - 100, 90);
-        toastMsg.showFor(3000);
 
-    } else {
-        var toastMsg = new toast(modalId + "Message", modalId + "Message_id", false);
-        toastMsg.text(msg);
-        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        toastMsg.moveAt(350, 10);
-        toastMsg.showFor(3000);
-    }
-
-
-}
-
-var upload = function (jqId, filename, id, concern, descript, doCloseModal) {
-    var filename = $(jqId).val();
-    var description = descript ? descript : "";
-    if (id > 0 && filename != "" && concern != "" && jqId != "") {
-        var data = { "Id": id, "concern": concern, "description": description };
-        var toastMsg = new toast("toastMessage", "messageId", false);
-
-        var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        toastMsg.moveAt(w / 2 + 100, 90);
-        //toastMsg.showFor(3000);
-
-        $(jqId).simpleUpload("/DocumentsFileUpload.ashx", {
-            data: data,
-            allowedExts: ["jpg", "jpeg", "jpe", "jif", "jfif", "jfi", "png", "gif"],
-            allowedTypes: ["image/pjpeg", "image/jpeg", "image/png", "image/x-png", "image/gif", "image/x-gif"],
-            maxFileSize: 1048576, //1MB in bytes
-            start: function (file) {
-                this.block = $('<div class="block"></div>');
-                this.progressBar = $('<div class="progressBar"></div>');
-                this.block.append(this.progressBar);
-                $('#uploads').append(this.block);
-            },
-
-            progress: function (progress) {
-                this.progressBar.width(progress + "%");
-            },
-
-            success: function (data) {
-                this.progressBar.remove();
-                uploadMessage("Mise à jour et upload réussi !", doCloseModal, 'myModal');
-
-
-            },
-
-            error: function (error) {
-                this.progressBar.remove();
-                uploadMessage("Mise à jour réussie mais upload en échec...", doCloseModal, 'myModal');
-            }
-
-        });
-    }
-}
 
 //$(function () {
 //    $('#Begin').datetimepicker();

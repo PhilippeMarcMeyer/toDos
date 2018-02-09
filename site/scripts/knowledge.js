@@ -41,7 +41,7 @@
                 }
                 else if (whatToDo == 'drawTable') {
                     $(tableInner).html("");
-             
+
                     var caption = model.caption;
                     var headers = model.headers;
                     var types = model.types;
@@ -85,15 +85,20 @@
                                         checked = "checked";
                                     }
                                     item = "<input class='done' type='checkbox' " + checked + " id='_" + id + "'>";
-                                    }
+                                }
                                 line += "<td>" + item + "</td>";
                             }
                             line += "</tr>";
                             html += line;
-                        } 
+                        }
                     }
-                    html += " </tbody></table>";
+                    html += " </tbody>";
                     $(tableInner).html(html);
+                    setTimeout(function () {
+                        pagineTable("knowledgeTable", 12, 0, "knowledgeTableBottom");
+                    }, 100);
+
+
 
                     $("#callModalk").on('dblclick', 'tr', function (event) {
                         var target = event.currentTarget;
@@ -119,6 +124,7 @@
                     $("#Modification").val("");
                     $("#Subject").val("");
                     $("#Body").val("");
+                    $("#showFilesk").html("")
                     if (id != -1) {
                         var aRow = model.data;
                         for (var i = 0; i < aRow.length; i++) {
@@ -136,6 +142,19 @@
                                 }
                                 $("#Subject").val(aRow[i].Subject.trim());
                                 $("#Body").val(ReplaceNewline(aRow[i].Body.trim()));
+                                var html = "";
+
+                                if (aRow[i].Files.length != 0) {
+                                    for (var j = 0; j < aRow[i].Files.length; j++) {
+                                        if (aRow[i].Files[j].Description)
+                                            html += "<h5 id='label_" + aRow[i].Files[j].Id + "'>" + aRow[i].Files[j].Description+"</h5>";
+
+                                        html += "<img src='img/delete.png' onmousedown='imgClickHandler(event,this,\"knowledge\");' id='del_" + aRow[i].Files[j].Id + "'/> ";
+                                        html += "<img class='uploadedPicture' id='img_" + aRow[i].Files[j].Id + "' src='" + aRow[i].Files[j].Filename + "'/><br />";
+                                    }
+
+                                    $("#showFilesk").html(html)
+                                }
                             }
                         }
 
@@ -156,8 +175,8 @@
 
 
 
-                   $('#myModalk').modal('show');
-                } 
+                    $('#myModalk').modal('show');
+                }
                 else if (whatToDo == 'getModel') {
                     return model;
                 }
@@ -201,9 +220,9 @@
 
         }
 
-        
+
     }
-   
+
 }());
 
 
@@ -211,6 +230,16 @@
 launchKnowHowManager();
 
 function SetKnowledgeListeners() {
+
+    $("#showNotesk").on("click", function () {
+        $("#row_notesk").show();
+        $("#row_imagesk").hide();
+    });
+
+    $("#showImagesk").on("click", function () {
+        $("#row_notesk").hide();
+        $("#row_imagesk").show();
+    });
 
 
     $("#searchk").on('change', function () {
@@ -225,15 +254,32 @@ function SetKnowledgeListeners() {
         },
     });
 
+    $("#filesk").on('change', function () {
+        var image = $("#filesk").val();
+        if (image.length == 0) {
+            $("#filenamek").html(translate("nofile"));
+        } else {
+            var separator = (operatingSystem == "Windows") ? "\\" : "/";
+            var arr = image.split(separator);
+            if (arr.length > 0) image = arr[arr.length - 1];
+            $("#filenamek").html(image);
+        }
+    });
+
     $("#savek").on('click', function (event) {
-        $(this).attr('disabled', 'disabled');
+        $(this).prop('disabled', true);
+        var image = $("#filesk").val();
+        var description = $("#fileDescriptionk").val();
+
         var obj = {};
         obj.Subject = $("#Subject").val().trim();
         obj.Id = $("#Idk").val();
         obj.Body = $("#Body").val().replace(/[\n\r]/g, '<br>');
 
-        var selectedFile = document.getElementById('files').files[0];
+        var selectedFile = document.getElementById('filesk').files[0];
         var json = JSON.stringify({ "Know": obj });
+        var self = this;
+
         $.ajax({
             type: "POST",
             url: "Main.aspx/AddKnowledge",
@@ -241,14 +287,21 @@ function SetKnowledgeListeners() {
             async: true,
             data: json,
             success: function (response) {
-                $('#myModalk').find('.close').trigger("click"); // closing the modal
-                var toastMsg = new toast("toastMessage", "messageId", false);
-                toastMsg.text(translate("knowledgeCardUpdateSuccess"));
-                var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-                toastMsg.moveAt(w / 2 - 100, 90);
-                toastMsg.showFor(3000);
+                var knowledgeId = response.d;
+                $(self).prop('disabled', false);
+                if (image != "") {
+                    upload("#filesk", image, knowledgeId, "knowledge", description, true,"myModalk");
+                } else {
+                    $('#myModalk').find('.close').trigger("click"); // closing the modal
+                    var toastMsg = new toast("toastMessage", "messageId", false);
+                    toastMsg.text(translate("knowledgeCardUpdateSuccess"));
+                    var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                    toastMsg.moveAt(w / 2 - 100, 90);
+                    toastMsg.showFor(3000);
+                }
 
                 window.knowHowManager.do('init');
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 var str = jqXHR.responseText;
