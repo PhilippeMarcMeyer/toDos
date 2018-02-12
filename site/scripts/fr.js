@@ -48,5 +48,16 @@
     "peopleCardUpdateFail": "Echec de la mise à jour de la fiche personnage !",
     "knowledgeCardUpdateSuccess": "Mise à jour réussie des connaissances !",
     "deleteSuccess": "Suppression réussie !",
-    "updateSuccess":"Mise à jour réussie !"
+    "updateSuccess": "Mise à jour réussie !",
+    "newKnowledge": "Nouvelle Connaissance",
+    "knowledgeCaption": "Base de connaissances",
+    "Subject":"Objet", 
+    "Creation":"Créé le", 
+    "Modification": "Modifié le",
+    "knowledgeModalCaption": "Saisie d'une connaissance",
+    "fileDescriptionk": "Description de l'image",
+    "files": "Image"
+
+
+
 };

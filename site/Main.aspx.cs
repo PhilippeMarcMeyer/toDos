@@ -504,7 +504,7 @@ namespace site
             KnowHow knowledge = new KnowHow()
             {
                 caption = "Base de connaissances",
-                headers = new string[] { "Id", "Description", "Créée le", "Modifiée le" },
+                headers = new string[] { "Id", "Subject", "Creation", "Modification" },
                 types = new string[] { "number", "string", "datetime", "datetime" },
                 props = new string[] { "Id", "Subject", "Creation", "Modification" }
             };

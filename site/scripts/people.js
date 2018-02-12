@@ -48,7 +48,7 @@
                     var props = model.props;
 
                     var captionHtml = caption;
-                    $(app).find("#caption").html(captionHtml);
+                    $(app).find("#peopleCaption").html(captionHtml);
 
                     // Drawing headers
                     var html = " <thead class='thead-dark'><tr>"

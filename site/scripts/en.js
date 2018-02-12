@@ -50,7 +50,14 @@
     "peopleCardUpdateFail": "Update went awry for people !",
     "knowledgeCardUpdateSuccess": "Update succesful for knowledge !",
     "deleteSuccess": "Delete succesfull !",
-    "updateSuccess": "Update succesfull !"
-
+    "updateSuccess": "Update succesfull !",
+    "newKnowledge": "New knowledge",
+    "knowledgeCaption": "Base de connaissances",
+    "Subject": "Subject",
+    "Creation": "Created on",
+    "Modification": "Modified on",
+    "knowledgeModalCaption":"Knowledge input",
+    "fileDescriptionk": "Image comment",
+    "files":"Image"
 };
 

@@ -80,6 +80,11 @@
     <Content Include="css\bootstrap.min.css" />
     <Content Include="css\normalize.css" />
     <Content Include="css\style.css" />
+    <Content Include="img\de.jpg" />
+    <Content Include="img\delete.png" />
+    <Content Include="img\en.jpg" />
+    <Content Include="img\fr.jpg" />
+    <Content Include="img\sp.jpg" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
@@ -191,7 +196,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="img\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

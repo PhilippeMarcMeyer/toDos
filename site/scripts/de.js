@@ -48,6 +48,16 @@
     "peopleCardUpdateFail": "Personen Aktualisierung fehlgeschlagen !",
     "knowledgeCardUpdateSuccess": "Aktualisierung erfolgreich !",
     "deleteSuccess": "Löschen erfolgreich !",
-    "updateSuccess": "Aktualisierung erfolgreich  !"
+    "updateSuccess": "Aktualisierung erfolgreich  !",
+    "newKnowledge": "Neues Wissen",
+    "knowledgeCaption": "Wissen",
+    "Subject": "Betreff",
+    "Creation": "Erstellt am",
+    "Modification": "Geändert am",
+    "knowledgeModalCaption": "Bearbeiten von Wissen",
+    "fileDescriptionk": "Bildkommentar",
+    "files": "Bild"
+
+
 
 }

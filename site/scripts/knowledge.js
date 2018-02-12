@@ -49,12 +49,12 @@
                     var props = model.props;
 
                     var captionHtml = caption;
-                    $(app).find("#caption").html(captionHtml);
+                    $(app).find("#knowledgeCaption").html(captionHtml);
 
                     // Drawing headers
                     var html = " <thead class='thead-dark'><tr>"
                     for (var i = 0; i < headers.length; i++) {
-                        html += "<th scope='col'>" + headers[i] + "</th>";
+                        html += "<th scope='col' data-translate='" + props[i] + "'>" + headers[i] + "</th>";
                     }
                     html += "</tr> </thead> <tbody id='callModalk'>"
                     // Drawing rows and cells
@@ -98,7 +98,9 @@
                         pagineTable("knowledgeTable", 12, 0, "knowledgeTableBottom");
                     }, 100);
 
-
+                    setTimeout(function () {
+                        getTranslations(userLang);
+                    }, 300);
 
                     $("#callModalk").on('dblclick', 'tr', function (event) {
                         var target = event.currentTarget;

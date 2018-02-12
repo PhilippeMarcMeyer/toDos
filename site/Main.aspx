@@ -23,7 +23,7 @@
             <div class="navbar-header">
                <div class="btn-group" style="margin-top: 8px;margin-right:10px;">
                 <button id="btnLang" type="button" class="btn navbar-inverse" style="border:none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img src="x" style="width: 20px;">
+                    <img src="img/International_Flag_of_Planet_Earth.svg.png" style="width: 20px;">
                 </button>
                 <ul class="dropdown-menu" id="menuLanguage">
 
@@ -200,15 +200,17 @@
 
         <div class="ui main container" id="appKnowledge">
             <div class="caption">
-                <span id="knowledgeCaption"></span>&nbsp;Connaissances&nbsp;
-            <span style="font-weight: 100; color: darkgrey;">Chercher :
-                <input type="text" id="searchk" placeholder="" /></span>
+                <span id="knowledgeCaption" data-translate="knowledgeCaption">Base de connaissances</span>
+				<span style="font-weight: 100; color: darkgrey;" data-translate="search">Chercher :</span>
+                <span style="font-weight: 100; color: darkgrey;">
+                    <input type="text" id="searchk" placeholder="Expression" />
+                </span>
             </div>
 
             <table id="knowledgeTable" class="table table-hover table-bordered table-striped"></table>
             <div id="knowledgeTableBottom" class="table-bottom"></div>
             
-            <button type="button" class="btn btn-primary appliquer-button pull-right" style="margin-left: 4px; width: 200px;" id="newk">Nouvelle connaissance</button>
+            <button type="button" class="btn btn-primary appliquer-button pull-right" data-translate="newKnowledge"  style="margin-left: 4px; width: 200px;" id="newk">Nouvelle connaissance</button>
         </div>
 
         <!-- Modal -->
@@ -218,7 +220,7 @@
                 <div class="modal-content animated bounceInRight">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                        <h4 class="modal-title">Saisie d'une connaissance</h4>
+                        <h4 class="modal-title" data-translate="knowledgeModalCaption">Saisie d'une connaissance</h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
