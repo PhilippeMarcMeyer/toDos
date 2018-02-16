@@ -140,6 +140,9 @@
     <Content Include="Main.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API.cs">
+      <DependentUpon>TodosModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Break.cs">
       <DependentUpon>TodosModel.tt</DependentUpon>
     </Compile>

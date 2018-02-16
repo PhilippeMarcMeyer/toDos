@@ -146,7 +146,7 @@
                                 $("#Body").val(ReplaceNewline(aRow[i].Body.trim()));
                                 var html = "";
 
-                                if (aRow[i].Files.length != 0) {
+                                if (aRow[i].Files!= null) {
                                     for (var j = 0; j < aRow[i].Files.length; j++) {
                                         if (aRow[i].Files[j].Description)
                                             html += "<h5 id='label_" + aRow[i].Files[j].Id + "'>" + aRow[i].Files[j].Description+"</h5>";

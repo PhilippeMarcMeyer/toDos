@@ -85,5 +85,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="APIs">
+      <EntityTypeMapping TypeName="QuickToDosModel.API">
+        <MappingFragment StoreEntitySet="API">
+          <ScalarProperty Name="content" ColumnName="content" />
+          <ScalarProperty Name="creation" ColumnName="creation" />
+          <ScalarProperty Name="concern" ColumnName="concern" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

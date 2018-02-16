@@ -36,6 +36,8 @@
                 <li id="jobs" class="active"><a href="#jobs" data-translate="Jobstodo">Jobs to do</a></li>
                 <li id="knowledge"><a href="#knowledge" data-translate="Knowledge">Knowledge</a></li>
                 <li id="people"><a href="#people" data-translate="People">People</a></li>
+                <li id="weather"><a href="#weather" data-translate="Weather">Weather</a></li>
+
             </ul>
 
         </div>

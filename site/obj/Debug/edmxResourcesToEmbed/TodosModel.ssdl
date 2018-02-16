@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="QuickToDosModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="API">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="concern" Type="nchar" MaxLength="10" />
+    <Property Name="creation" Type="datetime" />
+    <Property Name="content" Type="nvarchar(max)" />
+  </EntityType>
   <EntityType Name="Breaks">
     <Key>
       <PropertyRef Name="Id" />
@@ -90,6 +99,7 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="QuickToDosModelStoreContainer">
+    <EntitySet Name="API" EntityType="Self.API" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Breaks" EntityType="Self.Breaks" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Files" EntityType="Self.Files" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Knowledge" EntityType="Self.Knowledge" Schema="dbo" store:Type="Tables" />

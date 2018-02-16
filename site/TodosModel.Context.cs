@@ -32,5 +32,6 @@ namespace site
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<Note> Notes { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
+        public virtual DbSet<API> APIs { get; set; }
     }
 }

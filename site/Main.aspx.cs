@@ -5,13 +5,11 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Resources;
-using System.Web;
 using System.Web.Hosting;
 using System.Web.Services;
+using System.Net;
 namespace site
 {
     public partial class Main : System.Web.UI.Page
@@ -599,6 +597,57 @@ namespace site
 
             return knowledge;
 
+        }
+
+        [WebMethod]
+        public static string getForecast()
+        {
+            //6942553	Paris	43.200001	-80.383331	CA
+            //3038354	Aix-en-Provence	43.528301	5.449730	FR
+            //6444007	Maisons-Laffitte	48.950001	2.15	FR
+
+            string output;
+            string data = "";
+            string paris_id = "6942553";
+            string key = "0b2c2c31d711fe4ae9048808d3722eeb";
+            string sURL = "http://api.openweathermap.org/data/2.5/forecast?id=" + paris_id + "&APPID=" + key + "&units=metric";
+
+            DateTime someTimeAgo = System.DateTime.Now.AddHours(-2); ;
+            using (var dbContext = new QuickToDosEntities())
+            {
+                List<API> results = dbContext.APIs.Where(x => x.creation > someTimeAgo).ToList();
+                if (results != null)
+                {
+                    data = results[0].content;
+                }
+                else
+                {
+                    WebRequest wrGETURL = WebRequest.Create(sURL);
+                    Stream objStream = wrGETURL.GetResponse().GetResponseStream();
+                    StreamReader objReader = new StreamReader(objStream);
+                    string sLine = "";
+                    int i = 0;
+
+                    while (sLine != null)
+                    {
+                        i++;
+                        output = objReader.ReadLine();
+                        if (sLine != null)
+                            output += sLine + Environment.NewLine;
+                    }
+                    var anApi = new API
+                    {
+                        concern = "weather",
+                        content = sLine,
+                        creation = DateTime.Now
+                    };
+                    data = sLine;
+                    dbContext.APIs.Add(anApi);
+                    dbContext.SaveChanges();
+                }
+            }
+
+            return data;
         }
 
         [WebMethod]
